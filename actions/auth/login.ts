@@ -4,7 +4,7 @@ import { SignInSchema, signInSchema } from "@/types/forms";
 import { getUserByEmail } from "@/data/user";
 import bcrypt from "bcrypt";
 
-export const signInAction = async (values: SignInSchema): Promise<{ error?: string, success?: string }> => {
+export const signInAction = async (values: SignInSchema): Promise<{ error?: string, success?: string, warning?: string }> => {
     const validatedFields = signInSchema.safeParse(values);
 
     if (!validatedFields.success) {
@@ -23,6 +23,10 @@ export const signInAction = async (values: SignInSchema): Promise<{ error?: stri
 
     if (!passwordsMatch) {
         return { error: "Invalid password" };
+    }
+
+    if (!user.emailVerified) {
+        return { warning: "Please verify your email" };
     }
 
     return { success: "Signed in successfully" };

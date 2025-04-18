@@ -4,7 +4,7 @@ import { SignUpSchema, signUpSchema } from "@/types/forms";
 import { prisma } from "@/lib/prisma";
 import { getUserByEmail } from "@/data/user";
 import bcrypt from "bcrypt";
-export const registerAction = async (values: SignUpSchema): Promise<{ error?: string, success?: string }> => {
+export const registerAction = async (values: SignUpSchema): Promise<{ error?: string, success?: string, warning?: string }> => {
     const validatedFields = signUpSchema.safeParse(values);
 
     if (!validatedFields.success) {
@@ -20,7 +20,7 @@ export const registerAction = async (values: SignUpSchema): Promise<{ error?: st
     const user = await getUserByEmail(email);
 
     if (user) {
-        return { error: "User already exists" };
+        return { warning: "User already exists" };
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);

@@ -1,53 +1,23 @@
-# Next.js & HeroUI Template
+# b&m Business Management
 
-This is a template for creating applications using Next.js 14 (app directory) and HeroUI (v2).
+**b&m** is a comprehensive business management application that enables users to register with a username or email, create and manage organizations, accept or reject invites, assign members to projects, collaborate on a shared whiteboard, create and track tasks, and store assets in a cloud-like storage.
 
-[Try it on CodeSandbox](https://githubbox.com/heroui-inc/heroui/next-app-template)
+## Key Features
 
-## Technologies Used
+- **User Authentication**: Sign up with username or email, secure login with bcrypt password encryption.
+- **Organization Management**: Create organizations, invite members, accept or reject invitations.
+- **Project Management**: Create projects under an organization, set status, priority, budget, dates, and visibility.
+- **Task Tracking**: Assign tasks to project members, set statuses, priorities, due dates, subtasks, comments.
+- **Collaboration Whiteboard**: Real-time drawing board for brainstorming and visual collaboration.
+- **Cloud Assets**: Upload and manage files similar to Google Drive.
+- **Roles & Permissions**: Fine-grained control with company and project roles.
 
-- [Next.js 14](https://nextjs.org/docs/getting-started)
-- [HeroUI v2](https://heroui.com/)
-- [Tailwind CSS](https://tailwindcss.com/)
-- [Tailwind Variants](https://tailwind-variants.org)
-- [TypeScript](https://www.typescriptlang.org/)
-- [Framer Motion](https://www.framer.com/motion/)
-- [next-themes](https://github.com/pacocoursey/next-themes)
+## Tech Stack
 
-## How to Use
-
-### Use the template with create-next-app
-
-To create a new project based on this template using `create-next-app`, run the following command:
-
-```bash
-npx create-next-app -e https://github.com/heroui-inc/next-app-template
-```
-
-### Install dependencies
-
-You can use one of them `npm`, `yarn`, `pnpm`, `bun`, Example using `npm`:
-
-```bash
-npm install
-```
-
-### Run the development server
-
-```bash
-npm run dev
-```
-
-### Setup pnpm (optional)
-
-If you are using `pnpm`, you need to add the following code to your `.npmrc` file:
-
-```bash
-public-hoist-pattern[]=*@heroui/*
-```
-
-After modifying the `.npmrc` file, you need to run `pnpm install` again to ensure that the dependencies are installed correctly.
-
-## License
-
-Licensed under the [MIT license](https://github.com/heroui-inc/next-app-template/blob/main/LICENSE).
+- **Front-End**: Next.js 15.0.4, React 18.3.1, Tailwind CSS 3.4.16, @heroui/react, framer-motion, lucide-react
+- **State Management**: Zustand for global state management
+- **Back-End**: Prisma ORM 6.6.0, SQLite
+- **Authentication**: bcrypt 5.1.1, next-auth custom adapter
+- **Validation**: Zod 3.24.3, @hookform/resolvers 5.0.1
+- **Forms**: react-hook-form 7.55.0
+- **Theming**: next-themes 0.4.4
