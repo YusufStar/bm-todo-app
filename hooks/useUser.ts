@@ -4,14 +4,8 @@ import { useAuthStore } from "@/store/auth.store";
 import { useEffect } from "react";
 import { User } from "@prisma/client";
 import { logout } from "@/actions/auth/logout";
-/**
- * Hook to fetch and manage user data
- * - Uses React Query for data fetching and caching
- * - Syncs with Zustand store automatically
- * - Supports manual refreshing
- */
+
 export function useUser(options?: {
-  initialData?: User | null;
   refetchInterval?: number | false;
 }) {
   const { setUser } = useAuthStore();
@@ -19,8 +13,8 @@ export function useUser(options?: {
   const query = useQuery({
     queryKey: ["user"],
     queryFn: fetchCurrentUser,
-    refetchInterval: options?.refetchInterval ?? false,
     refetchOnWindowFocus: true,
+    refetchInterval: false,
     refetchOnMount: true,
   });
 
