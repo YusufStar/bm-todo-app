@@ -3,7 +3,8 @@
 import { SignUpSchema, signUpSchema } from "@/types/forms";
 import { prisma } from "@/lib/prisma";
 import { getUserByEmail } from "@/data/user";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
+
 export const registerAction = async (values: SignUpSchema): Promise<{ error?: string, success?: string, warning?: string }> => {
     const validatedFields = signUpSchema.safeParse(values);
 
