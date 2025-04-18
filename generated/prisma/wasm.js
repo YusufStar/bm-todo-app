@@ -114,14 +114,28 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
+exports.Prisma.AccountScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  provider: 'provider',
+  providerAccountId: 'providerAccountId',
+  refresh_token: 'refresh_token',
+  access_token: 'access_token',
+  expires_at: 'expires_at',
+  token_type: 'token_type',
+  scope: 'scope',
+  id_token: 'id_token',
+  session_state: 'session_state'
+};
+
 exports.Prisma.UserScalarFieldEnum = {
   id: 'id',
   email: 'email',
+  username: 'username',
   password: 'password',
-  name: 'name',
   avatar: 'avatar',
   paid: 'paid',
-  lastLogin: 'lastLogin',
+  emailVerified: 'emailVerified',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -140,9 +154,8 @@ exports.Prisma.CompanyScalarFieldEnum = {
 exports.Prisma.CompanyInvitationScalarFieldEnum = {
   id: 'id',
   companyId: 'companyId',
-  senderId: 'senderId',
+  senderEmail: 'senderEmail',
   invitedEmail: 'invitedEmail',
-  receiverId: 'receiverId',
   role: 'role',
   status: 'status',
   acceptedAt: 'acceptedAt',
@@ -294,6 +307,7 @@ exports.TaskStatus = exports.$Enums.TaskStatus = {
 };
 
 exports.Prisma.ModelName = {
+  Account: 'Account',
   User: 'User',
   Company: 'Company',
   CompanyInvitation: 'CompanyInvitation',

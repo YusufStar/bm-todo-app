@@ -2,26 +2,31 @@ import * as React from "react";
 
 import { IconSvgProps } from "@/types";
 
-export const Logo: React.FC<IconSvgProps> = ({
+export const Logo: React.FC<IconSvgProps & { noText?: boolean }> = ({
   size = 36,
   width,
   height,
+  noText = false,
   ...props
 }) => (
-  <svg
-    fill="none"
-    height={size || height}
-    viewBox="0 0 32 32"
-    width={size || width}
-    {...props}
-  >
-    <path
-      clipRule="evenodd"
-      d="M6 7h20v3H6V7zm0 8h9v10H6V15zm12 0h8v4h-8v-4zm0 6h8v4h-8v-4z"
-      fill="currentColor"
-      fillRule="evenodd"
-    />
-  </svg>
+  <div className="flex justify-start items-center gap-1">
+    <svg
+      fill="none"
+      height={size || height}
+      viewBox="0 0 32 32"
+      width={size || width}
+      {...props}
+    >
+      <path
+        clipRule="evenodd"
+        d="M6 7h20v3H6V7zm0 8h9v10H6V15zm12 0h8v4h-8v-4zm0 6h8v4h-8v-4z"
+        fill="currentColor"
+        fillRule="evenodd"
+      />
+    </svg>
+
+    {!noText && <p className="font-bold text-inherit">B&M</p>}
+  </div>
 );
 
 export const DiscordIcon: React.FC<IconSvgProps> = ({
@@ -88,6 +93,25 @@ export const GithubIcon: React.FC<IconSvgProps> = ({
     </svg>
   );
 };
+
+export const GoogleIcon: React.FC<IconSvgProps> = ({
+  size = 24,
+  width,
+  height,
+  ...props
+}) => {
+  return (
+    <svg
+      height={size || height}
+      viewBox="0 0 24 24"
+      width={size || width}
+      {...props}
+    >
+      <path d="M12.545,10.239v3.821h5.445c-0.712,2.315-2.647,3.972-5.445,3.972c-3.332,0-6.033-2.701-6.033-6.032s2.701-6.032,6.033-6.032c1.498,0,2.866,0.549,3.921,1.453l2.814-2.814C17.503,2.988,15.139,2,12.545,2C7.021,2,2.543,6.477,2.543,12s4.478,10,10.002,10c8.396,0,10.249-7.85,9.426-11.748L12.545,10.239z" />
+    </svg>
+  );
+};
+
 
 export const MoonFilledIcon = ({
   size = 24,
@@ -182,6 +206,29 @@ export const SearchIcon = (props: IconSvgProps) => (
       strokeLinecap="round"
       strokeLinejoin="round"
       strokeWidth="2"
+    />
+  </svg>
+);
+
+export const Spinner = ({ size = "4" }: { size?: string }) => (
+  <svg
+    className={`animate-spin h-${size} w-${size} text-current`}
+    fill="none"
+    viewBox="0 0 24 24"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <circle
+      className="opacity-25"
+      cx="12"
+      cy="12"
+      r="10"
+      stroke="currentColor"
+      strokeWidth="4"
+    />
+    <path
+      className="opacity-75"
+      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+      fill="currentColor"
     />
   </svg>
 );
