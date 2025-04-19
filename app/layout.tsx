@@ -6,6 +6,7 @@ import { Providers } from "./providers";
 
 import { siteConfig } from "@/config/site";
 import { fontPoppins } from "@/config/fonts";
+import { auth } from "@/auth";
 
 export const metadata: Metadata = {
   title: {
@@ -25,22 +26,27 @@ export const viewport: Viewport = {
   ],
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const user = await auth();
+
   return (
     <html suppressHydrationWarning lang="en">
       <head />
       <body
         className={clsx(
           "min-h-screen bg-background font-sans antialiased",
-          fontPoppins.variable,
+          fontPoppins.variable
         )}
       >
-        <Providers themeProps={{ attribute: "class", defaultTheme: "dark" }}>
-            {children}
+        <Providers
+          auth={user?.user}
+          themeProps={{ attribute: "class", defaultTheme: "dark" }}
+        >
+          {children}
         </Providers>
       </body>
     </html>

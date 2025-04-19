@@ -5,9 +5,7 @@ import { useEffect } from "react";
 import { User } from "@prisma/client";
 import { logout } from "@/actions/auth/logout";
 
-export function useUser(options?: {
-  refetchInterval?: number | false;
-}) {
+export function useUser() {
   const { setUser } = useAuthStore();
 
   const query = useQuery({
@@ -35,6 +33,7 @@ export function useUser(options?: {
     refetch: query.refetch,
     isRefetching: query.isRefetching,
     isFetching: query.isFetching,
+    isPending: query.isPending,
     status: query.status,
   };
 }

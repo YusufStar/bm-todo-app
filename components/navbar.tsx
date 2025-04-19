@@ -12,6 +12,7 @@ import {
   NavbarBrand,
   NavbarItem,
   NavbarMenuItem,
+  Button,
 } from "@heroui/react";
 import clsx from "clsx";
 
@@ -24,8 +25,11 @@ import {
   SearchIcon,
   Logo,
 } from "@/components/icons";
+import { useAuthStore } from "@/store/auth.store";
 
 export const Navbar = () => {
+  const { user } = useAuthStore();
+  
   const searchInput = (
     <Input
       aria-label="Search"
@@ -91,9 +95,15 @@ export const Navbar = () => {
         </NavbarItem>
         <NavbarItem className="hidden lg:flex">{searchInput}</NavbarItem>
         <NavbarItem className="hidden md:flex">
-          <Link href={"/sign-in"}>
-            Sign In
-          </Link>
+          {user ? (
+            <Link href={"/dashboard"}>
+              <Button>Dashboard</Button>
+            </Link>
+          ) : (
+            <Link href={"/sign-in"}>
+              <Button>Login</Button>
+            </Link>
+          )}
         </NavbarItem>
       </NavbarContent>
 

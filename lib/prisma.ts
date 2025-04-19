@@ -5,9 +5,7 @@ import { PrismaClient } from "@prisma/client"
 const globalForPrisma = globalThis as unknown as { prisma: PrismaClient }
 
 // Create a single instance of PrismaClient
-export const prisma = globalForPrisma.prisma || new PrismaClient({
-  log: process.env.NODE_ENV === 'development' ? ['query', 'error', 'warn'] : ['error'],
-});
+export const prisma = globalForPrisma.prisma || new PrismaClient();
 
 // Save PrismaClient on the global object to prevent duplicate instances in development
 if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma
