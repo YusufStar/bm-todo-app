@@ -4,9 +4,9 @@ const DashboardPage = async () => {
   const session = await auth();
 
   return (
-    <div className="h-full flex items-center justify-center">
+    <div className="flex flex-col items-center justify-center">
       <h1>Dashboard</h1>
-      <p>{JSON.stringify(session?.user)}</p>
+      <p className="text-sm break-all">{JSON.stringify(session?.user)}</p>
     </div>
   );
 };

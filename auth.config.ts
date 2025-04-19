@@ -4,10 +4,14 @@ import { signInSchema } from "./types/forms";
 import { getUserByEmail, getUserById } from "./data/user";
 import bcrypt from "bcryptjs";
 import { User } from "@prisma/client";
+import { neon } from "@neondatabase/serverless";
+import { redirect } from "next/navigation";
+// Initialize neon SQL client
+const sql = neon(process.env.DATABASE_URL!);
 
 declare module "@auth/core/types" {
   interface Session {
-    user: User
+    user: User | null
   }
 }
 
@@ -35,8 +39,13 @@ export default {
   ],
   callbacks: {
     async session({ token, session }) {
-      if (token.user && session.user) {
-        session.user = token.user as User;
+      const validUser = await sql`SELECT * FROM "User" WHERE id = ${token.sub} LIMIT 1`;
+
+      if (validUser.length > 0) {
+        session.user = validUser[0] as User;
+      } else {
+        token.user = null;
+        redirect("/sign-in");
       }
 
       return session;

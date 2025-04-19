@@ -2,12 +2,14 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
 }
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 enum ProjectStatus {
@@ -68,6 +70,7 @@ model Account {
   session_state     String?
 
   @@unique([provider, providerAccountId])
+  @@index([userId])
 }
 
 model User {
@@ -215,14 +218,14 @@ model Project {
 }
 
 model ProjectMember {
-  id        String      @id @default(uuid())
-  role      ProjectRole @default(DEVELOPER)
+  id   String      @id @default(uuid())
+  role ProjectRole @default(DEVELOPER)
 
-  project   Project     @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
   projectId String
-  
-  user      User        @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    String
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

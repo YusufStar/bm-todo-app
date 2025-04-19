@@ -9,10 +9,14 @@ import { AppRouteHandlerFnContext } from "next-auth/lib/types";
  * - Redirects to login for protected routes when not authenticated
  * - Redirects authenticated users away from auth routes
  * - Ensures dashboard routes are protected 
+ * - Verifies user validity directly with database
  */
-export default auth((req: NextAuthRequest, ctx: AppRouteHandlerFnContext) => {
+export default auth(async (req: NextAuthRequest, ctx: AppRouteHandlerFnContext) => {
     const { nextUrl } = req;
-    const isLoggedIn = !!req.auth;
+    
+    // Get auth token info
+    const userId = req.auth?.user?.id;
+    let isLoggedIn = !!req.auth;
 
     const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
     const isPublicRoute = publicRoutes.includes(nextUrl.pathname);

@@ -7,7 +7,7 @@ import { HeroUIProvider, ToastProvider } from "@heroui/react";
 import { useRouter } from "next/navigation";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+
 export interface ProvidersProps {
   children: React.ReactNode;
   themeProps?: ThemeProviderProps;
@@ -23,8 +23,6 @@ declare module "@react-types/shared" {
 
 export function Providers({ children, themeProps }: ProvidersProps) {
   const router = useRouter();
-    
-  // Create a client
   const [queryClient] = React.useState(
     () =>
       new QueryClient({
@@ -52,7 +50,6 @@ export function Providers({ children, themeProps }: ProvidersProps) {
           {children}
         </NextThemesProvider>
       </HeroUIProvider>
-      <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );
 }

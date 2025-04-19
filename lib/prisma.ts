@@ -1,11 +1,25 @@
-import { PrismaClient } from "@prisma/client"
+import { PrismaClient } from "@prisma/client";
+import { PrismaNeon } from "@prisma/adapter-neon";
+import { neonConfig } from "@neondatabase/serverless";
 
-// PrismaClient is attached to the `global` object in development to prevent
-// exhausting your database connection limit.
-const globalForPrisma = globalThis as unknown as { prisma: PrismaClient }
+import ws from "ws";
+neonConfig.webSocketConstructor = ws;
 
-// Create a single instance of PrismaClient
-export const prisma = globalForPrisma.prisma || new PrismaClient();
+// Use the correct environment variable based on your .env configuration
+const connectionString = process.env.DATABASE_URL || "";
 
-// Save PrismaClient on the global object to prevent duplicate instances in development
-if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma
+// For debugging only
+if (process.env.NODE_ENV === "development") {
+  console.log("Connection string available:", !!connectionString);
+}
+
+declare global {
+  var prisma: PrismaClient | undefined;
+}
+
+// Create the adapter with the correct configuration
+const adapter = new PrismaNeon({ connectionString });
+// Initialize PrismaClient with the adapter
+export const prisma = global.prisma || new PrismaClient({ adapter });
+
+if (process.env.NODE_ENV === "development") global.prisma = prisma;
