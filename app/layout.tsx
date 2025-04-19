@@ -3,10 +3,9 @@ import { Metadata, Viewport } from "next";
 import clsx from "clsx";
 
 import { Providers } from "./providers";
-
+import { auth } from "@/auth";
 import { siteConfig } from "@/config/site";
 import { fontPoppins } from "@/config/fonts";
-import { auth } from "@/auth";
 
 export const metadata: Metadata = {
   title: {
@@ -31,8 +30,6 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const user = await auth();
-
   return (
     <html suppressHydrationWarning lang="en">
       <head />
@@ -43,7 +40,6 @@ export default async function RootLayout({
         )}
       >
         <Providers
-          auth={user?.user}
           themeProps={{ attribute: "class", defaultTheme: "dark" }}
         >
           {children}

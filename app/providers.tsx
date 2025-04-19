@@ -8,11 +8,9 @@ import { useRouter } from "next/navigation";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { AuthProvider } from "@/components/auth/AuthProvider";
 export interface ProvidersProps {
   children: React.ReactNode;
   themeProps?: ThemeProviderProps;
-  auth?: any;
 }
 
 declare module "@react-types/shared" {
@@ -23,7 +21,7 @@ declare module "@react-types/shared" {
   }
 }
 
-export function Providers({ children, themeProps, auth }: ProvidersProps) {
+export function Providers({ children, themeProps }: ProvidersProps) {
   const router = useRouter();
     
   // Create a client
@@ -51,7 +49,7 @@ export function Providers({ children, themeProps, auth }: ProvidersProps) {
               color: "primary",
             }}
           />
-          <AuthProvider user={auth}>{children}</AuthProvider>
+          {children}
         </NextThemesProvider>
       </HeroUIProvider>
       <ReactQueryDevtools initialIsOpen={false} />

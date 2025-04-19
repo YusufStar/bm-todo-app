@@ -1,14 +1,12 @@
-"use client";
+import { auth } from "@/auth";
 
-import { useUser } from "@/hooks/useUser";
-import { useAuthStore } from "@/store/auth.store";
-
-const DashboardPage = () => {
-  const { user } = useUser();
+const DashboardPage = async () => {
+  const session = await auth();
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-[calc(100vh-32px)] p-6">
+    <div className="h-full flex items-center justify-center">
       <h1>Dashboard</h1>
+      <p>{JSON.stringify(session?.user)}</p>
     </div>
   );
 };

@@ -1,5 +1,6 @@
 "use client";
 
+import { User } from "@prisma/client";
 import {
   Input,
   Link,
@@ -25,10 +26,8 @@ import {
   SearchIcon,
   Logo,
 } from "@/components/icons";
-import { useAuthStore } from "@/store/auth.store";
 
-export const Navbar = () => {
-  const { user } = useAuthStore();
+export const Navbar = ({ user }: { user: User | undefined }) => {
   
   const searchInput = (
     <Input
