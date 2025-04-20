@@ -63,8 +63,18 @@ const Sidebar = React.forwardRef<HTMLElement, SidebarProps>(
     },
     ref
   ) => {
-    const [selected, setSelected] =
-      React.useState<React.Key>(defaultSelectedKey);
+    // Use a ref for initial value to avoid hydration mismatch
+    const isFirstRender = React.useRef(true);
+    const [selected, setSelected] = React.useState<React.Key>(() => defaultSelectedKey);
+
+    // Update selected state on defaultSelectedKey change, but not on first render
+    React.useEffect(() => {
+      if (isFirstRender.current) {
+        isFirstRender.current = false;
+        return;
+      }
+      setSelected(defaultSelectedKey);
+    }, [defaultSelectedKey]);
 
     const sectionClasses = {
       ...sectionClassesProp,
@@ -109,7 +119,7 @@ const Sidebar = React.forwardRef<HTMLElement, SidebarProps>(
                 },
                 {
                   "inline-block w-11": isCompact && isNestType,
-                }
+                },
               ),
             }}
             endContent={
@@ -291,14 +301,16 @@ const Sidebar = React.forwardRef<HTMLElement, SidebarProps>(
           ),
         }}
         items={items}
-        selectedKeys={[selected] as unknown as Selection}
+        selectedKeys={new Set([selected]) as Selection}
         selectionMode="single"
         variant="flat"
         onSelectionChange={(keys) => {
           const key = Array.from(keys)[0];
-
-          setSelected(key as React.Key);
-          onSelect?.(key as string);
+          
+          if (key) {
+            setSelected(key as React.Key);
+            onSelect?.(key as string);
+          }
         }}
         {...props}
       >

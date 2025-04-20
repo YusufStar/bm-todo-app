@@ -24,3 +24,12 @@ export const signUpSchema = z
 
 export type SignInSchema = z.infer<typeof signInSchema>;
 export type SignUpSchema = z.infer<typeof signUpSchema>;
+
+export const createCompanySchema = z.object({
+  name: z.string().min(3),
+  description: z.string().optional(),
+  website: z.string().optional(),
+  logo: z.string().optional(),
+});
+
+export type CreateCompanySchema = z.infer<typeof createCompanySchema>;

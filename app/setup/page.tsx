@@ -1,15 +1,12 @@
 import { getCompanies } from "@/actions/company/get"
 import { auth } from "@/auth"
 import { redirect } from "next/navigation"
-import { headers } from "next/headers"
+import { Suspense } from "react"
+import SetupPageContent from "./_components/SetupPageContent"
+import { User } from "@prisma/client"
 
 export default async function Setup() {
     const session = await auth()
-    const headersList = headers();
-    const referer = headersList.get("referer") || "";
-    
-    // Check if we're coming from dashboard to prevent redirect loops
-    const comingFromDashboard = referer.includes("/dashboard");
 
     if (!session?.user) {
         redirect("/sign-in")
@@ -17,14 +14,15 @@ export default async function Setup() {
 
     const companies = await getCompanies(session?.user.id ?? "")
 
-    // Only redirect to dashboard if we have companies and we're not coming from dashboard
-    if (companies.length > 0 && !comingFromDashboard) {
+    if (companies.length > 0) {
         redirect("/dashboard")
     }
 
     return (
-        <div>
-            <h1>Setup</h1>
+        <div className="flex flex-col gap-4 h-screen overflow-hidden justify-center items-center">
+            <Suspense fallback={<div>Loading...</div>}>
+                <SetupPageContent user={session.user as User} />
+            </Suspense>
         </div>
-    )
+    );
 }

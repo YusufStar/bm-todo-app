@@ -6,7 +6,8 @@ export const getCompany = async (companyId: string, userId: string) => {
             id: companyId
         },
         include: {
-            members: true
+            members: true,
+            owner: true
         }
     })
 
@@ -61,6 +62,10 @@ export const getCompanies = async (userId: string) => {
     const companies = await prisma.company.findMany({
         where: {
             members: { some: { userId: userId } }
+        },
+        include: {
+            members: true,
+            owner: true
         }
     })
 

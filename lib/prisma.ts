@@ -8,11 +8,6 @@ neonConfig.webSocketConstructor = ws;
 // Use the correct environment variable based on your .env configuration
 const connectionString = process.env.DATABASE_URL || "";
 
-// For debugging only
-if (process.env.NODE_ENV === "development") {
-  console.log("Connection string available:", !!connectionString);
-}
-
 declare global {
   var prisma: PrismaClient | undefined;
 }

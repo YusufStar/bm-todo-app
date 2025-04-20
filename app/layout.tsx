@@ -6,7 +6,7 @@ import { Providers } from "./providers";
 import { auth } from "@/auth";
 import { siteConfig } from "@/config/site";
 import { fontPoppins } from "@/config/fonts";
-
+import NextTopLoader from "nextjs-toploader";
 export const metadata: Metadata = {
   title: {
     default: siteConfig.name,
@@ -39,6 +39,7 @@ export default async function RootLayout({
           fontPoppins.variable
         )}
       >
+        <NextTopLoader showSpinner={false} />
         <Providers
           themeProps={{ attribute: "class", defaultTheme: "dark" }}
         >
