@@ -63,8 +63,56 @@ function capitalize(s: string) {
     return s ? s.charAt(0).toUpperCase() + s.slice(1).toLowerCase() : "";
 }
 
-// Initially visible columns
-const INITIAL_VISIBLE_COLUMNS = ["name", "status", "priority", "dueDate", "actions"];
+// Status dropdown'u için bir component oluşturalım
+const renderStatusDropdown = (status: ProjectStatus | undefined, handleStatusFilter: (status: ProjectStatus | undefined) => void) => {
+    // Tüm dropdown öğelerini bir array olarak oluştur
+    const dropdownItems = [
+        <DropdownItem 
+            key="all" 
+            className="capitalize" 
+            onPress={() => handleStatusFilter(undefined)}
+        >
+            All
+        </DropdownItem>,
+        ...statusOptions.map((statusOption) => (
+            <DropdownItem
+                key={statusOption.uid}
+                className="capitalize"
+                onPress={() => handleStatusFilter(statusOption.uid as ProjectStatus)}
+            >
+                {capitalize(statusOption.name)}
+            </DropdownItem>
+        ))
+    ];
+
+    return (
+        <Dropdown>
+            <DropdownTrigger className="hidden sm:flex">
+                <Button
+                    endContent={<ChevronDown className="text-small" size={16} />}
+                    size="sm"
+                    variant="flat"
+                >
+                    Status
+                </Button>
+            </DropdownTrigger>
+            <DropdownMenu
+                disallowEmptySelection
+                aria-label="Status Filter"
+                closeOnSelect={true}
+                selectedKeys={status ? new Set([status]) : new Set([])}
+                selectionMode="single"
+                onSelectionChange={(keys) => {
+                    if (keys === "all") return;
+                    const selected = Array.from(keys)[0] as ProjectStatus;
+                    handleStatusFilter(selected);
+                }}
+            >
+                {dropdownItems}
+            </DropdownMenu>
+        </Dropdown>
+    );
+};
 
 export default function ProjectsTable() {
     const router = useRouter();
@@ -96,12 +144,10 @@ export default function ProjectsTable() {
     // Use table hook for the UI state of the table
     const {
         selectedKeys,
-        visibleColumns,
         handleSelectionChange,
         setVisibleColumns
     } = useTable<Project>({
         columns,
-        initialVisibleColumns: INITIAL_VISIBLE_COLUMNS,
         onSearchChange: handleSearch,
         onSortChange: descriptor => handleSortChange({
             column: descriptor.column as string,
@@ -219,50 +265,6 @@ export default function ProjectsTable() {
         }
     }, [router]);
 
-    // Status dropdown'u için bir component oluşturalım
-    const renderStatusDropdown = () => (
-        <Dropdown>
-            <DropdownTrigger className="hidden sm:flex">
-                <Button
-                    endContent={<ChevronDown className="text-small" size={16} />}
-                    size="sm"
-                    variant="flat"
-                >
-                    Status
-                </Button>
-            </DropdownTrigger>
-            <DropdownMenu
-                disallowEmptySelection
-                aria-label="Table Columns"
-                closeOnSelect={true}
-                selectedKeys={status ? new Set([status]) : new Set([])}
-                selectionMode="single"
-                onSelectionChange={(keys) => {
-                    if (keys === "all") return;
-                    const selected = Array.from(keys)[0] as ProjectStatus;
-                    handleStatusFilter(selected);
-                }}
-            >
-                <DropdownItem 
-                    key="all" 
-                    className="capitalize" 
-                    onPress={() => handleStatusFilter(undefined)}
-                >
-                    All
-                </DropdownItem>
-                {statusOptions.map((statusOption) => (
-                    <DropdownItem
-                        key={statusOption.uid}
-                        className="capitalize"
-                        onPress={() => handleStatusFilter(statusOption.uid as ProjectStatus)}
-                    >
-                        {capitalize(statusOption.name)}
-                    </DropdownItem>
-                ))}
-            </DropdownMenu>
-        </Dropdown>
-    );
-    
     const topContent = React.useMemo(() => {
         return (
             <div className="flex flex-col gap-4">
@@ -282,35 +284,7 @@ export default function ProjectsTable() {
                         onValueChange={handleSearch}
                     />
                     <div className="flex gap-3">
-                        {renderStatusDropdown()}
-                        <Dropdown>
-                            <DropdownTrigger className="hidden sm:flex">
-                                <Button
-                                    endContent={<ChevronDown className="text-small" size={16} />}
-                                    size="sm"
-                                    variant="flat"
-                                >
-                                    Columns
-                                </Button>
-                            </DropdownTrigger>
-                            <DropdownMenu
-                                disallowEmptySelection
-                                aria-label="Table Columns"
-                                closeOnSelect={false}
-                                selectedKeys={visibleColumns}
-                                selectionMode="multiple"
-                                onSelectionChange={setVisibleColumns as any}
-                            >
-                                {columns.map((column) => (
-                                    <DropdownItem
-                                        key={`col-${column.uid}`}
-                                        className="capitalize"
-                                    >
-                                        {capitalize(column.name)}
-                                    </DropdownItem>
-                                ))}
-                            </DropdownMenu>
-                        </Dropdown>
+                        {renderStatusDropdown(status, handleStatusFilter)}
                         <Button
                             className="bg-foreground text-background"
                             endContent={<Plus size={16} />}
@@ -337,7 +311,7 @@ export default function ProjectsTable() {
                             aria-label="Rows per page"
                         >
                             {rowsPerPageOptions.map((option) => (
-                                <SelectItem key={option.value.toString()} value={option.value}>
+                                <SelectItem key={option.value.toString()}>
                                     {option.label}
                                 </SelectItem>
                             ))}
@@ -349,10 +323,8 @@ export default function ProjectsTable() {
     }, [
         search,
         status,
-        visibleColumns,
         handleSearch,
         handleStatusFilter,
-        setVisibleColumns,
         totalProjects,
         perPage,
         handlePerPageChange,
@@ -438,7 +410,7 @@ export default function ProjectsTable() {
                 onSelectionChange={handleSelectionChange as any}
                 onSortChange={handleSortChange as any}
             >
-                <TableHeader columns={columns.filter(column => visibleColumns instanceof Set && Array.from(visibleColumns).includes(column.uid))}>
+                <TableHeader columns={columns}>
                     {(column) => (
                         <TableColumn
                             key={column.uid}

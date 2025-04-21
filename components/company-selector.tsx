@@ -51,8 +51,8 @@ function CompanySelectorComponent() {
       <div className="my-4 relative">
         <div className="w-full h-12 px-4 py-2 rounded-lg bg-default-100 flex items-center justify-between animate-pulse">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-full bg-default-200 shrink-0"></div>
-            <div className="h-4 w-32 bg-default-200 rounded"></div>
+            <div className="w-8 h-8 rounded-full bg-default-200 shrink-0" />
+            <div className="h-4 w-32 bg-default-200 rounded" />
           </div>
           <Spinner size="sm" color="primary" />
         </div>

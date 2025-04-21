@@ -221,9 +221,12 @@ export function CreateProjectModal({ isOpen, onClose, onSubmit }: CreateProjectM
                                 render={({ field }) => (
                                     <DatePicker
                                         label="Due Date"
+                                        showMonthAndYearPickers
                                         errorMessage={errors.dueDate?.message}
                                         isInvalid={!!errors.dueDate}
-                                        onChange={(e) => field.onChange(e)}
+                                        onChange={(e) => {
+                                            field.onChange(e ? new Date(e) : null);
+                                        }}
                                     />
                                 )}
                             />

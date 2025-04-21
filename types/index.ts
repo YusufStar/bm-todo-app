@@ -5,14 +5,19 @@ export type IconSvgProps = SVGProps<SVGSVGElement> & {
   size?: number;
 };
 
-export interface ActionResult<T = {}> {
-  success: boolean;
+export type ActionResultSuccess<T = {}> = {
+  success: true;
+  error?: never;
+  validationErrors?: never;
+} & T;
+
+export type ActionResultError = {
+  success: false;
   error?: string;
   validationErrors?: Record<string, string[]>;
-} & (
-  { success: true } & T | 
-  { success: false }
-);
+};
+
+export type ActionResult<T = {}> = ActionResultSuccess<T> | ActionResultError;
 
 export interface PaginationResult<T> {
   data: T[];
