@@ -1,19 +1,8 @@
 'use client'
 
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { useState, useCallback } from 'react'
-import { getProjectsAction, createProjectAction, updateProjectAction, deleteProjectAction, getProjectAction } from '@/actions/project/actions'
-import { useCompanies } from './useCompanies'
-import { ProjectQuerySchema, ProjectStatus, CreateProjectSchema, UpdateProjectSchema } from '@/types/forms'
-import { addToast } from '@heroui/react'
-import { ActionResult } from '@/types'
-
-// Define the shape of the projects action result for better type safety
-interface ProjectsActionResult {
-  projects: any[];
-  totalProjects: number;
-  totalPages: number;
-}
+import { useEffect } from 'react'
+import { useProjectStore, useCompanyStore } from '@/lib/store'
+import { ProjectStatus, CreateProjectSchema, UpdateProjectSchema } from '@/types/forms'
 
 export interface UseProjectsOptions {
   initialPage?: number
@@ -25,230 +14,90 @@ export interface UseProjectsOptions {
 }
 
 export function useProjects(options: UseProjectsOptions = {}) {
-  const queryClient = useQueryClient()
-  const { selectedCompanyId, selectedCompany } = useCompanies()
+  const projectStore = useProjectStore();
+  const { selectedCompanyId } = useCompanyStore();
   
-  // State for filtering and pagination
-  const [page, setPage] = useState(options.initialPage || 1)
-  const [perPage, setPerPage] = useState(options.initialPerPage || 10)
-  const [search, setSearch] = useState('')
-  const [status, setStatus] = useState<ProjectStatus | undefined>(undefined)
-  const [sortBy, setSortBy] = useState(options.initialSortBy || 'createdAt')
-  const [sortDirection, setSortDirection] = useState(options.initialSortDirection || 'ascending')
-  
-  // Build query parameters
-  const queryParams: ProjectQuerySchema = {
-    companyId: selectedCompanyId || '',
-    page,
-    perPage,
-    sortBy,
-    sortDirection,
-  }
-  
-  if (search) queryParams.search = search
-  if (status) queryParams.status = status
-  
-  // Fetch projects
-  const {
-    data,
-    isLoading,
-    isError,
-    error,
-    refetch
-  } = useQuery({
-    queryKey: ['projects', queryParams],
-    queryFn: async () => {
-      if (!selectedCompanyId) {
-        return { 
-          success: false, 
-          error: 'No company selected',
-          projects: [],
-          totalProjects: 0,
-          totalPages: 0
-        }
-      }
-      const result = await getProjectsAction(queryParams)
-      return result
-    },
-    enabled: !!selectedCompanyId,
-  })
-  
-  // Create project
-  const createProjectMutation = useMutation({
-    mutationFn: async (projectData: CreateProjectSchema) => {
-      return await createProjectAction({
-        ...projectData,
-        companyId: selectedCompanyId || '',
-      })
-    },
-    onSuccess: (result) => {
-      if (result.success) {
-        addToast({
-          title: 'Success',
-          description: 'Project created successfully',
-          color: 'success',
-        })
-        queryClient.invalidateQueries({ queryKey: ['projects'] })
-        options.onSuccess?.()
-      } else {
-        addToast({
-          title: 'Error',
-          description: result.error || 'Failed to create project',
-          color: 'danger',
-        })
-        options.onError?.(result.error || 'Failed to create project')
-      }
-    },
-    onError: (error: Error) => {
-      addToast({
-        title: 'Error',
-        description: error.message || 'An unexpected error occurred',
-        color: 'danger',
-      })
-      options.onError?.(error.message || 'An unexpected error occurred')
+  // Initialize with custom options
+  useEffect(() => {
+    if (options.initialPage) projectStore.setPage(options.initialPage);
+    if (options.initialPerPage) projectStore.setPerPage(options.initialPerPage);
+    if (options.initialSortBy && options.initialSortDirection) {
+      projectStore.setSortDescriptor({
+        column: options.initialSortBy,
+        direction: options.initialSortDirection
+      });
     }
-  })
+  }, []);
   
-  // Update project
-  const updateProjectMutation = useMutation({
-    mutationFn: async (projectData: UpdateProjectSchema) => {
-      return await updateProjectAction(projectData)
-    },
-    onSuccess: (result) => {
-      if (result.success) {
-        addToast({
-          title: 'Success',
-          description: 'Project updated successfully',
-          color: 'success',
-        })
-        queryClient.invalidateQueries({ queryKey: ['projects'] })
-        options.onSuccess?.()
-      } else {
-        addToast({
-          title: 'Error',
-          description: result.error || 'Failed to update project',
-          color: 'danger',
-        })
-        options.onError?.(result.error || 'Failed to update project')
-      }
-    },
-    onError: (error: Error) => {
-      addToast({
-        title: 'Error',
-        description: error.message || 'An unexpected error occurred',
-        color: 'danger',
-      })
-      options.onError?.(error.message || 'An unexpected error occurred')
-    }
-  })
+  // Fetch projects when company changes
+  useEffect(() => {
+    projectStore.fetchProjects();
+  }, [selectedCompanyId]);
   
-  // Delete project
-  const deleteProjectMutation = useMutation({
-    mutationFn: async (projectId: string) => {
-      return await deleteProjectAction(projectId)
-    },
-    onSuccess: (result) => {
-      if (result.success) {
-        addToast({
-          title: 'Success',
-          description: 'Project deleted successfully',
-          color: 'success',
-        })
-        queryClient.invalidateQueries({ queryKey: ['projects'] })
-        options.onSuccess?.()
-      } else {
-        addToast({
-          title: 'Error',
-          description: result.error || 'Failed to delete project',
-          color: 'danger',
-        })
-        options.onError?.(result.error || 'Failed to delete project')
-      }
-    },
-    onError: (error: Error) => {
-      addToast({
-        title: 'Error',
-        description: error.message || 'An unexpected error occurred',
-        color: 'danger',
-      })
-      options.onError?.(error.message || 'An unexpected error occurred')
-    }
-  })
+  // Handler for table actions
+  const handleSearch = (value: string) => {
+    projectStore.setSearch(value);
+  };
   
-  // Get a single project
-  const getProject = async (projectId: string | null) => {
-    if (!projectId) {
-      return { success: false, error: 'No project ID provided', project: null };
-    }
-    
-    try {
-      const result = await getProjectAction(projectId);
-      return result;
-    } catch (error) {
-      console.error('Error fetching project:', error);
-      return { 
-        success: false, 
-        error: error instanceof Error ? error.message : 'Failed to fetch project',
-        project: null
-      };
-    }
-  }
+  const handleStatusFilter = (statusValue: ProjectStatus | undefined) => {
+    projectStore.setStatus(statusValue);
+  };
   
-  // Reset pagination when filters change
-  const handleSearch = useCallback((value: string) => {
-    setSearch(value)
-    setPage(1)
-  }, [])
+  const handleSortChange = (descriptor: { column: string, direction: 'ascending' | 'descending' }) => {
+    projectStore.setSortDescriptor(descriptor);
+  };
   
-  const handleStatusFilter = useCallback((statusValue: ProjectStatus | undefined) => {
-    setStatus(statusValue)
-    setPage(1)
-  }, [])
+  const handlePageChange = (newPage: number) => {
+    projectStore.setPage(newPage);
+    projectStore.fetchProjects();
+  };
   
-  const handleSortChange = useCallback((descriptor: { column: string, direction: 'ascending' | 'descending' }) => {
-    setSortBy(descriptor.column)
-    setSortDirection(descriptor.direction)
-    setPage(1)
-  }, [])
+  const handlePerPageChange = (newPerPage: number) => {
+    projectStore.setPerPage(newPerPage);
+  };
   
-  const handlePageChange = useCallback((newPage: number) => {
-    setPage(newPage)
-  }, [])
+  // Custom handlers with callbacks
+  const createProject = async (data: CreateProjectSchema) => {
+    await projectStore.createProject(data);
+    options.onSuccess?.();
+  };
   
-  const handlePerPageChange = useCallback((newPerPage: number) => {
-    setPerPage(newPerPage)
-    setPage(1)
-  }, [])
-
-  // Safe access to data properties with proper type casting
-  const successData = data?.success ? data as (ActionResult<ProjectsActionResult> & ProjectsActionResult) : null;
+  const updateProject = async (data: UpdateProjectSchema) => {
+    await projectStore.updateProject(data);
+    options.onSuccess?.();
+  };
+  
+  const deleteProject = async (projectId: string) => {
+    await projectStore.deleteProject(projectId);
+    options.onSuccess?.();
+  };
 
   return {
     // Data
-    projects: successData?.projects || [],
-    totalProjects: successData?.totalProjects || 0,
-    totalPages: successData?.totalPages || 0,
+    projects: projectStore.projects,
+    totalProjects: projectStore.totalProjects,
+    totalPages: projectStore.totalPages,
     
     // State
-    page,
-    perPage,
-    search,
-    status,
-    sortBy,
-    sortDirection,
-    isLoading: isLoading || createProjectMutation.isPending || updateProjectMutation.isPending || deleteProjectMutation.isPending,
-    isError,
-    error: data?.error || (error as Error)?.message,
-    selectedCompany,
+    page: projectStore.page,
+    perPage: projectStore.perPage,
+    search: projectStore.search,
+    status: projectStore.status,
+    sortBy: projectStore.sortBy,
+    sortDirection: projectStore.sortDirection,
+    isLoading: projectStore.isLoading || projectStore.isCreating || projectStore.isUpdating || projectStore.isDeleting,
+    isError: projectStore.isError,
+    error: projectStore.error,
+    selectedCompanyId,
     
     // Mutations
-    createProject: createProjectMutation.mutate,
-    updateProject: updateProjectMutation.mutate,
-    deleteProject: deleteProjectMutation.mutate,
-    getProject,
-    isCreating: createProjectMutation.isPending,
-    isUpdating: updateProjectMutation.isPending,
-    isDeleting: deleteProjectMutation.isPending,
+    createProject,
+    updateProject,
+    deleteProject,
+    getProject: projectStore.getProject,
+    isCreating: projectStore.isCreating,
+    isUpdating: projectStore.isUpdating,
+    isDeleting: projectStore.isDeleting,
     
     // Actions
     handleSearch,
@@ -256,6 +105,6 @@ export function useProjects(options: UseProjectsOptions = {}) {
     handleSortChange,
     handlePageChange,
     handlePerPageChange,
-    refetch,
+    refetch: projectStore.fetchProjects,
   }
 } 

@@ -10,6 +10,7 @@ import {
   cn
 } from '@heroui/react'
 import { Building } from 'lucide-react'
+import { useProjectStore } from '@/lib/store'
 
 function CompanySelectorComponent() {
   const {
@@ -24,22 +25,15 @@ function CompanySelectorComponent() {
   } = useCompanies({
     // Add callback when company changes
     onCompanyChange: (id) => {
-      console.log('Company changed to:', id)
+      // Force immediate refetch of projects
+      useProjectStore.getState().fetchProjects();
     }
   })
   
   const [isPending, startTransition] = useTransition()
   
-  // Log current state for debugging
-  useEffect(() => {
-    console.log('Current companies:', companies)
-    console.log('Selected company ID:', selectedCompanyId)
-    console.log('Selected company:', selectedCompany)
-  }, [companies, selectedCompany, selectedCompanyId])
-  
   // Handle company selection change
   const handleCompanyChange = (companyId: string) => {
-    console.log('handleCompanyChange called with:', companyId)
     startTransition(() => {
       selectCompany(companyId)
     })
@@ -120,14 +114,11 @@ function CompanySelectorComponent() {
           )
         }
         onSelectionChange={(key) => {
-          console.log('onSelectionChange key:', key)
           // Handle both string and Set types
           const selectedKey = typeof key === 'string' 
             ? key 
             : key instanceof Set ? Array.from(key)[0]?.toString() : null
             
-          console.log('Processed selected key:', selectedKey)
-          
           if (selectedKey) {
             handleCompanyChange(selectedKey)
           }

@@ -1,12 +1,12 @@
 "use client";
 
-import type { ThemeProviderProps } from "next-themes";
-
-import * as React from "react";
-import { HeroUIProvider, ToastProvider } from "@heroui/react";
 import { useRouter } from "next/navigation";
-import { ThemeProvider as NextThemesProvider } from "next-themes";
+import React from "react";
+import { HeroUIProvider, ToastProvider } from "@heroui/react";
+import { ThemeProvider as NextThemesProvider, ThemeProviderProps } from "next-themes";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { useEffect } from 'react';
+import { useCompanyStore } from '@/lib/store';
 
 export interface ProvidersProps {
   children: React.ReactNode;
@@ -21,33 +21,45 @@ declare module "@react-types/shared" {
   }
 }
 
+
+// Create a client with default options
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 60 * 1000, // 1 minute
+      refetchOnWindowFocus: false,
+      retry: 1,
+    },
+  },
+});
+
+// Component to initialize Zustand stores
+function StoreInitializer() {
+  useEffect(() => {
+    // Hydrate company store from localStorage on client
+    useCompanyStore.getState().hydrate();
+    useCompanyStore.getState().fetchCompanies();
+  }, []);
+  
+  return null;
+}
+
 export function Providers({ children, themeProps }: ProvidersProps) {
   const router = useRouter();
-  const [queryClient] = React.useState(
-    () =>
-      new QueryClient({
-        defaultOptions: {
-          queries: {
-            staleTime: 60 * 1000, // 1 minute
-            refetchOnWindowFocus: false,
-            retry: 1,
-          },
-        },
-      })
-  );
 
   return (
     <QueryClientProvider client={queryClient}>
-        <HeroUIProvider navigate={router.push}>
-          <NextThemesProvider {...themeProps}>
-            <ToastProvider
-              toastProps={{
-                timeout: 2500,
-              }}
-            />
-            {children}
-          </NextThemesProvider>
-        </HeroUIProvider>
+      <StoreInitializer />
+      <HeroUIProvider navigate={router.push}>
+        <NextThemesProvider {...themeProps}>
+          <ToastProvider
+            toastProps={{
+              timeout: 2500,
+            }}
+          />
+          {children}
+        </NextThemesProvider>
+      </HeroUIProvider>
     </QueryClientProvider>
   );
 }
