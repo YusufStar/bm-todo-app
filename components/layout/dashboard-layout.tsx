@@ -2,7 +2,7 @@
 
 import type { SidebarItem } from "./sidebar";
 
-import React, { useMemo } from "react";
+import React, {  useMemo } from "react";
 import {
     User,
     Badge,
@@ -131,12 +131,12 @@ export default function DashboardLayout({
 }) {
     const pathname = usePathname();
     const params = useParams();
-    
+
     // Use useMemo instead of useState + useEffect to avoid hydration issues
     const projectId = useMemo(() => {
         return params?.projectId as string || null;
     }, [params]);
-    
+
     // Determine which sidebar items to use based on projectId
     const sidebarItemsData = useMemo(() => {
         return projectId

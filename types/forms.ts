@@ -33,3 +33,47 @@ export const createCompanySchema = z.object({
 });
 
 export type CreateCompanySchema = z.infer<typeof createCompanySchema>;
+
+export enum ProjectStatus {
+  NOT_STARTED = "NOT_STARTED",
+  IN_PROGRESS = "IN_PROGRESS",
+  STOPPED = "STOPPED",
+  COMPLETED = "COMPLETED",
+  ARCHIVED = "ARCHIVED",
+}
+
+export enum Priority {
+  LOW = "LOW",
+  MEDIUM = "MEDIUM",
+  HIGH = "HIGH",
+}
+
+export const createProjectSchema = z.object({
+  name: z.string().min(3, "Project name must be at least 3 characters"),
+  description: z.string().optional(),
+  status: z.nativeEnum(ProjectStatus).default(ProjectStatus.NOT_STARTED),
+  priority: z.nativeEnum(Priority).default(Priority.LOW),
+  dueDate: z.date().optional().nullable(),
+  budget: z.number().optional().nullable(),
+  isPublic: z.boolean().default(false),
+  companyId: z.string().uuid(),
+});
+
+export const updateProjectSchema = createProjectSchema.partial()
+  .extend({
+    id: z.string().uuid(),
+  });
+
+export const projectQuerySchema = z.object({
+  companyId: z.string().uuid(),
+  search: z.string().optional(),
+  status: z.nativeEnum(ProjectStatus).optional(),
+  page: z.number().default(1),
+  perPage: z.number().default(10),
+  sortBy: z.string().default("createdAt"),
+  sortDirection: z.enum(["ascending", "descending"]).default("descending"),
+});
+
+export type CreateProjectSchema = z.infer<typeof createProjectSchema>;
+export type UpdateProjectSchema = z.infer<typeof updateProjectSchema>;
+export type ProjectQuerySchema = z.infer<typeof projectQuerySchema>;

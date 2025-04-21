@@ -38,18 +38,16 @@ export function Providers({ children, themeProps }: ProvidersProps) {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <HeroUIProvider navigate={router.push}>
-        <NextThemesProvider {...themeProps}>
-          <ToastProvider
-            toastProps={{
-              timeout: 2500,
-              variant: "solid",
-              color: "primary",
-            }}
-          />
-          {children}
-        </NextThemesProvider>
-      </HeroUIProvider>
+        <HeroUIProvider navigate={router.push}>
+          <NextThemesProvider {...themeProps}>
+            <ToastProvider
+              toastProps={{
+                timeout: 2500,
+              }}
+            />
+            {children}
+          </NextThemesProvider>
+        </HeroUIProvider>
     </QueryClientProvider>
   );
 }

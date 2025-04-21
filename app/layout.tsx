@@ -3,7 +3,6 @@ import { Metadata, Viewport } from "next";
 import clsx from "clsx";
 
 import { Providers } from "./providers";
-import { auth } from "@/auth";
 import { siteConfig } from "@/config/site";
 import { fontPoppins } from "@/config/fonts";
 import NextTopLoader from "nextjs-toploader";

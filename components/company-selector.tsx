@@ -1,18 +1,17 @@
 'use client'
 
-import { useTransition, useEffect } from 'react'
+import { useTransition, useEffect, memo } from 'react'
 import { useCompanies } from '@/lib/hooks/useCompanies'
 import { 
   Select, 
   SelectItem, 
   Spinner, 
   Avatar, 
-  Button, 
   cn
 } from '@heroui/react'
-import { Building, ChevronDown } from 'lucide-react'
+import { Building } from 'lucide-react'
 
-export function CompanySelector() {
+function CompanySelectorComponent() {
   const {
     companies,
     selectedCompany,
@@ -157,4 +156,7 @@ export function CompanySelector() {
       </Select>
     </div>
   )
-} 
+}
+
+export const CompanySelector = memo(CompanySelectorComponent)
+CompanySelector.displayName = 'CompanySelector'
