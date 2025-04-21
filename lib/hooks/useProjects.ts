@@ -2,7 +2,7 @@
 
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { useState, useCallback } from 'react'
-import { getProjectsAction, createProjectAction, updateProjectAction, deleteProjectAction } from '@/actions/project/actions'
+import { getProjectsAction, createProjectAction, updateProjectAction, deleteProjectAction, getProjectAction } from '@/actions/project/actions'
 import { useCompanies } from './useCompanies'
 import { ProjectQuerySchema, ProjectStatus, CreateProjectSchema, UpdateProjectSchema } from '@/types/forms'
 import { addToast } from '@heroui/react'
@@ -175,6 +175,25 @@ export function useProjects(options: UseProjectsOptions = {}) {
     }
   })
   
+  // Get a single project
+  const getProject = async (projectId: string | null) => {
+    if (!projectId) {
+      return { success: false, error: 'No project ID provided', project: null };
+    }
+    
+    try {
+      const result = await getProjectAction(projectId);
+      return result;
+    } catch (error) {
+      console.error('Error fetching project:', error);
+      return { 
+        success: false, 
+        error: error instanceof Error ? error.message : 'Failed to fetch project',
+        project: null
+      };
+    }
+  }
+  
   // Reset pagination when filters change
   const handleSearch = useCallback((value: string) => {
     setSearch(value)
@@ -226,6 +245,7 @@ export function useProjects(options: UseProjectsOptions = {}) {
     createProject: createProjectMutation.mutate,
     updateProject: updateProjectMutation.mutate,
     deleteProject: deleteProjectMutation.mutate,
+    getProject,
     isCreating: createProjectMutation.isPending,
     isUpdating: updateProjectMutation.isPending,
     isDeleting: deleteProjectMutation.isPending,

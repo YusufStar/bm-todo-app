@@ -29,6 +29,7 @@ import { projectStatusColorMap, priorityColorMap } from "@/types/project";
 import { ProjectStatus } from "@/types/forms";
 import { useRouter } from "next/navigation";
 import { CreateProjectModal } from "./create-project-modal";
+import { EditProjectModal } from "./edit-project-modal";
 
 // Define columns for the project table
 const columns = [
@@ -118,6 +119,8 @@ export default function ProjectsTable() {
     const router = useRouter();
     const [mounted, setMounted] = React.useState(false);
     const [isCreateModalOpen, setIsCreateModalOpen] = React.useState(false);
+    const [isEditModalOpen, setIsEditModalOpen] = React.useState(false);
+    const [selectedProjectId, setSelectedProjectId] = React.useState<string | null>(null);
 
     // Fetch projects data using our custom hook
     const {
@@ -138,7 +141,8 @@ export default function ProjectsTable() {
         isLoading,
         isError,
         error,
-        createProject
+        createProject,
+        updateProject
     } = useProjects();
 
     // Use table hook for the UI state of the table
@@ -245,7 +249,10 @@ export default function ProjectsTable() {
                                 </DropdownItem>
                                 <DropdownItem
                                     key="edit"
-                                    onPress={() => router.push(`/dashboard/projects/${project.id}/edit`)}
+                                    onPress={() => {
+                                        setSelectedProjectId(project.id);
+                                        setIsEditModalOpen(true);
+                                    }}
                                 >
                                     Edit
                                 </DropdownItem>
@@ -439,6 +446,16 @@ export default function ProjectsTable() {
                     isOpen={isCreateModalOpen}
                     onClose={() => setIsCreateModalOpen(false)}
                     onSubmit={createProject}
+                />
+
+                <EditProjectModal 
+                    projectId={selectedProjectId}
+                    isOpen={isEditModalOpen}
+                    onClose={() => {
+                        setIsEditModalOpen(false);
+                        setSelectedProjectId(null);
+                    }}
+                    onSubmit={(data) => updateProject(data)}
                 />
         </>
     );

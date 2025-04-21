@@ -23,6 +23,7 @@ import { createProjectSchema, ProjectStatus, Priority } from "@/types/forms";
 import { z } from "zod";
 import { useCompanies } from "@/lib/hooks";
 import { projectStatusColorMap, priorityColorMap } from "@/types/project";
+import { CalendarDate } from "@internationalized/date";
 
 // Use the inferred type from Zod schema
 type FormValues = z.infer<typeof createProjectSchema>;
@@ -224,8 +225,14 @@ export function CreateProjectModal({ isOpen, onClose, onSubmit }: CreateProjectM
                                         showMonthAndYearPickers
                                         errorMessage={errors.dueDate?.message}
                                         isInvalid={!!errors.dueDate}
+                                        // @ts-ignore
+                                        value={field.value ? new CalendarDate(
+                                            field.value.getFullYear(),
+                                            field.value.getMonth() + 1,
+                                            field.value.getDate()
+                                        ) : undefined}
                                         onChange={(e) => {
-                                            field.onChange(e ? new Date(e) : null);
+                                            field.onChange(new Date(e ?? ""));
                                         }}
                                     />
                                 )}

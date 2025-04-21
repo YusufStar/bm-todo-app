@@ -12,7 +12,6 @@ import {
   projectQuerySchema
 } from "@/types/forms";
 import { ActionResult } from "@/types";
-import { redirect } from "next/navigation";
 
 // Helper to verify user has access to a company
 async function verifyCompanyAccess(companyId: string): Promise<boolean> {
@@ -229,15 +228,12 @@ export async function createProjectAction(data: CreateProjectSchema): Promise<Ac
       data: {
         ...validatedData.data,
         dueDate: validatedData.data.dueDate ? new Date(validatedData.data.dueDate) : null,
-      }
-    });
-
-    // Add current user as a project admin
-    await prisma.projectMember.create({
-      data: {
-        projectId: project.id,
-        userId: session.user.id,
-        role: "ADMIN"
+        members: {
+          create: {
+            userId: session.user.id,
+            role: "ADMIN"
+          }
+        }
       }
     });
 
@@ -328,5 +324,64 @@ export async function deleteProjectAction(id: string): Promise<ActionResult<{}>>
   } catch (error) {
     console.error("Failed to delete project:", error);
     return { success: false, error: "Failed to delete project" };
+  }
+}
+
+export async function getProjectAction(id: string): Promise<ActionResult<{ project: any }>> {
+  try {
+    const session = await auth();
+    if (!session?.user?.id) {
+      return { success: false, error: "Not authenticated" };
+    }
+
+    // Check project access
+    const hasAccess = await verifyProjectAccess(id);
+    if (!hasAccess) {
+      return { success: false, error: "You don't have access to this project" };
+    }
+
+    // Get project details with member and task counts
+    const project = await prisma.project.findUnique({
+      where: { id },
+      include: {
+        _count: {
+          select: {
+            tasks: true,
+            members: true
+          }
+        }
+      }
+    });
+
+    if (!project) {
+      return { success: false, error: "Project not found" };
+    }
+
+    // Format project data
+    const formattedProject = {
+      id: project.id,
+      name: project.name,
+      description: project.description,
+      status: project.status,
+      priority: project.priority,
+      dueDate: project.dueDate,
+      budget: project.budget,
+      startDate: project.startDate,
+      endDate: project.endDate,
+      isPublic: project.isPublic,
+      companyId: project.companyId,
+      createdAt: project.createdAt,
+      updatedAt: project.updatedAt,
+      tasksCount: project._count.tasks,
+      membersCount: project._count.members
+    };
+
+    return { 
+      success: true, 
+      project: formattedProject 
+    } as ActionResult<{ project: any }>;
+  } catch (error) {
+    console.error("Failed to fetch project:", error);
+    return { success: false, error: "Failed to fetch project" };
   }
 } 
