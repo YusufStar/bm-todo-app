@@ -107,11 +107,12 @@ export function useTable<T extends Record<string, any>>(options: UseTableOptions
           return first.localeCompare(second);
         }
         
-        // Handle actual Date objects with type checking
+        // Handle actual Date objects with proper type checking
         if (
-          first instanceof Date && second instanceof Date
+          typeof first === 'object' && first !== null && 'getTime' in first &&
+          typeof second === 'object' && second !== null && 'getTime' in second
         ) {
-          return first.getTime() - second.getTime();
+          return (first as unknown as Date).getTime() - (second as unknown as Date).getTime();
         }
         
         if (typeof first === 'number' && typeof second === 'number') {

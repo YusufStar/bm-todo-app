@@ -17,15 +17,26 @@ import {
     Chip,
     Spinner,
     User,
-    Avatar
+    Avatar,
+    Modal,
+    ModalContent,
+    ModalHeader,
+    ModalBody,
+    ModalFooter,
+    useDisclosure,
+    Select,
+    SelectItem,
+    Card,
+    CardHeader,
+    CardBody,
+    Divider
 } from "@heroui/react";
-import { MoreVertical, Search, CalendarClock } from "lucide-react";
+import { MoreVertical, Search, CalendarClock, UserCog } from "lucide-react";
 import { formatDistanceToNow } from 'date-fns';
 import { useMembers, useTable } from "@/lib/hooks";
 import { CompanyMember } from "@/lib/store/memberStore";
 import { companyMemberColorMap } from "@/types/members";
 import { CompanyMemberRole } from "@/types/forms";
-import { useRouter } from "next/navigation";
 
 // Define color type to match HeroUI Chip component requirements
 type ChipColorType = "default" | "primary" | "secondary" | "success" | "warning" | "danger" | undefined;
@@ -41,6 +52,9 @@ const columns = [
 export default function MembersTable() {
     const [mounted, setMounted] = React.useState(false);
     const [filterValue, setFilterValue] = React.useState("");
+    const { isOpen, onOpen, onClose } = useDisclosure();
+    const [selectedMember, setSelectedMember] = React.useState<CompanyMember | null>(null);
+    const [selectedRole, setSelectedRole] = React.useState<CompanyMemberRole | "">("");
 
     // Fetch members data using our custom hook
     const {
@@ -61,15 +75,19 @@ export default function MembersTable() {
         handleSortChange
     } = useTable<CompanyMember>({
         columns,
-        onSortChange: (descriptor) => {
-            handleSortChange(descriptor);
-        },
         filterField: 'user.email' as keyof CompanyMember
     });
 
     React.useEffect(() => {
         setMounted(true);
     }, []);
+
+    // Reset selected role when modal opens with a member
+    React.useEffect(() => {
+        if (selectedMember) {
+            setSelectedRole(selectedMember.role);
+        }
+    }, [selectedMember]);
 
     // Filter members based on search input
     const filteredMembers = React.useMemo(() => {
@@ -83,6 +101,24 @@ export default function MembersTable() {
 
     const handleSearch = (value: string) => {
         setFilterValue(value);
+    };
+
+    const handleOpenUpdateModal = (member: CompanyMember) => {
+        setSelectedMember(member);
+        onOpen();
+    };
+    
+    const handleCloseUpdateModal = () => {
+        setSelectedMember(null);
+        setSelectedRole("");
+        onClose();
+    };
+    
+    const handleUpdateRole = async () => {
+        if (selectedMember && selectedRole) {
+            await updateMemberRole(selectedMember.id, selectedRole as CompanyMemberRole);
+            handleCloseUpdateModal();
+        }
     };
 
     const renderCell = React.useCallback((member: CompanyMember, columnKey: string): React.ReactNode => {
@@ -131,26 +167,11 @@ export default function MembersTable() {
                             <DropdownMenu>
                                 <DropdownItem key="role" isDisabled>Manage Role</DropdownItem>
                                 <DropdownItem
-                                    key="role_owner"
-                                    className="text-primary"
-                                    onPress={() => updateMemberRole(member.id, CompanyMemberRole.OWNER)}
+                                    key="update"
+                                    onPress={() => handleOpenUpdateModal(member)}
                                 >
-                                    Set as Owner
+                                    Update Role
                                 </DropdownItem>
-                                <DropdownItem
-                                    key="role_admin"
-                                    className="text-secondary"
-                                    onPress={() => updateMemberRole(member.id, CompanyMemberRole.ADMIN)}
-                                >
-                                    Set as Admin
-                                </DropdownItem>
-                                <DropdownItem
-                                    key="role_member"
-                                    onPress={() => updateMemberRole(member.id, CompanyMemberRole.MEMBER)}
-                                >
-                                    Set as Member
-                                </DropdownItem>
-                                <DropdownItem key="divider" isDisabled className="h-px bg-default-200 my-1" />
                                 <DropdownItem
                                     key="remove"
                                     className="text-danger"
@@ -280,6 +301,121 @@ export default function MembersTable() {
                     )}
                 </TableBody>
             </Table>
+
+            {/* Update Role Modal */}
+            <Modal isOpen={isOpen} onClose={handleCloseUpdateModal}>
+                <ModalContent>
+                    <ModalHeader className="flex flex-col gap-1">
+                        <h3 className="text-xl font-semibold">Update Member Role</h3>
+                        <p className="text-sm text-default-500">
+                            Assign a new role to this member
+                        </p>
+                    </ModalHeader>
+                    <ModalBody>
+                        {selectedMember && (
+                            <>
+                                <Card className="bg-content2/40 border border-content3/40 shadow-sm">
+                                    <CardHeader className="p-3 flex-row items-center justify-between gap-2">
+                                        <User
+                                            name={selectedMember.user.username}
+                                            description={selectedMember.user.email}
+                                            avatarProps={{
+                                                src: selectedMember.user.avatar || undefined,
+                                                showFallback: true,
+                                                size: "lg",
+                                                fallback: <Avatar name={selectedMember.user.username} size="lg" radius="lg" />
+                                            }}
+                                            classNames={{
+                                                name: "text-foreground font-semibold",
+                                                description: "text-foreground-500"
+                                            }}
+                                        />
+                                        <Chip
+                                            className="capitalize border-none gap-1"
+                                            color={companyMemberColorMap[selectedMember.role] as ChipColorType}
+                                            size="sm"
+                                            variant="dot"
+                                        >
+                                            {selectedMember.role.toLowerCase()}
+                                        </Chip>
+                                    </CardHeader>
+                                    <Divider />
+                                    <CardBody className="p-3 pt-2">
+                                        <div className="flex gap-2 items-center">
+                                            <CalendarClock size={16} className="text-primary/70" />
+                                            <span className="text-small text-foreground-500">
+                                                Joined {formatDistanceToNow(new Date(selectedMember.createdAt), { addSuffix: true })}
+                                            </span>
+                                        </div>
+                                    </CardBody>
+                                </Card>
+
+                                <Divider className="my-2" />
+
+                                <div className="flex flex-col gap-3">
+                                    <div className="flex items-center gap-2">
+                                        <UserCog size={18} className="text-default-500" />
+                                        <p className="text-small font-medium">Select a new role</p>
+                                    </div>
+                                    <Select
+                                        label="Role"
+                                        placeholder="Select role"
+                                        selectedKeys={selectedRole ? [selectedRole] : []}
+                                        onChange={(e) => setSelectedRole(e.target.value as CompanyMemberRole)}
+                                        classNames={{
+                                            trigger: "h-12",
+                                        }}
+                                        renderValue={(items) => {
+                                            return items.map((item) => (
+                                                <div key={item.key} className="flex items-center gap-2">
+                                                    <Chip
+                                                        className="capitalize border-none gap-1 text-default-600"
+                                                        color={companyMemberColorMap[item.key as CompanyMemberRole] as ChipColorType}
+                                                        size="sm"
+                                                        variant="dot"
+                                                    >
+                                                        {String(item.key).toLowerCase()}
+                                                    </Chip>
+                                                </div>
+                                            ));
+                                        }}
+                                    >
+                                        {Object.values(CompanyMemberRole).map((role) => (
+                                            <SelectItem 
+                                                key={role} 
+                                                className="capitalize"
+                                                textValue={role.toLowerCase()}
+                                                startContent={
+                                                    <Chip
+                                                        className="capitalize border-none gap-1 text-default-600"
+                                                        color={companyMemberColorMap[role] as ChipColorType}
+                                                        size="sm"
+                                                        variant="dot"
+                                                    >
+                                                        {role.toLowerCase()}
+                                                    </Chip>
+                                                }
+                                            />
+                                        ))}
+                                    </Select>
+                                </div>
+                            </>
+                        )}
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button variant="flat" onPress={handleCloseUpdateModal}>
+                            Cancel
+                        </Button>
+                        <Button 
+                            color="primary" 
+                            onPress={handleUpdateRole}
+                            isDisabled={!selectedRole || selectedMember?.role === selectedRole}
+                        >
+                            Update Role
+                        </Button>
+                    </ModalFooter>
+                </ModalContent>
+            </Modal>
         </>
     );
 } 

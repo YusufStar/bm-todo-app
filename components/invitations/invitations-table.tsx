@@ -78,9 +78,6 @@ export default function InvitationsTable() {
         handleSortChange
     } = useTable<CompanyInvitation>({
         columns,
-        onSortChange: (descriptor) => {
-            handleSortChange(descriptor);
-        },
         filterField: 'invitedEmail' as keyof CompanyInvitation
     });
 
