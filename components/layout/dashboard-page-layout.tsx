@@ -10,7 +10,7 @@ export default function DashboardPageLayout({
   actions?: React.ReactNode[] | React.ReactNode;
 }) {
   return (
-    <div className="w-full flex flex-col gap-6">
+    <div className="w-full flex flex-col gap-6 py-2">
       <div className="flex items-start justify-between w-full">
         <div className="flex flex-col gap-2">
           <h1 className="text-2xl font-bold">{title}</h1>

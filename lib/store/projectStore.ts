@@ -10,6 +10,7 @@ import { ProjectQuerySchema, ProjectStatus, CreateProjectSchema, UpdateProjectSc
 import { Project } from '@/types/project';
 import { addToast } from '@heroui/react';
 import { useCompanyStore } from './companyStore';
+import { useUserStore } from './userStore';
 
 interface ProjectState {
   // Data
@@ -96,6 +97,16 @@ export const useProjectStore = create<ProjectState>((set, get) => ({
   fetchProjects: async () => {
     const state = get();
     const companyId = useCompanyStore.getState().selectedCompanyId;
+    const userId = useUserStore.getState().user?.id;
+    
+    if (!userId) {
+      set({
+        projects: [],
+        totalProjects: 0,
+        totalPages: 0,
+      });
+      return;
+    }
     
     if (!companyId) {
       set({
@@ -112,7 +123,7 @@ export const useProjectStore = create<ProjectState>((set, get) => ({
     set({ isLoading: true, isError: false, error: null });
     
     try {
-      const result = await getProjectsAction(state.getQueryParams());
+      const result = await getProjectsAction(state.getQueryParams(), userId);
       
       if (result.success) {
         set({
@@ -140,7 +151,17 @@ export const useProjectStore = create<ProjectState>((set, get) => ({
   // Create project
   createProject: async (projectData: CreateProjectSchema) => {
     const companyId = useCompanyStore.getState().selectedCompanyId;
-    
+    const userId = useUserStore.getState().user?.id;
+
+    if (!userId) {
+      addToast({
+        title: 'Error',
+        description: 'No user found',
+        color: 'danger',
+      });
+      return;
+    }
+
     if (!companyId) {
       addToast({
         title: 'Error',
@@ -156,7 +177,7 @@ export const useProjectStore = create<ProjectState>((set, get) => ({
       const result = await createProjectAction({
         ...projectData,
         companyId: companyId,
-      });
+      }, userId);
       
       if (result.success) {
         addToast({
@@ -186,10 +207,31 @@ export const useProjectStore = create<ProjectState>((set, get) => ({
   
   // Update project
   updateProject: async (projectData: UpdateProjectSchema) => {
+    const companyId = useCompanyStore.getState().selectedCompanyId;
+    const userId = useUserStore.getState().user?.id;
+
+    if (!userId) {
+      addToast({
+        title: 'Error',
+        description: 'No user found',
+        color: 'danger',
+      });
+      return;
+    }
+
+    if (!companyId) {
+      addToast({
+        title: 'Error',
+        description: 'No company selected',
+        color: 'danger',
+      });
+      return;
+    }
+
     set({ isUpdating: true });
     
     try {
-      const result = await updateProjectAction(projectData);
+      const result = await updateProjectAction(projectData, userId);
       
       if (result.success) {
         addToast({
@@ -219,10 +261,21 @@ export const useProjectStore = create<ProjectState>((set, get) => ({
   
   // Delete project
   deleteProject: async (projectId: string) => {
+    const userId = useUserStore.getState().user?.id;
+
+    if (!userId) {
+      addToast({
+        title: 'Error',
+        description: 'No user found',
+        color: 'danger',
+      });
+      return;
+    }
+    
     set({ isDeleting: true });
     
     try {
-      const result = await deleteProjectAction(projectId);
+      const result = await deleteProjectAction(projectId, userId);
       
       if (result.success) {
         addToast({
@@ -252,12 +305,17 @@ export const useProjectStore = create<ProjectState>((set, get) => ({
   
   // Get a single project
   getProject: async (projectId: string) => {
+    const userId = useUserStore.getState().user?.id;
+
+    if (!userId) {
+      return { success: false, error: 'No user found', project: null };
+    }
+    
     if (!projectId) {
       return { success: false, error: 'No project ID provided', project: null };
     }
-    
     try {
-      const result = await getProjectAction(projectId);
+      const result = await getProjectAction(projectId, userId);
       return result;
     } catch (error) {
       console.error('Error fetching project:', error);

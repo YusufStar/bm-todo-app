@@ -9,20 +9,18 @@ import {
   ProjectQuerySchema,
   createProjectSchema,
   updateProjectSchema,
-  projectQuerySchema
+  projectQuerySchema,
+  ProjectMemberRole
 } from "@/types/forms";
 import { ActionResult } from "@/types";
 
 // Helper to verify user has access to a company
-async function verifyCompanyAccess(companyId: string): Promise<boolean> {
-  const session = await auth();
-  if (!session?.user?.id) return false;
-  
+async function verifyCompanyAccess(companyId: string, userId: string): Promise<boolean> {
   // If user is company owner
   const company = await prisma.company.findFirst({
     where: {
       id: companyId,
-      ownerId: session.user.id
+      ownerId: userId
     }
   });
   
@@ -32,7 +30,7 @@ async function verifyCompanyAccess(companyId: string): Promise<boolean> {
   const membership = await prisma.companyMember.findFirst({
     where: {
       companyId,
-      userId: session.user.id
+      userId
     }
   });
   
@@ -40,10 +38,7 @@ async function verifyCompanyAccess(companyId: string): Promise<boolean> {
 }
 
 // Helper to verify user has access to a project
-async function verifyProjectAccess(projectId: string): Promise<boolean> {
-  const session = await auth();
-  if (!session?.user?.id) return false;
-  
+async function verifyProjectAccess(projectId: string, userId: string): Promise<boolean> { 
   // Get the project
   const project = await prisma.project.findUnique({
     where: { id: projectId },
@@ -56,7 +51,7 @@ async function verifyProjectAccess(projectId: string): Promise<boolean> {
   if (!project) return false;
   
   // Check company access first (if you have company access and project is public)
-  const hasCompanyAccess = await verifyCompanyAccess(project.companyId);
+  const hasCompanyAccess = await verifyCompanyAccess(project.companyId, userId);
   
   if (hasCompanyAccess && project.isPublic) {
     return true;
@@ -66,24 +61,19 @@ async function verifyProjectAccess(projectId: string): Promise<boolean> {
   const projectMembership = await prisma.projectMember.findFirst({
     where: {
       projectId,
-      userId: session.user.id
+      userId
     }
   });
   
   return !!projectMembership;
 }
 
-export async function getProjectsAction(query: ProjectQuerySchema): Promise<ActionResult<{
+export async function getProjectsAction(query: ProjectQuerySchema, userId: string): Promise<ActionResult<{
   projects: any[];
   totalProjects: number;
   totalPages: number;
 }>> {
   try {
-    const session = await auth();
-    if (!session?.user?.id) {
-      return { success: false, error: "Not authenticated" };
-    }
-
     // Validate query params
     const validatedQuery = projectQuerySchema.safeParse(query);
     if (!validatedQuery.success) {
@@ -104,7 +94,7 @@ export async function getProjectsAction(query: ProjectQuerySchema): Promise<Acti
     const prismaSortDirection = sortDirection === 'ascending' ? 'asc' : 'desc';
 
     // Check company access
-    const hasAccess = await verifyCompanyAccess(companyId);
+    const hasAccess = await verifyCompanyAccess(companyId, userId);
     if (!hasAccess) {
       return { success: false, error: "You don't have access to this company" };
     }
@@ -117,7 +107,7 @@ export async function getProjectsAction(query: ProjectQuerySchema): Promise<Acti
         {
           members: {
             some: {
-              userId: session.user.id
+              userId
             }
           }
         },
@@ -200,13 +190,8 @@ export async function getProjectsAction(query: ProjectQuerySchema): Promise<Acti
   }
 }
 
-export async function createProjectAction(data: CreateProjectSchema): Promise<ActionResult<{ project: any }>> {
+export async function createProjectAction(data: CreateProjectSchema, userId: string): Promise<ActionResult<{ project: any }>> {
   try {
-    const session = await auth();
-    if (!session?.user?.id) {
-      return { success: false, error: "Not authenticated" };
-    }
-
     // Validate input
     const validatedData = createProjectSchema.safeParse(data);
     if (!validatedData.success) {
@@ -218,7 +203,7 @@ export async function createProjectAction(data: CreateProjectSchema): Promise<Ac
     }
 
     // Check company access
-    const hasAccess = await verifyCompanyAccess(validatedData.data.companyId);
+    const hasAccess = await verifyCompanyAccess(validatedData.data.companyId, userId);
     if (!hasAccess) {
       return { success: false, error: "You don't have access to this company" };
     }
@@ -230,8 +215,8 @@ export async function createProjectAction(data: CreateProjectSchema): Promise<Ac
         dueDate: validatedData.data.dueDate ? new Date(validatedData.data.dueDate) : null,
         members: {
           create: {
-            userId: session.user.id,
-            role: "ADMIN"
+            userId,
+            role: ProjectMemberRole.ADMIN
           }
         }
       }
@@ -248,13 +233,8 @@ export async function createProjectAction(data: CreateProjectSchema): Promise<Ac
   }
 }
 
-export async function updateProjectAction(data: UpdateProjectSchema): Promise<ActionResult<{ project: any }>> {
+export async function updateProjectAction(data: UpdateProjectSchema, userId: string): Promise<ActionResult<{ project: any }>> {
   try {
-    const session = await auth();
-    if (!session?.user?.id) {
-      return { success: false, error: "Not authenticated" };
-    }
-
     // Validate input
     const validatedData = updateProjectSchema.safeParse(data);
     if (!validatedData.success) {
@@ -266,7 +246,7 @@ export async function updateProjectAction(data: UpdateProjectSchema): Promise<Ac
     }
 
     // Check project access
-    const hasAccess = await verifyProjectAccess(validatedData.data.id);
+    const hasAccess = await verifyProjectAccess(validatedData.data.id, userId);
     if (!hasAccess) {
       return { success: false, error: "You don't have access to this project" };
     }
@@ -294,19 +274,14 @@ export async function updateProjectAction(data: UpdateProjectSchema): Promise<Ac
   }
 }
 
-export async function deleteProjectAction(id: string): Promise<ActionResult<{}>> {
+export async function deleteProjectAction(id: string, userId: string): Promise<ActionResult<{}>> {
   try {
-    const session = await auth();
-    if (!session?.user?.id) {
-      return { success: false, error: "Not authenticated" };
-    }
-
     // Check project access with admin rights (we should only allow admins to delete)
     const projectMember = await prisma.projectMember.findFirst({
       where: {
         projectId: id,
-        userId: session.user.id,
-        role: "ADMIN"
+        userId,
+        role: ProjectMemberRole.ADMIN
       }
     });
 
@@ -327,15 +302,10 @@ export async function deleteProjectAction(id: string): Promise<ActionResult<{}>>
   }
 }
 
-export async function getProjectAction(id: string): Promise<ActionResult<{ project: any }>> {
+export async function getProjectAction(id: string, userId: string): Promise<ActionResult<{ project: any }>> {
   try {
-    const session = await auth();
-    if (!session?.user?.id) {
-      return { success: false, error: "Not authenticated" };
-    }
-
     // Check project access
-    const hasAccess = await verifyProjectAccess(id);
+    const hasAccess = await verifyProjectAccess(id, userId);
     if (!hasAccess) {
       return { success: false, error: "You don't have access to this project" };
     }

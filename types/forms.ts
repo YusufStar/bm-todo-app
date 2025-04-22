@@ -48,6 +48,28 @@ export enum Priority {
   HIGH = "HIGH",
 }
 
+export enum CompanyMemberRole {
+  OWNER = "OWNER",
+  ADMIN = "ADMIN",
+  MEMBER = "MEMBER",
+}
+
+export enum InvitationStatus {
+  PENDING = "PENDING",
+  ACCEPTED = "ACCEPTED",
+  REJECTED = "REJECTED",
+  CANCELLED = "CANCELLED",
+  EXPIRED = "EXPIRED",
+}
+
+export enum ProjectMemberRole {
+  ADMIN = "ADMIN",
+  PROJECT_ADMIN = "PROJECT_ADMIN",
+  DEVELOPER = "DEVELOPER",
+  TESTER = "TESTER",
+  MARKETING = "MARKETING",
+}
+
 export const createProjectSchema = z.object({
   name: z.string().min(3, "Project name must be at least 3 characters"),
   description: z.string().optional(),

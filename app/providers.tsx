@@ -7,10 +7,13 @@ import { ThemeProvider as NextThemesProvider, ThemeProviderProps } from "next-th
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useEffect } from 'react';
 import { useCompanyStore } from '@/lib/store';
+import { User } from "@prisma/client";
+import { useUserStore } from "@/lib/store/userStore";
 
 export interface ProvidersProps {
   children: React.ReactNode;
   themeProps?: ThemeProviderProps;
+  user: User | null;
 }
 
 declare module "@react-types/shared" {
@@ -44,8 +47,14 @@ function StoreInitializer() {
   return null;
 }
 
-export function Providers({ children, themeProps }: ProvidersProps) {
+export function Providers({ children, themeProps, user }: ProvidersProps) {
   const router = useRouter();
+
+  useEffect(() => {
+    if (user) {
+      useUserStore.getState().setUser(user);
+    }
+  }, [user]);
 
   return (
     <QueryClientProvider client={queryClient}>

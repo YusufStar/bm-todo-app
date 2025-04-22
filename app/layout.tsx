@@ -6,6 +6,8 @@ import { Providers } from "./providers";
 import { siteConfig } from "@/config/site";
 import { fontPoppins } from "@/config/fonts";
 import NextTopLoader from "nextjs-toploader";
+import { auth } from "@/auth";
+import { User } from "@prisma/client";
 export const metadata: Metadata = {
   title: {
     default: siteConfig.name,
@@ -29,6 +31,9 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const session = await auth();
+  const user = session?.user;
+
   return (
     <html suppressHydrationWarning lang="en">
       <head />
@@ -40,6 +45,7 @@ export default async function RootLayout({
       >
         <NextTopLoader showSpinner={false} />
         <Providers
+          user={user as User}
           themeProps={{ attribute: "class", defaultTheme: "dark" }}
         >
           {children}

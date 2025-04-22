@@ -1,6 +1,14 @@
+import { auth } from "@/auth"
 import { prisma } from "@/lib/prisma"
 
-export const getCompany = async (companyId: string, userId: string) => {
+export const getCompany = async (companyId: string) => {
+    const session = await auth()
+    const userId = session?.user?.id
+
+    if (!userId) {
+        throw new Error("You are not authenticated")
+    }
+
     const company = await prisma.company.findUnique({
         where: {
             id: companyId
@@ -24,26 +32,6 @@ export const getCompany = async (companyId: string, userId: string) => {
     return company
 }
 
-export const getCompanyMembers = async (companyId: string, userId: string) => {
-    const members = await prisma.companyMember.findMany({
-        where: {
-            companyId: companyId
-        }
-    })
-
-    if (!members) {
-        return []
-    }
-
-    const isMember = members.some((member) => member.userId === userId)
-
-    if (!isMember) {
-        throw new Error("You are not a member of this company")
-    }
-
-    return members
-}
-
 export const getMyCompanyInvitations = async (email: string) => {
     const invitations = await prisma.companyInvitation.findMany({
         where: {
@@ -58,7 +46,14 @@ export const getMyCompanyInvitations = async (email: string) => {
     return invitations
 }
 
-export const getCompanies = async (userId: string) => {
+export const getCompanies = async () => {
+    const session = await auth()
+    const userId = session?.user?.id
+
+    if (!userId) {
+        throw new Error("You are not authenticated")
+    }
+    
     const companies = await prisma.company.findMany({
         where: {
             members: { some: { userId: userId } }

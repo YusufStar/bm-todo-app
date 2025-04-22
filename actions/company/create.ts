@@ -1,6 +1,6 @@
 "use server";
 
-import { createCompanySchema, CreateCompanySchema } from "@/types/forms";
+import { createCompanySchema, CreateCompanySchema, CompanyMemberRole } from "@/types/forms";
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 
@@ -41,6 +41,7 @@ export const createCompany = async (
       members: {
         create: {
           userId,
+          role: CompanyMemberRole.OWNER,
         },
       },
     },

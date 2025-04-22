@@ -96,14 +96,28 @@ export function useTable<T extends Record<string, any>>(options: UseTableOptions
       
       const cmp = (() => {
         if (typeof first === 'string' && typeof second === 'string') {
+          // Handle date strings safely
+          if (first.match(/^\d{4}-\d{2}-\d{2}/) || first.match(/^\d{4}-\d{2}-\d{2}T/)) {
+            const date1 = new Date(first);
+            const date2 = new Date(second);
+            if (!isNaN(date1.getTime()) && !isNaN(date2.getTime())) {
+              return date1.getTime() - date2.getTime();
+            }
+          }
           return first.localeCompare(second);
         }
-        if (first instanceof Date && second instanceof Date) {
+        
+        // Handle actual Date objects with type checking
+        if (
+          first instanceof Date && second instanceof Date
+        ) {
           return first.getTime() - second.getTime();
         }
+        
         if (typeof first === 'number' && typeof second === 'number') {
           return first - second;
         }
+        
         return String(first).localeCompare(String(second));
       })();
 

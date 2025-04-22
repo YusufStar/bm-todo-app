@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { getCompaniesAction, selectCompanyAction } from '@/actions/company/actions';
 
-interface Company {
+export interface Company {
   id: string;
   name: string;
   logo?: string;
