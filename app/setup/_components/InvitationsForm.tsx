@@ -168,6 +168,45 @@ export default function InvitationsForm() {
         }
     };
 
+    // Function to get status message based on invitation status
+    const getStatusMessage = (invitation: Invitation) => {
+        switch (invitation.status) {
+            case "ACCEPTED":
+                return "You've accepted this invitation";
+            case "REJECTED":
+                return "You've declined this invitation";
+            case "CANCELLED":
+                return "This invitation was cancelled";
+            case "EXPIRED":
+                return "This invitation has expired";
+            case "PENDING":
+            default:
+                return "You've been invited to join this company";
+        }
+    };
+
+    // Function to get status chip color based on invitation status
+    const getStatusChipColor = (status: InvitationStatus): ChipColorType => {
+        switch (status) {
+            case "ACCEPTED":
+                return "success";
+            case "REJECTED":
+                return "danger";
+            case "CANCELLED":
+                return "default";
+            case "EXPIRED":
+                return "secondary";
+            case "PENDING":
+            default:
+                return "warning";
+        }
+    };
+
+    // Function to check if invitation can have actions taken
+    const canTakeAction = (invitation: Invitation) => {
+        return invitation.status === "PENDING" && !isExpired(invitation);
+    };
+
     if (isLoading) {
         return <div className="flex justify-center items-center h-full p-10">
             <Spinner size="lg" color="primary" />
@@ -184,18 +223,23 @@ export default function InvitationsForm() {
         </div>;
     }
 
-    // Separate active and expired invitations
-    const activeInvitations = data.invitations.filter((inv: Invitation) => !isExpired(inv));
-    const expiredInvitations = data.invitations.filter((inv: Invitation) => isExpired(inv));
+    // Group invitations by status
+    const pendingInvitations = data.invitations.filter((inv: Invitation) => 
+        inv.status === "PENDING" && !isExpired(inv)
+    );
+    
+    const processedInvitations = data.invitations.filter((inv: Invitation) => 
+        inv.status !== "PENDING" || isExpired(inv)
+    );
 
     return (
         <div className="space-y-6 max-w-4xl mx-auto">
             <div>
-                {activeInvitations.length > 0 && (
+                {pendingInvitations.length > 0 && (
                     <div className="space-y-4">
-                        <h2 className="text-lg font-semibold text-foreground-500">Active Invitations</h2>
+                        <h2 className="text-lg font-semibold text-foreground-500">Pending Invitations</h2>
                         <div className="flex flex-col gap-4">
-                            {activeInvitations.map((invitation: Invitation) => (
+                            {pendingInvitations.map((invitation: Invitation) => (
                                 <Card fullWidth key={invitation.id} className="shadow-sm hover:shadow-md transition-shadow duration-200 border border-divider">
                                     <CardHeader className="flex gap-3 pb-2">
                                         <div className="flex gap-3 items-center">
@@ -212,9 +256,9 @@ export default function InvitationsForm() {
                                         </div>
                                     </CardHeader>
                                     <CardBody className="py-2">
-                                        <p className="text-sm">You&apos;ve been invited to join this company</p>
+                                        <p className="text-sm">{getStatusMessage(invitation)}</p>
                                         <div className="mt-2 flex flex-wrap gap-2">
-                                            {/* Custom styled role badge */}
+                                            {/* Role badge */}
                                             <div className={`
                                                 inline-flex items-center justify-center gap-1 px-2.5 py-0.5 rounded-full 
                                                 border ${getRoleBadgeStyle(invitation.role).borderColor} 
@@ -225,6 +269,8 @@ export default function InvitationsForm() {
                                                 <span className={`w-1.5 h-1.5 rounded-full ${getRoleBadgeStyle(invitation.role).textColor.replace('text-', 'bg-')}`}></span>
                                                 {String(invitation.role).toLowerCase()}
                                             </div>
+                                            
+                                            {/* Expiration chip */}
                                             <Chip
                                                 className="capitalize border-none gap-1 text-default-600"
                                                 color={getExpirationChipColor(new Date(invitation.expiresAt))}
@@ -274,57 +320,120 @@ export default function InvitationsForm() {
                     </div>
                 )}
 
-                {expiredInvitations.length > 0 && (
-                    <div className="mt-8 space-y-4">
-                        <Divider className="my-6" />
-                        <h2 className="text-lg font-semibold text-foreground-500">Expired Invitations</h2>
+                {processedInvitations.length > 0 && (
+                    <div className={`${pendingInvitations.length > 0 ? 'mt-8' : ''} space-y-4`}>
+                        {pendingInvitations.length > 0 && <Divider className="my-6" />}
+                        <h2 className="text-lg font-semibold text-foreground-500">Other Invitations</h2>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            {expiredInvitations.map((invitation: Invitation) => (
-                                <Card key={invitation.id} className="opacity-70 grayscale">
-                                    <CardHeader className="flex gap-3 pb-2">
-                                        <div className="flex gap-3 items-center">
-                                            <Avatar
-                                                showFallback
-                                                name={invitation.company.name}
-                                                src={invitation.company.logo || undefined}
-                                                className="bg-default/30"
-                                            />
-                                            <div className="flex flex-col">
-                                                <p className="text-md font-semibold">{invitation.company.name}</p>
-                                                <p className="text-small text-foreground-500">From: {invitation.senderEmail}</p>
+                            {processedInvitations.map((invitation: Invitation) => {
+                                const isExpiredInvitation = isExpired(invitation);
+                                const statusColor = getStatusChipColor(invitation.status);
+                                
+                                return (
+                                    <Card key={invitation.id} className={`${invitation.status !== 'ACCEPTED' ? 'opacity-80' : ''}`}>
+                                        <CardHeader className="flex gap-3 pb-2">
+                                            <div className="flex gap-3 items-center">
+                                                <Avatar
+                                                    showFallback
+                                                    name={invitation.company.name}
+                                                    src={invitation.company.logo || undefined}
+                                                    className={`${invitation.status === 'ACCEPTED' ? 'bg-primary/20 text-primary' : 'bg-default/30'}`}
+                                                />
+                                                <div className="flex flex-col">
+                                                    <p className="text-md font-semibold">{invitation.company.name}</p>
+                                                    <p className="text-small text-foreground-500">From: {invitation.senderEmail}</p>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </CardHeader>
-                                    <CardBody className="py-2">
-                                        <p className="text-sm">This invitation has expired</p>
-                                        <div className="mt-2 flex flex-wrap gap-2">
-                                            {/* Custom styled role badge */}
-                                            <div className={`
-                                                inline-flex items-center justify-center gap-1 px-2.5 py-0.5 rounded-full 
-                                                border border-default/20 bg-default/10 text-default-600
-                                                font-medium text-xs capitalize
-                                            `}>
-                                                <span className="w-1.5 h-1.5 rounded-full bg-default-600"></span>
-                                                {String(invitation.role).toLowerCase()}
+                                        </CardHeader>
+                                        <CardBody className="py-2">
+                                            <div className="flex items-center gap-2 mb-2">
+                                                <Chip
+                                                    className="capitalize border-none"
+                                                    color={statusColor}
+                                                    size="sm"
+                                                    variant="solid"
+                                                >
+                                                    {invitation.status.toLowerCase()}
+                                                </Chip>
                                             </div>
-                                            <Chip
-                                                className="capitalize border-none gap-1 text-default-600"
-                                                color="danger"
-                                                variant="dot"
-                                                size="sm"
-                                            >
-                                                {formatExpirationDate(new Date(invitation.expiresAt))}
-                                            </Chip>
-                                        </div>
-                                        <p className="mt-2 text-xs text-foreground-400">
-                                            Invited on {format(new Date(invitation.createdAt), "PPP")}
-                                        </p>
-                                    </CardBody>
-                                    <CardFooter>
-                                        <p className="text-sm text-foreground-500 w-full text-center">No actions available</p>
-                                    </CardFooter>
-                                </Card>
-                            ))}
+                                            <p className="text-sm">{getStatusMessage(invitation)}</p>
+                                            <div className="mt-2 flex flex-wrap gap-2">
+                                                {/* Role badge with adjusted opacity for non-active invitations */}
+                                                <div className={`
+                                                    inline-flex items-center justify-center gap-1 px-2.5 py-0.5 rounded-full 
+                                                    border ${invitation.status === 'ACCEPTED' 
+                                                        ? getRoleBadgeStyle(invitation.role).borderColor 
+                                                        : 'border-default/20'} 
+                                                    ${invitation.status === 'ACCEPTED' 
+                                                        ? getRoleBadgeStyle(invitation.role).bgColor 
+                                                        : 'bg-default/10'} 
+                                                    ${invitation.status === 'ACCEPTED' 
+                                                        ? getRoleBadgeStyle(invitation.role).textColor 
+                                                        : 'text-default-600'}
+                                                    font-medium text-xs capitalize
+                                                `}>
+                                                    <span className={`w-1.5 h-1.5 rounded-full ${invitation.status === 'ACCEPTED' 
+                                                        ? getRoleBadgeStyle(invitation.role).textColor.replace('text-', 'bg-') 
+                                                        : 'bg-default-600'}`}></span>
+                                                    {String(invitation.role).toLowerCase()}
+                                                </div>
+                                                
+                                                {/* Only show expiration for EXPIRED invitations or PENDING invitations that expired */}
+                                                {(invitation.status === 'EXPIRED' || (invitation.status === 'PENDING' && isExpiredInvitation)) && (
+                                                    <Chip
+                                                        className="capitalize border-none gap-1 text-default-600"
+                                                        color="danger"
+                                                        variant="dot"
+                                                        size="sm"
+                                                    >
+                                                        {formatExpirationDate(new Date(invitation.expiresAt))}
+                                                    </Chip>
+                                                )}
+                                            </div>
+                                            <p className="mt-2 text-xs text-foreground-400">
+                                                {invitation.status === 'ACCEPTED' && invitation.acceptedAt && (
+                                                    <>Accepted on {format(new Date(invitation.acceptedAt), "PPP")}</>
+                                                )}
+                                                {invitation.status === 'REJECTED' && invitation.rejectedAt && (
+                                                    <>Declined on {format(new Date(invitation.rejectedAt), "PPP")}</>
+                                                )}
+                                                {invitation.status === 'CANCELLED' && invitation.cancelledAt && (
+                                                    <>Cancelled on {format(new Date(invitation.cancelledAt), "PPP")}</>
+                                                )}
+                                                {invitation.status === 'EXPIRED' && invitation.expiredAt && (
+                                                    <>Expired on {format(new Date(invitation.expiredAt), "PPP")}</>
+                                                )}
+                                                {invitation.status === 'PENDING' && (
+                                                    <>Invited on {format(new Date(invitation.createdAt), "PPP")}</>
+                                                )}
+                                            </p>
+                                        </CardBody>
+                                        <CardFooter>
+                                            {invitation.status === 'ACCEPTED' ? (
+                                                <Button
+                                                    fullWidth
+                                                    color="primary"
+                                                    variant="flat"
+                                                    size="sm"
+                                                    onPress={() => router.push("/dashboard")}
+                                                >
+                                                    Go to Dashboard
+                                                </Button>
+                                            ) : (
+                                                <Button
+                                                    fullWidth
+                                                    color="default"
+                                                    variant="flat"
+                                                    size="sm"
+                                                    onPress={() => openModal(invitation)}
+                                                >
+                                                    View Details
+                                                </Button>
+                                            )}
+                                        </CardFooter>
+                                    </Card>
+                                );
+                            })}
                         </div>
                     </div>
                 )}
@@ -337,8 +446,8 @@ export default function InvitationsForm() {
                 invitation={selectedInvitation}
                 onAccept={handleAccept}
                 onDecline={handleDecline}
-                acceptLoading={acceptMutation.isPending}
-                declineLoading={declineMutation.isPending}
+                acceptLoading={!!(acceptMutation.isPending && selectedInvitation && acceptMutation.variables === selectedInvitation.id)}
+                declineLoading={!!(declineMutation.isPending && selectedInvitation && declineMutation.variables === selectedInvitation.id)}
             />
         </div>
     );

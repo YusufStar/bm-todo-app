@@ -330,31 +330,36 @@ export default function InvitationsDetailModal({
           )}
         </ModalBody>
         <Divider />
-        <ModalFooter>
-          {canTakeAction ? (
-            <div className="flex w-full gap-2">
-              <Button 
-                fullWidth
-                color="primary" 
-                onPress={() => onAccept(invitation.id)}
-                isLoading={acceptLoading}
-              >
-                Accept
-              </Button>
-              <Button 
-                fullWidth
-                color="danger" 
-                variant="flat" 
+        <ModalFooter className="flex justify-between">
+          <Button
+            variant="flat"
+            color="default"
+            onPress={onClose}
+            className="flex-1"
+          >
+            Close
+          </Button>
+          
+          {canTakeAction && (
+            <>
+              <Button
+                variant="flat"
+                color="danger"
                 onPress={() => onDecline(invitation.id)}
                 isLoading={declineLoading}
+                className="flex-1"
               >
                 Decline
               </Button>
-            </div>
-          ) : (
-            <Button fullWidth color="default" variant="light" onPress={onClose}>
-              Close
-            </Button>
+              <Button
+                color="primary"
+                onPress={() => onAccept(invitation.id)}
+                isLoading={acceptLoading}
+                className="flex-1"
+              >
+                Accept
+              </Button>
+            </>
           )}
         </ModalFooter>
       </ModalContent>

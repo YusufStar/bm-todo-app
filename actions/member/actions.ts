@@ -152,6 +152,20 @@ export const removeMemberAction = async (memberId: string, userId: string) => {
       where: { id: memberId }
     });
 
+    const user = await prisma.user.findUnique({
+      where: { id: member.userId },
+      select: {
+        email: true
+      }
+    });
+
+    await prisma.companyInvitation.deleteMany({
+      where: {
+        companyId: member.companyId,
+        invitedEmail: user?.email
+      }
+    });
+
     return {
       success: true
     };
