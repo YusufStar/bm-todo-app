@@ -294,7 +294,6 @@ export const getUserInvitations = async () => {
     const invitations = await prisma.companyInvitation.findMany({
         where: {
             invitedEmail: userEmail,
-            status: InvitationStatus.PENDING
         },
         include: {
             company: {
