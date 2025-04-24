@@ -2,7 +2,7 @@
 
 import type { SidebarItem } from "./sidebar";
 
-import React, {  useMemo } from "react";
+import React, { useMemo } from "react";
 import {
     User,
     Badge,

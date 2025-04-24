@@ -1,10 +1,6 @@
-import { auth } from "@/auth"
 import { prisma } from "@/lib/prisma"
 
-export const getCompany = async (companyId: string) => {
-    const session = await auth()
-    const userId = session?.user?.id
-
+export const getCompany = async (companyId: string, userId: string) => {
     if (!userId) {
         throw new Error("You are not authenticated")
     }
@@ -46,10 +42,7 @@ export const getMyCompanyInvitations = async (email: string) => {
     return invitations
 }
 
-export const getCompanies = async () => {
-    const session = await auth()
-    const userId = session?.user?.id
-
+export const getCompanies = async (userId: string) => {
     if (!userId) {
         throw new Error("You are not authenticated")
     }

@@ -104,8 +104,6 @@ export default function InvitationsForm() {
         },
     });
 
-    console.log(data);
-
     const acceptMutation = useMutation({
         mutationFn: (invitationId: string) => acceptCompanyInvitationAction(invitationId),
         onSuccess: () => {

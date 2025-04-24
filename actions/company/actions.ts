@@ -2,17 +2,13 @@
 
 import { prisma } from "@/lib/prisma"
 import { revalidatePath } from "next/cache"
-import { auth } from "@/auth"
 
 /**
  * Server action to get companies of the current user
  * @returns List of companies the user is a member of
  */
-export async function getCompaniesAction() {
+export async function getCompaniesAction({ userId }: { userId: string }) {
     try {
-        const session = await auth()
-        const userId = session?.user?.id
-
         if (!userId) {
             return { 
                 success: false, 
@@ -75,9 +71,7 @@ export async function getCompaniesAction() {
  * Validates that the user is a member of the company
  * @returns The selected company if successful
  */
-export async function selectCompanyAction(companyId: string) {
-    const session = await auth()
-    const userId = session?.user?.id
+export async function selectCompanyAction({ userId, companyId }: { userId: string, companyId: string }) {
     
     if (!userId) {
         return {

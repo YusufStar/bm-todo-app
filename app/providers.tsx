@@ -1,14 +1,15 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import React from "react";
-import { HeroUIProvider, ToastProvider } from "@heroui/react";
+import React, { useState } from "react";
+import { HeroUIProvider, Spinner, ToastProvider } from "@heroui/react";
 import { ThemeProvider as NextThemesProvider, ThemeProviderProps } from "next-themes";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useEffect } from 'react';
 import { useCompanyStore } from '@/lib/store';
 import { User } from "@prisma/client";
 import { useUserStore } from "@/lib/store/userStore";
+import { Logo } from "@/components/icons";
 
 export interface ProvidersProps {
   children: React.ReactNode;
@@ -48,12 +49,14 @@ function StoreInitializer() {
 }
 
 export function Providers({ children, themeProps, user }: ProvidersProps) {
+  const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
 
   useEffect(() => {
     if (user) {
       useUserStore.getState().setUser(user);
     }
+    setIsLoading(false);
   }, [user]);
 
   return (
@@ -66,7 +69,10 @@ export function Providers({ children, themeProps, user }: ProvidersProps) {
               timeout: 2500,
             }}
           />
-          {children}
+          {isLoading ? <div className="flex-col gap-4 h-screen w-screen flex items-center justify-center">
+            <Logo className="w-10 h-10" />
+            <Spinner size="sm" />
+          </div> : children}
         </NextThemesProvider>
       </HeroUIProvider>
     </QueryClientProvider>

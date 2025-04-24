@@ -40,12 +40,7 @@ export const signInAction = async (values: SignInSchema): Promise<{ error?: stri
         });
     } catch (error) {
         if (error instanceof AuthError) {
-            switch (error.type) {
-                case "CredentialsSignin":
-                    return { error: "Invalid credentials" };
-                default:
-                    return { error: "Something went wrong" };
-            }
+            return { error: "Invalid credentials" };
         }
 
         throw error;

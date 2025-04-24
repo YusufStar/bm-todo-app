@@ -4,6 +4,8 @@ import { createCompanySchema, CreateCompanySchema, CompanyMemberRole } from "@/t
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 
+const MAX_COMPANIES_CREATED_PER_USER = 5;
+
 export const createCompany = async (
   data: CreateCompanySchema,
   userId: string
@@ -16,12 +18,17 @@ export const createCompany = async (
 
   const { name, description, website, logo } = validatedFields.data;
 
-  const existingCompany = await prisma.company.findFirst({
+  const allMyCompanies = await prisma.company.findMany({
     where: {
       ownerId: userId,
-      name: name,
     },
   });
+
+  if (allMyCompanies.length >= MAX_COMPANIES_CREATED_PER_USER) {
+    return { error: "You have reached the maximum number of companies" };
+  }
+
+  const existingCompany = allMyCompanies.find((company) => company.name.toLowerCase() === name.toLowerCase());
 
   if (existingCompany) {
     return { warning: "Company name already claimed" };

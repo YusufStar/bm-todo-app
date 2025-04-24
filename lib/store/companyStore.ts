@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { getCompaniesAction, selectCompanyAction } from '@/actions/company/actions';
+import { useUserStore } from './userStore';
 
 export interface Company {
   id: string;
@@ -39,7 +40,17 @@ export const useCompanyStore = create<CompanyState>((set, get) => ({
   fetchCompanies: async () => {
     set({ isLoading: true, isError: false, error: null });
     try {
-      const result = await getCompaniesAction();
+      const user = useUserStore.getState().user
+      if (!user) {
+        set({ 
+          isLoading: false, 
+          isError: true, 
+          error: 'User not found' 
+        });
+        return;
+      }
+
+      const result = await getCompaniesAction({ userId: user.id });
       if (result.success) {
         set({ 
           companies: result.companies as Company[],
@@ -93,7 +104,17 @@ export const useCompanyStore = create<CompanyState>((set, get) => ({
     }
     
     try {
-      const result = await selectCompanyAction(companyId);
+      const user = useUserStore.getState().user
+      if (!user) {
+        set({ 
+          isSelecting: false, 
+          isError: true, 
+          error: 'User not found' 
+        });
+        return;
+      }
+
+      const result = await selectCompanyAction({ userId: user.id, companyId: companyId });
       if (!result.success) {
         set({ 
           isSelecting: false,
