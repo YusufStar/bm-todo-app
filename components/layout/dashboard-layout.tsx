@@ -69,56 +69,56 @@ const sidebarItemsWithProject = (projectId: string): SidebarItem[] => [
     {
         title: "Project",
         icon: "Briefcase",
-        href: `/dashboard/project/${projectId}`,
-        key: `/dashboard/project/${projectId}`,
+        href: `/dashboard/projects/${projectId}`,
+        key: `/dashboard/projects/${projectId}`,
     },
     {
         title: "Tasks",
         icon: "CheckSquare",
-        href: `/dashboard/project/${projectId}/tasks`,
-        key: `/dashboard/project/${projectId}/tasks`,
+        href: `/dashboard/projects/${projectId}/tasks`,
+        key: `/dashboard/projects/${projectId}/tasks`,
     },
     {
         title: "Members",
         icon: "Users",
-        href: `/dashboard/project/${projectId}/members`,
-        key: `/dashboard/project/${projectId}/members`,
+        href: `/dashboard/projects/${projectId}/members`,
+        key: `/dashboard/projects/${projectId}/members`,
     },
     {
         title: "Darkboard",
         icon: "Palette",
-        href: `/dashboard/project/${projectId}/darkboard`,
-        key: `/dashboard/project/${projectId}/darkboard`,
+        href: `/dashboard/projects/${projectId}/darkboard`,
+        key: `/dashboard/projects/${projectId}/darkboard`,
     },
     {
         title: "Documents",
         icon: "FileText",
-        href: `/dashboard/project/${projectId}/documents`,
-        key: `/dashboard/project/${projectId}/documents`,
+        href: `/dashboard/projects/${projectId}/documents`,
+        key: `/dashboard/projects/${projectId}/documents`,
     },
     {
         title: "Assets",
         icon: "FolderOpen",
-        href: `/dashboard/project/${projectId}/assets`,
-        key: `/dashboard/project/${projectId}/assets`,
+        href: `/dashboard/projects/${projectId}/assets`,
+        key: `/dashboard/projects/${projectId}/assets`,
     },
     {
         title: "Calendar",
         icon: "Calendar",
-        href: `/dashboard/project/${projectId}/calendar`,
-        key: `/dashboard/project/${projectId}/calendar`,
+        href: `/dashboard/projects/${projectId}/calendar`,
+        key: `/dashboard/projects/${projectId}/calendar`,
     },
     {
         title: "Chat",
         icon: "MessageSquare",
-        href: `/dashboard/project/${projectId}/chat`,
-        key: `/dashboard/project/${projectId}/chat`,
+        href: `/dashboard/projects/${projectId}/chat`,
+        key: `/dashboard/projects/${projectId}/chat`,
     },
     {
         title: "Settings",
         icon: "Settings",
-        href: `/dashboard/project/${projectId}/settings`,
-        key: `/dashboard/project/${projectId}/settings`,
+        href: `/dashboard/projects/${projectId}/settings`,
+        key: `/dashboard/projects/${projectId}/settings`,
     },
 ];
 
@@ -182,9 +182,15 @@ export default function DashboardLayout({
                 </div>
 
                 {/* Company Selector */}
-                <CompanySelector />
+                {!projectId && <CompanySelector />}
 
                 <ScrollShadow className="-mr-6 h-full max-h-full py-6 pr-6">
+                    {projectId && (
+                            <Button fullWidth className="mb-4" variant="faded" aria-label="Back to projects">
+                                <LucideIcons.ArrowLeft className="text-default-500" size={22} aria-hidden="true" />
+                                Back to projects
+                            </Button>
+                    )}
                     <Sidebar
                         defaultSelectedKey={pathname || "/dashboard"}
                         iconClassName="group-data-[selected=true]:text-primary-foreground"
