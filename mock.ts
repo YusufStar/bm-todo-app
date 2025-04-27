@@ -1,7 +1,12 @@
+import { KPIStat9Props } from "@/components/charts/kpi_stat_9";
 import { KPIStat8Props } from "@/components/charts/kpi_stat_8";
-import { KPIStat9Props } from "./components/charts/kpi_stat_9";
-import { KPIStat7Props } from "./components/charts/kpi_stat_7";
-import { Gauge, Clock, PieChart, Globe, MousePointer, Server } from "lucide-react";
+import { KPIStat7Props } from "@/components/charts/kpi_stat_7";
+import { KPIStat6Props } from "@/components/charts/kpi_stat_6";
+import { KPIStat5Props } from "@/components/charts/kpi_stat_5";
+import { KPIStat4Props } from "@/components/charts/kpi_stat_4";
+import { Graph1Props } from "@/components/charts/graph_1";
+import { Graph2Props } from "@/components/charts/graph_2";
+import { Gauge, Clock, PieChart, Globe, MousePointer, Server, Home, Laptop, Palmtree, Bike } from "lucide-react";
 
 export const kpiStat9: KPIStat9Props[] = [
     {
@@ -251,8 +256,6 @@ export const kpiStat8: KPIStat8Props[] = [
     },
 ];
 
-
-
 export const kpiStat7: KPIStat7Props[] = [
     {
         title: "Total Revenue",
@@ -300,6 +303,608 @@ export const kpiStat7: KPIStat7Props[] = [
             { weekday: "Fr", value: 13300 },
             { weekday: "Sa", value: 15600 },
             { weekday: "Su", value: 11813 },
+        ],
+    },
+];
+
+export const kpiStat6: KPIStat6Props[] = [
+    {
+        title: "New Subscriptions",
+        value: 249,
+        chartData: [
+            {
+                month: "January",
+                value: 309,
+            },
+            {
+                month: "February",
+                value: 269,
+            },
+            {
+                month: "March",
+                value: 286,
+            },
+            {
+                month: "April",
+                value: 312,
+            },
+            {
+                month: "May",
+                value: 187,
+            },
+            {
+                month: "June",
+                value: 249,
+            },
+            {
+                month: "July",
+                value: 275,
+            },
+            {
+                month: "August",
+                value: 293,
+            },
+            {
+                month: "September",
+                value: 305,
+            },
+            {
+                month: "October",
+                value: 289,
+            },
+            {
+                month: "November",
+                value: 326,
+            },
+            {
+                month: "December",
+                value: 341,
+            },
+        ],
+        change: "33%",
+        changeType: "positive",
+        xaxis: "month",
+    },
+    {
+        title: "New Sales",
+        value: 1159,
+        chartData: [
+            {
+                month: "January",
+                value: 40,
+            },
+            {
+                month: "February",
+                value: 1256,
+            },
+            {
+                month: "March",
+                value: 1123,
+            },
+            {
+                month: "April",
+                value: 1300,
+            },
+            {
+                month: "May",
+                value: 943,
+            },
+            {
+                month: "June",
+                value: 943,
+            },
+            {
+                month: "July",
+                value: 1089,
+            },
+            {
+                month: "August",
+                value: 1245,
+            },
+            {
+                month: "September",
+                value: 1190,
+            },
+            {
+                month: "October",
+                value: 1350,
+            },
+            {
+                month: "November",
+                value: 1159,
+            },
+            {
+                month: "December",
+                value: 1275,
+            },
+        ],
+        change: "0%",
+        changeType: "neutral",
+        xaxis: "month",
+    },
+    {
+        title: "Avg. Sale Revenue",
+        value: "$328",
+        chartData: [
+            {
+                month: "January",
+                value: 40,
+            },
+            {
+                month: "February",
+                value: 8000,
+            },
+            {
+                month: "March",
+                value: 7000,
+            },
+            {
+                month: "April",
+                value: 15000,
+            },
+            {
+                month: "May",
+                value: 20000,
+            },
+            {
+                month: "June",
+                value: 18000,
+            },
+            {
+                month: "July",
+                value: 25000,
+            },
+            {
+                month: "August",
+                value: 50000,
+            },
+            {
+                month: "September",
+                value: 35000,
+            },
+            {
+                month: "October",
+                value: 28441,
+            },
+            {
+                month: "November",
+                value: 32000,
+            },
+            {
+                month: "December",
+                value: 30500,
+            },
+        ],
+        change: "19%",
+        changeType: "negative",
+        xaxis: "month",
+    },
+];
+
+export const kpiStat5: KPIStat5Props[] = [
+    {
+        title: "House Saving",
+        value: 45300,
+        maxValue: 150000,
+        color: "warning",
+        icon: Home,
+    },
+    {
+        title: "Laptop",
+        value: 300,
+        maxValue: 1150,
+        color: "secondary",
+        icon: Laptop,
+    },
+    {
+        title: "Trip Saving",
+        value: 5300,
+        maxValue: 15000,
+        color: "default",
+        icon: Palmtree,
+    },
+    {
+        title: "Scooter Saving",
+        value: 150,
+        maxValue: 350,
+        color: "primary",
+        icon: Bike,
+    },
+];
+
+export const kpiStat4: KPIStat4Props[] = [
+    {
+        title: "New Subscriptions",
+        value: 249,
+        chartData: [
+            {
+                month: "January",
+                value: 159,
+            },
+            {
+                month: "February",
+                value: 269,
+            },
+            {
+                month: "March",
+                value: 286,
+            },
+            {
+                month: "April",
+                value: 312,
+            },
+            {
+                month: "May",
+                value: 287,
+            },
+            {
+                month: "June",
+                value: 249,
+            },
+            {
+                month: "July",
+                value: 275,
+            },
+            {
+                month: "August",
+                value: 293,
+            },
+            {
+                month: "September",
+                value: 305,
+            },
+            {
+                month: "October",
+                value: 289,
+            },
+            {
+                month: "November",
+                value: 266,
+            },
+            {
+                month: "December",
+                value: 278,
+            },
+        ],
+        change: "33%",
+        changeType: "positive",
+        xaxis: "month",
+    },
+    {
+        title: "New Customers",
+        value: 1159,
+        chartData: [
+            {
+                month: "January",
+                value: 940,
+            },
+            {
+                month: "February",
+                value: 1256,
+            },
+            {
+                month: "March",
+                value: 1123,
+            },
+            {
+                month: "April",
+                value: 1300,
+            },
+            {
+                month: "May",
+                value: 1243,
+            },
+            {
+                month: "June",
+                value: 1113,
+            },
+            {
+                month: "July",
+                value: 1089,
+            },
+            {
+                month: "August",
+                value: 1245,
+            },
+            {
+                month: "September",
+                value: 1190,
+            },
+            {
+                month: "October",
+                value: 1159,
+            },
+            {
+                month: "November",
+                value: 1067,
+            },
+            {
+                month: "December",
+                value: 1198,
+            },
+        ],
+        change: "0%",
+        changeType: "neutral",
+        xaxis: "month",
+    },
+    {
+        title: "Month's Revenue",
+        value: "$228,441",
+        chartData: [
+            {
+                month: "January",
+                value: 40000,
+            },
+            {
+                month: "February",
+                value: 48000,
+            },
+            {
+                month: "March",
+                value: 57000,
+            },
+            {
+                month: "April",
+                value: 65000,
+            },
+            {
+                month: "May",
+                value: 72000,
+            },
+            {
+                month: "June",
+                value: 88000,
+            },
+            {
+                month: "July",
+                value: 79000,
+            },
+            {
+                month: "August",
+                value: 95000,
+            },
+            {
+                month: "September",
+                value: 85000,
+            },
+            {
+                month: "October",
+                value: 84441,
+            },
+            {
+                month: "November",
+                value: 98000,
+            },
+            {
+                month: "December",
+                value: 79500,
+            },
+        ],
+        change: "19%",
+        changeType: "negative",
+        xaxis: "month",
+    },
+    {
+        title: "Todays' Sales",
+        value: 54,
+        chartData: [
+            {
+                month: "Monday",
+                value: 38,
+            },
+            {
+                month: "Tuesday",
+                value: 40,
+            },
+            {
+                month: "Wednesday",
+                value: 37,
+            },
+            {
+                month: "Thursday",
+                value: 49,
+            },
+            {
+                month: "Friday",
+                value: 52,
+            },
+            {
+                month: "June",
+                value: 54,
+            },
+        ],
+        change: "3.3%",
+        changeType: "positive",
+        xaxis: "day",
+    },
+];
+
+export const graph1: Graph1Props[] = [
+    {
+        key: "unique-visitors",
+        title: "Unique Visitors",
+        suffix: "visitors",
+        value: 147000,
+        type: "number",
+        change: "12.8%",
+        changeType: "positive",
+        chartData: [
+            { month: "Jan", value: 98000 },
+            { month: "Feb", value: 125000 },
+            { month: "Mar", value: 89000 },
+            { month: "Apr", value: 156000 },
+            { month: "May", value: 112000 },
+            { month: "Jun", value: 167000 },
+            { month: "Jul", value: 138000 },
+            { month: "Aug", value: 178000 },
+            { month: "Sep", value: 129000 },
+            { month: "Oct", value: 159000 },
+            { month: "Nov", value: 147000 },
+            { month: "Dec", value: 127000 },
+        ],
+    },
+    {
+        key: "total-visits",
+        title: "Total Visits",
+        suffix: "visits",
+        value: 623000,
+        type: "number",
+        change: "-2.1%",
+        changeType: "neutral",
+        chartData: [
+            { month: "Jan", value: 587000 },
+            { month: "Feb", value: 698000 },
+            { month: "Mar", value: 542000 },
+            { month: "Apr", value: 728000 },
+            { month: "May", value: 615000 },
+            { month: "Jun", value: 689000 },
+            { month: "Jul", value: 573000 },
+            { month: "Aug", value: 695000 },
+            { month: "Sep", value: 589000 },
+            { month: "Oct", value: 652000 },
+            { month: "Nov", value: 623000 },
+            { month: "Dec", value: 523000 },
+        ],
+    },
+    {
+        key: "total-page-views",
+        title: "Total Page Views",
+        suffix: "views",
+        value: 2312000,
+        type: "number",
+        change: "-5.7%",
+        changeType: "negative",
+        chartData: [
+            { month: "Jan", value: 2820000 },
+            { month: "Feb", value: 2380000 },
+            { month: "Mar", value: 2690000 },
+            { month: "Apr", value: 2145000 },
+            { month: "May", value: 2760000 },
+            { month: "Jun", value: 2280000 },
+            { month: "Jul", value: 2620000 },
+            { month: "Aug", value: 2145000 },
+            { month: "Sep", value: 2470000 },
+            { month: "Oct", value: 2230000 },
+            { month: "Nov", value: 2312000 },
+            { month: "Dec", value: 2230000 },
+        ],
+    },
+    {
+        key: "bounce-rate",
+        title: "Bounce Rate",
+        value: 36.78,
+        suffix: "bounce rate",
+        type: "percentage",
+        change: "2.4%",
+        changeType: "positive",
+        chartData: [
+            { month: "Jan", value: 42.82 },
+            { month: "Feb", value: 35.95 },
+            { month: "Mar", value: 39.25 },
+            { month: "Apr", value: 34.58 },
+            { month: "May", value: 40.92 },
+            { month: "Jun", value: 35.15 },
+            { month: "Jul", value: 38.75 },
+            { month: "Aug", value: 33.95 },
+            { month: "Sep", value: 39.65 },
+            { month: "Oct", value: 35.85 },
+            { month: "Nov", value: 36.78 },
+            { month: "Dec", value: 34.78 },
+        ],
+    },
+];
+
+export const graph2: Graph2Props[] = [
+    {
+        key: "unique-visitors",
+        title: "Unique Visitors",
+        suffix: "visitors",
+        value: 147000,
+        type: "number",
+        change: "12.8%",
+        changeType: "positive",
+        chartData: [
+            { month: "Jan", value: 98000, lastYearValue: 43500 },
+            { month: "Feb", value: 125000, lastYearValue: 38500 },
+            { month: "Mar", value: 89000, lastYearValue: 58300 },
+            { month: "Apr", value: 156000, lastYearValue: 35300 },
+            { month: "May", value: 112000, lastYearValue: 89600 },
+            { month: "Jun", value: 167000, lastYearValue: 56400 },
+            { month: "Jul", value: 138000, lastYearValue: 45200 },
+            { month: "Aug", value: 178000, lastYearValue: 84600 },
+            { month: "Sep", value: 129000, lastYearValue: 73500 },
+            { month: "Oct", value: 159000, lastYearValue: 65900 },
+            { month: "Nov", value: 147000, lastYearValue: 82300 },
+            { month: "Dec", value: 127000, lastYearValue: 95000 },
+        ],
+    },
+    {
+        key: "total-visits",
+        title: "Total Visits",
+        suffix: "visits",
+        value: 623000,
+        type: "number",
+        change: "-2.1%",
+        changeType: "neutral",
+        chartData: [
+            { month: "Jan", value: 587000, lastYearValue: 243500 },
+            { month: "Feb", value: 698000, lastYearValue: 318500 },
+            { month: "Mar", value: 542000, lastYearValue: 258300 },
+            { month: "Apr", value: 728000, lastYearValue: 335300 },
+            { month: "May", value: 615000, lastYearValue: 289600 },
+            { month: "Jun", value: 689000, lastYearValue: 256400 },
+            { month: "Jul", value: 573000, lastYearValue: 245200 },
+            { month: "Aug", value: 695000, lastYearValue: 384600 },
+            { month: "Sep", value: 589000, lastYearValue: 273500 },
+            { month: "Oct", value: 652000, lastYearValue: 365900 },
+            { month: "Nov", value: 623000, lastYearValue: 282300 },
+            { month: "Dec", value: 523000, lastYearValue: 295000 },
+        ],
+    },
+    {
+        key: "total-page-views",
+        title: "Total Page Views",
+        suffix: "views",
+        value: 2312000,
+        type: "number",
+        change: "-5.7%",
+        changeType: "negative",
+        chartData: [
+            { month: "Jan", value: 2820000, lastYearValue: 1435000 },
+            { month: "Feb", value: 2380000, lastYearValue: 1285000 },
+            { month: "Mar", value: 2690000, lastYearValue: 1583000 },
+            { month: "Apr", value: 2145000, lastYearValue: 1235000 },
+            { month: "May", value: 2760000, lastYearValue: 1896000 },
+            { month: "Jun", value: 2280000, lastYearValue: 1564000 },
+            { month: "Jul", value: 2620000, lastYearValue: 1452000 },
+            { month: "Aug", value: 2145000, lastYearValue: 1846000 },
+            { month: "Sep", value: 2470000, lastYearValue: 1735000 },
+            { month: "Oct", value: 2230000, lastYearValue: 1659000 },
+            { month: "Nov", value: 2312000, lastYearValue: 1823000 },
+            { month: "Dec", value: 2230000, lastYearValue: 1950000 },
+        ],
+    },
+    {
+        key: "bounce-rate",
+        title: "Bounce Rate",
+        value: 36.78,
+        suffix: "bounce rate",
+        type: "percentage",
+        change: "2.4%",
+        changeType: "positive",
+        chartData: [
+            { month: "Jan", value: 42.82, lastYearValue: 25.12 },
+            { month: "Feb", value: 35.95, lastYearValue: 18.45 },
+            { month: "Mar", value: 39.25, lastYearValue: 22.85 },
+            { month: "Apr", value: 34.58, lastYearValue: 15.92 },
+            { month: "May", value: 40.92, lastYearValue: 24.38 },
+            { month: "Jun", value: 35.15, lastYearValue: 16.75 },
+            { month: "Jul", value: 38.75, lastYearValue: 21.45 },
+            { month: "Aug", value: 33.95, lastYearValue: 17.82 },
+            { month: "Sep", value: 39.65, lastYearValue: 23.15 },
+            { month: "Oct", value: 35.85, lastYearValue: 19.95 },
+            { month: "Nov", value: 36.78, lastYearValue: 20.45 },
+            { month: "Dec", value: 34.78, lastYearValue: 18.25 },
         ],
     },
 ];
