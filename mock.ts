@@ -6,6 +6,13 @@ import { KPIStat5Props } from "@/components/charts/kpi_stat_5";
 import { KPIStat4Props } from "@/components/charts/kpi_stat_4";
 import { Graph1Props } from "@/components/charts/graph_1";
 import { Graph2Props } from "@/components/charts/graph_2";
+import { Circles4Props } from "@/components/charts/circles_4";
+import { Bars1Props } from "@/components/charts/bars_1";
+import { Bars2Props } from "@/components/charts/bars_2";
+import { Bars3Props } from "@/components/charts/bars_3";
+import { Bars4Props } from "@/components/charts/bars_4";
+import { Circles1Props } from "@/components/charts/circles_1";
+import { Circles2Props } from "@/components/charts/circles_2";
 import { Gauge, Clock, PieChart, Globe, MousePointer, Server, Home, Laptop, Palmtree, Bike } from "lucide-react";
 
 export const kpiStat9: KPIStat9Props[] = [
@@ -905,6 +912,841 @@ export const graph2: Graph2Props[] = [
             { month: "Oct", value: 35.85, lastYearValue: 19.95 },
             { month: "Nov", value: 36.78, lastYearValue: 20.45 },
             { month: "Dec", value: 34.78, lastYearValue: 18.25 },
+        ],
+    },
+];
+
+export const circles4: Circles4Props[] = [
+    {
+        title: "Energy Activity",
+        categories: ["Calories", "Steps", "Exercise"],
+        color: "default",
+        unit: "kcal",
+        unitTitle: "Calories",
+        total: 700,
+        chartData: [
+            { name: "Calories", value: 200, valueText: "1,623/2,000 kcal" },
+            { name: "Steps", value: 350, valueText: "8,328/10,000 steps" },
+            { name: "Exercise", value: 250, valueText: "25/120 min" },
+        ],
+    },
+    {
+        title: "Energy Activity",
+        categories: ["Calories", "Steps", "Exercise"],
+        color: "primary",
+        unit: "kcal",
+        unitTitle: "Calories",
+        total: 700,
+        chartData: [
+            { name: "Calories", value: 200, valueText: "1,623/2,000 kcal" },
+            { name: "Steps", value: 350, valueText: "8,328/10,000 steps" },
+            { name: "Exercise", value: 250, valueText: "25/120 min" },
+        ],
+    },
+    {
+        title: "Energy Activity",
+        categories: ["Calories", "Steps", "Exercise"],
+        color: "secondary",
+        unit: "kcal",
+        unitTitle: "Calories",
+        total: 700,
+        chartData: [
+            { name: "Calories", value: 200, valueText: "1,623/2,000 kcal" },
+            { name: "Steps", value: 350, valueText: "8,328/10,000 steps" },
+            { name: "Exercise", value: 250, valueText: "25/120 min" },
+        ],
+    },
+    {
+        title: "Energy Activity",
+        categories: ["Calories", "Steps", "Exercise"],
+        color: "success",
+        unit: "kcal",
+        unitTitle: "Calories",
+        total: 700,
+        chartData: [
+            { name: "Calories", value: 200, valueText: "1,623/2,000 kcal" },
+            { name: "Steps", value: 350, valueText: "8,328/10,000 steps" },
+            { name: "Exercise", value: 250, valueText: "25/120 min" },
+        ],
+    },
+    {
+        title: "Energy Activity",
+        categories: ["Calories", "Steps", "Exercise"],
+        color: "warning",
+        unit: "kcal",
+        unitTitle: "Calories",
+        total: 700,
+        chartData: [
+            { name: "Calories", value: 200, valueText: "1,623/2,000 kcal" },
+            { name: "Steps", value: 350, valueText: "8,328/10,000 steps" },
+            { name: "Exercise", value: 250, valueText: "25/120 min" },
+        ],
+    },
+    {
+        title: "Energy Activity",
+        categories: ["Calories", "Steps", "Exercise"],
+        color: "danger",
+        unit: "kcal",
+        unitTitle: "Calories",
+        total: 700,
+        chartData: [
+            { name: "Calories", value: 200, valueText: "1,623/2,000 kcal" },
+            { name: "Steps", value: 350, valueText: "8,328/10,000 steps" },
+            { name: "Exercise", value: 250, valueText: "25/120 min" },
+        ],
+    },
+];
+
+export const bars1: Bars1Props[] = [
+    {
+        title: "Operating Systems",
+        categories: ["Android", "iOS", "Web", "Windows"],
+        color: "default",
+        chartData: [
+            {
+                weekday: "Mon",
+                android: 20,
+                ios: 30,
+                web: 20,
+                windows: 10,
+            },
+            {
+                weekday: "Tue",
+                android: 35,
+                ios: 35,
+                web: 20,
+                windows: 10,
+            },
+            {
+                weekday: "Wed",
+                android: 15,
+                ios: 25,
+                web: 20,
+                windows: 10,
+            },
+            {
+                weekday: "Thu",
+                android: 12,
+                ios: 35,
+                web: 10,
+                windows: 10,
+            },
+            {
+                weekday: "Fri",
+                android: 12,
+                ios: 15,
+                web: 20,
+                windows: 10,
+            },
+            {
+                weekday: "Sat",
+                android: 35,
+                ios: 25,
+                web: 10,
+                windows: 6,
+            },
+            {
+                weekday: "Sun",
+                android: 40,
+                ios: 30,
+                web: 20,
+                windows: 10,
+            },
+        ],
+    },
+    {
+        title: "Browser Usage",
+        categories: ["Chrome", "Firefox", "Safari", "Edge"],
+        color: "primary",
+        chartData: [
+            {
+                weekday: "Mon",
+                chrome: 45,
+                firefox: 20,
+                safari: 12,
+                edge: 8,
+            },
+            {
+                weekday: "Tue",
+                chrome: 40,
+                firefox: 10,
+                safari: 12,
+                edge: 8,
+            },
+            {
+                weekday: "Wed",
+                chrome: 52,
+                firefox: 12,
+                safari: 15,
+                edge: 10,
+            },
+            {
+                weekday: "Thu",
+                chrome: 28,
+                firefox: 12,
+                safari: 12,
+                edge: 8,
+            },
+            {
+                weekday: "Fri",
+                chrome: 30,
+                firefox: 12,
+                safari: 12,
+                edge: 8,
+            },
+            {
+                weekday: "Sat",
+                chrome: 45,
+                firefox: 32,
+                safari: 8,
+                edge: 5,
+            },
+            {
+                weekday: "Sun",
+                chrome: 68,
+                firefox: 17,
+                safari: 10,
+                edge: 5,
+            },
+        ],
+    },
+    {
+        title: "Device Types",
+        categories: ["Mobile", "Tablet", "Desktop", "Other"],
+        color: "secondary",
+        chartData: [
+            {
+                weekday: "Mon",
+                mobile: 25,
+                tablet: 10,
+                desktop: 20,
+                other: 20,
+            },
+            {
+                weekday: "Tue",
+                mobile: 40,
+                tablet: 10,
+                desktop: 30,
+                other: 20,
+            },
+            {
+                weekday: "Wed",
+                mobile: 10,
+                tablet: 50,
+                desktop: 20,
+                other: 20,
+            },
+            {
+                weekday: "Thu",
+                mobile: 40,
+                tablet: 20,
+                desktop: 20,
+                other: 10,
+            },
+            {
+                weekday: "Fri",
+                mobile: 15,
+                tablet: 30,
+                desktop: 20,
+                other: 10,
+            },
+            {
+                weekday: "Sat",
+                mobile: 50,
+                tablet: 20,
+                desktop: 10,
+                other: 20,
+            },
+            {
+                weekday: "Sun",
+                mobile: 50,
+                tablet: 10,
+                desktop: 20,
+                other: 20,
+            },
+        ],
+    },
+];
+
+export const bars2: Bars2Props[] = [
+    {
+        title: "Avg. Energy Activity",
+        value: "580/280",
+        unit: "kcal",
+        categories: ["Low", "Medium", "High"],
+        color: "warning",
+        chartData: [
+            {
+                weekday: "Mon",
+                Low: 120,
+                Medium: 280,
+                High: 180,
+            },
+            {
+                weekday: "Tue",
+                Low: 150,
+                Medium: 320,
+                High: 220,
+            },
+            {
+                weekday: "Wed",
+                Low: 180,
+                Medium: 250,
+                High: 150,
+            },
+            {
+                weekday: "Thu",
+                Low: 140,
+                Medium: 290,
+                High: 180,
+            },
+            {
+                weekday: "Fri",
+                Low: 160,
+                Medium: 270,
+                High: 190,
+            },
+            {
+                weekday: "Sat",
+                Low: 130,
+                Medium: 240,
+                High: 210,
+            },
+            {
+                weekday: "Sun",
+                Low: 170,
+                Medium: 300,
+                High: 240,
+            },
+        ],
+    },
+    {
+        title: "Avg. Heart Rate",
+        value: "72/52",
+        unit: "bpm",
+        categories: ["Low", "High"],
+        color: "danger",
+        chartData: [
+            {
+                weekday: "Mon",
+                Low: 65,
+                High: 85,
+            },
+            {
+                weekday: "Tue",
+                Low: 62,
+                High: 82,
+            },
+            {
+                weekday: "Wed",
+                Low: 68,
+                High: 88,
+            },
+            {
+                weekday: "Thu",
+                Low: 64,
+                High: 84,
+            },
+            {
+                weekday: "Fri",
+                Low: 66,
+                High: 86,
+            },
+            {
+                weekday: "Sat",
+                Low: 63,
+                High: 83,
+            },
+            {
+                weekday: "Sun",
+                Low: 67,
+                High: 87,
+            },
+        ],
+    },
+    {
+        title: "Avg. Daily Steps",
+        value: "8,432",
+        unit: "steps",
+        categories: ["Low", "Medium", "High"],
+        color: "success",
+        chartData: [
+            {
+                weekday: "Mon",
+                Low: 2500,
+                Medium: 4000,
+                High: 6500,
+            },
+            {
+                weekday: "Tue",
+                Low: 3000,
+                Medium: 4500,
+                High: 7000,
+            },
+            {
+                weekday: "Wed",
+                Low: 2800,
+                Medium: 4200,
+                High: 6800,
+            },
+            {
+                weekday: "Thu",
+                Low: 3200,
+                Medium: 4800,
+                High: 7200,
+            },
+            {
+                weekday: "Fri",
+                Low: 2700,
+                Medium: 4100,
+                High: 6400,
+            },
+            {
+                weekday: "Sat",
+                Low: 2000,
+                Medium: 3500,
+                High: 5500,
+            },
+            {
+                weekday: "Sun",
+                Low: 1800,
+                Medium: 3200,
+                High: 5000,
+            },
+        ],
+    },
+];
+
+export const bars3: Bars3Props[] = [
+    {
+        title: "Monthly Expenses",
+        value: "$5,420",
+        unit: "avg",
+        categories: ["Expenses", "Savings"],
+        color: "default",
+        chartData: [
+            {
+                month: "Jan",
+                Expenses: 1340,
+                Savings: -1340,
+            },
+            {
+                month: "Feb",
+                Expenses: 450,
+                Savings: -750,
+            },
+            {
+                month: "Mar",
+                Expenses: 1044,
+                Savings: -1044,
+            },
+            {
+                month: "Apr",
+                Expenses: 450,
+                Savings: -450,
+            },
+            {
+                month: "May",
+                Expenses: 900,
+                Savings: -700,
+            },
+            {
+                month: "Jun",
+                Expenses: 1250,
+                Savings: -1250,
+            },
+            {
+                month: "Jul",
+                Expenses: 400,
+                Savings: -600,
+            },
+            {
+                month: "Aug",
+                Expenses: 600,
+                Savings: -800,
+            },
+            {
+                month: "Sep",
+                Expenses: 1200,
+                Savings: -1200,
+            },
+            {
+                month: "Oct",
+                Expenses: 500,
+                Savings: -500,
+            },
+            {
+                month: "Nov",
+                Expenses: 800,
+                Savings: -800,
+            },
+        ],
+    },
+    {
+        title: "Annual Revenue",
+        value: "$12,780",
+        unit: "avg",
+        categories: ["Revenue", "Costs"],
+        color: "secondary",
+        chartData: [
+            {
+                month: "Jan",
+                Revenue: 1340,
+                Costs: -1340,
+            },
+            {
+                month: "Feb",
+                Revenue: 450,
+                Costs: -750,
+            },
+            {
+                month: "Mar",
+                Revenue: 1044,
+                Costs: -1044,
+            },
+            {
+                month: "Apr",
+                Revenue: 450,
+                Costs: -450,
+            },
+            {
+                month: "May",
+                Revenue: 900,
+                Costs: -700,
+            },
+            {
+                month: "Jun",
+                Revenue: 1250,
+                Costs: -1250,
+            },
+            {
+                month: "Jul",
+                Revenue: 400,
+                Costs: -600,
+            },
+            {
+                month: "Aug",
+                Revenue: 600,
+                Costs: -800,
+            },
+            {
+                month: "Sep",
+                Revenue: 1200,
+                Costs: -1200,
+            },
+            {
+                month: "Oct",
+                Revenue: 500,
+                Costs: -500,
+            },
+            {
+                month: "Nov",
+                Revenue: 800,
+                Costs: -800,
+            },
+        ],
+    },
+    {
+        title: "Project Budget",
+        value: "$8,350",
+        unit: "total",
+        categories: ["Budget", "Spent"],
+        color: "warning",
+        chartData: [
+            {
+                month: "Jan",
+                Budget: 1340,
+                Spent: -1340,
+            },
+            {
+                month: "Feb",
+                Budget: 450,
+                Spent: -750,
+            },
+            {
+                month: "Mar",
+                Budget: 1044,
+                Spent: -1044,
+            },
+            {
+                month: "Apr",
+                Budget: 450,
+                Spent: -450,
+            },
+            {
+                month: "May",
+                Budget: 900,
+                Spent: -700,
+            },
+            {
+                month: "Jun",
+                Budget: 1250,
+                Spent: -1250,
+            },
+            {
+                month: "Jul",
+                Budget: 400,
+                Spent: -600,
+            },
+            {
+                month: "Aug",
+                Budget: 600,
+                Spent: -800,
+            },
+            {
+                month: "Sep",
+                Budget: 1200,
+                Spent: -1200,
+            },
+            {
+                month: "Oct",
+                Budget: 500,
+                Spent: -500,
+            },
+            {
+                month: "Nov",
+                Budget: 800,
+                Spent: -800,
+            },
+        ],
+    },
+];
+
+export const bars4: Bars4Props[] = [
+    {
+        title: "Avg. Energy Activity",
+        value: "580/280",
+        unit: "kcal",
+        categories: ["Low", "Medium", "High"],
+        color: "default",
+        chartData: [
+            {
+                weekday: "Mon",
+                Low: 120,
+                Medium: 280,
+                High: 180,
+            },
+            {
+                weekday: "Tue",
+                Low: 150,
+                Medium: 320,
+                High: 220,
+            },
+            {
+                weekday: "Wed",
+                Low: 180,
+                Medium: 250,
+                High: 150,
+            },
+            {
+                weekday: "Thu",
+                Low: 140,
+                Medium: 290,
+                High: 180,
+            },
+            {
+                weekday: "Fri",
+                Low: 160,
+                Medium: 270,
+                High: 190,
+            },
+            {
+                weekday: "Sat",
+                Low: 130,
+                Medium: 240,
+                High: 210,
+            },
+            {
+                weekday: "Sun",
+                Low: 170,
+                Medium: 300,
+                High: 240,
+            },
+        ],
+    },
+    {
+        title: "Avg. Heart Rate",
+        value: "72/52",
+        unit: "bpm",
+        categories: ["Low", "High"],
+        color: "primary",
+        chartData: [
+            {
+                weekday: "Mon",
+                Low: 65,
+                High: 85,
+            },
+            {
+                weekday: "Tue",
+                Low: 62,
+                High: 82,
+            },
+            {
+                weekday: "Wed",
+                Low: 68,
+                High: 88,
+            },
+            {
+                weekday: "Thu",
+                Low: 64,
+                High: 84,
+            },
+            {
+                weekday: "Fri",
+                Low: 66,
+                High: 86,
+            },
+            {
+                weekday: "Sat",
+                Low: 63,
+                High: 83,
+            },
+            {
+                weekday: "Sun",
+                Low: 57,
+                High: 64,
+            },
+        ],
+    },
+    {
+        title: "Avg. Daily Steps",
+        value: "8,432",
+        unit: "steps",
+        categories: ["Low", "Medium", "High"],
+        color: "secondary",
+        chartData: [
+            {
+                weekday: "Mon",
+                Low: 2500,
+                Medium: 4000,
+                High: 6500,
+            },
+            {
+                weekday: "Tue",
+                Low: 3000,
+                Medium: 4500,
+                High: 7000,
+            },
+            {
+                weekday: "Wed",
+                Low: 2800,
+                Medium: 4200,
+                High: 6800,
+            },
+            {
+                weekday: "Thu",
+                Low: 3200,
+                Medium: 4800,
+                High: 7200,
+            },
+            {
+                weekday: "Fri",
+                Low: 2700,
+                Medium: 4100,
+                High: 6400,
+            },
+            {
+                weekday: "Sat",
+                Low: 2000,
+                Medium: 3500,
+                High: 5500,
+            },
+            {
+                weekday: "Sun",
+                Low: 2400,
+                Medium: 3200,
+                High: 5000,
+            },
+        ],
+    },
+];
+
+export const circles1: Circles1Props[] = [
+    {
+        title: "Personal Expenses",
+        value: "$5,420",
+        unit: "avg.",
+        changePercentage: 24.8,
+        changeType: "positive",
+        categories: ["Delivery", "Social", "Shopping", "Food"],
+        color: "default",
+        chartData: [
+            { name: "Delivery", value: 400 },
+            { name: "Social", value: 300 },
+            { name: "Shopping", value: 300 },
+            { name: "Food", value: 200 },
+        ],
+    },
+    {
+        title: "Summary Expenses",
+        value: "$12,345",
+        unit: "total",
+        changePercentage: 15.2,
+        changeType: "positive",
+        categories: ["Sales", "Marketing", "Support", "Dev"],
+        color: "primary",
+        chartData: [
+            { name: "Sales", value: 450 },
+            { name: "Marketing", value: 300 },
+            { name: "Support", value: 250 },
+            { name: "Dev", value: 200 },
+        ],
+    },
+    {
+        title: "Cost Distribution",
+        value: "$8,790",
+        unit: "total",
+        changePercentage: -5.4,
+        changeType: "negative",
+        categories: ["Operations", "Personnel", "Tools", "Office"],
+        color: "secondary",
+        chartData: [
+            { name: "Operations", value: 350 },
+            { name: "Personnel", value: 280 },
+            { name: "Tools", value: 220 },
+            { name: "Office", value: 150 },
+        ],
+    },
+];
+
+export const circles2: Circles2Props[] = [
+    {
+        title: "Traffic Sources",
+        total: 224000,
+        unit: "Visitors",
+        categories: ["Search", "Direct", "Social", "Referral"],
+        color: "default",
+        chartData: [
+            { name: "Search", value: 400 },
+            { name: "Direct", value: 300 },
+            { name: "Social", value: 300 },
+            { name: "Referral", value: 200 },
+        ],
+    },
+    {
+        title: "Device Usage",
+        total: 4500,
+        unit: "Devices",
+        categories: ["Mobile", "Desktop", "Tablet", "Smart TV"],
+        color: "primary",
+        chartData: [
+            { name: "Mobile", value: 450 },
+            { name: "Desktop", value: 300 },
+            { name: "Tablet", value: 250 },
+            { name: "Smart TV", value: 200 },
+        ],
+    },
+    {
+        title: "Browser Usage",
+        total: 8790,
+        unit: "Devices",
+        categories: ["Chrome", "Safari", "Firefox", "Edge"],
+        color: "secondary",
+        chartData: [
+            { name: "Chrome", value: 350 },
+            { name: "Safari", value: 280 },
+            { name: "Firefox", value: 220 },
+            { name: "Edge", value: 150 },
         ],
     },
 ];

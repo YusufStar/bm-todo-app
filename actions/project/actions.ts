@@ -15,7 +15,7 @@ import {
 import { ActionResult } from "@/types";
 
 // Helper to verify user has access to a company
-async function verifyCompanyAccess(companyId: string, userId: string): Promise<boolean> {
+export async function verifyCompanyAccess(companyId: string, userId: string): Promise<boolean> {
   // If user is company owner
   const company = await prisma.company.findFirst({
     where: {
@@ -38,7 +38,7 @@ async function verifyCompanyAccess(companyId: string, userId: string): Promise<b
 }
 
 // Helper to verify user has access to a project
-async function verifyProjectAccess(projectId: string, userId: string): Promise<boolean> { 
+export async function verifyProjectAccess(projectId: string, userId: string): Promise<boolean> { 
   // Get the project
   const project = await prisma.project.findUnique({
     where: { id: projectId },

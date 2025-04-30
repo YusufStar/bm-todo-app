@@ -29,9 +29,10 @@ import {
     Card,
     CardHeader,
     CardBody,
-    Divider
+    Divider,
+    Pagination
 } from "@heroui/react";
-import { MoreVertical, Search, CalendarClock, UserCog } from "lucide-react";
+import { MoreVertical, Search, CalendarClock, UserCog, ChevronDown } from "lucide-react";
 import { formatDistanceToNow } from 'date-fns';
 import { useMembers, useTable } from "@/lib/hooks";
 import { CompanyMember } from "@/lib/store/memberStore";
@@ -49,12 +50,31 @@ const columns = [
     { name: "ACTIONS", uid: "actions" },
 ];
 
+// Role options for filtering
+const roleOptions = [
+    { name: "All", uid: "all" },
+    { name: "Owner", uid: "OWNER" },
+    { name: "Admin", uid: "ADMIN" },
+    { name: "Member", uid: "MEMBER" },
+];
+
+// Rows per page options
+const rowsPerPageOptions = [
+    { label: "5", value: 5 },
+    { label: "10", value: 10 },
+    { label: "15", value: 15 },
+    { label: "25", value: 25 },
+];
+
 export default function MembersTable() {
     const [mounted, setMounted] = React.useState(false);
     const [filterValue, setFilterValue] = React.useState("");
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [selectedMember, setSelectedMember] = React.useState<CompanyMember | null>(null);
     const [selectedRole, setSelectedRole] = React.useState<CompanyMemberRole | "">("");
+    const [roleFilter, setRoleFilter] = React.useState<CompanyMemberRole | "all">("all");
+    const [page, setPage] = React.useState(1);
+    const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
     // Fetch members data using our custom hook
     const {
@@ -89,18 +109,49 @@ export default function MembersTable() {
         }
     }, [selectedMember]);
 
-    // Filter members based on search input
+    // Filter members based on search input and role filter
     const filteredMembers = React.useMemo(() => {
-        if (!filterValue.trim()) return members;
+        let filtered = members;
 
-        return members.filter(member => 
-            member.user.email.toLowerCase().includes(filterValue.toLowerCase()) ||
-            member.user.username.toLowerCase().includes(filterValue.toLowerCase())
-        );
-    }, [members, filterValue]);
+        if (filterValue.trim()) {
+            filtered = filtered.filter(member => 
+                member.user.email.toLowerCase().includes(filterValue.toLowerCase()) ||
+                member.user.username.toLowerCase().includes(filterValue.toLowerCase())
+            );
+        }
+
+        if (roleFilter !== "all") {
+            filtered = filtered.filter(member => member.role === roleFilter);
+        }
+
+        return filtered;
+    }, [members, filterValue, roleFilter]);
+
+    // Pagination logic
+    const pages = Math.ceil(filteredMembers.length / rowsPerPage) || 1;
+    const items = React.useMemo(() => {
+        const start = (page - 1) * rowsPerPage;
+        const end = start + rowsPerPage;
+        return filteredMembers.slice(start, end);
+    }, [page, filteredMembers, rowsPerPage]);
 
     const handleSearch = (value: string) => {
         setFilterValue(value);
+        setPage(1);
+    };
+
+    const handleRoleFilter = (role: CompanyMemberRole | "all") => {
+        setRoleFilter(role);
+        setPage(1);
+    };
+
+    const handlePageChange = (newPage: number) => {
+        setPage(newPage);
+    };
+
+    const handleRowsPerPageChange = (value: number) => {
+        setRowsPerPage(value);
+        setPage(1);
     };
 
     const handleOpenUpdateModal = (member: CompanyMember) => {
@@ -196,31 +247,117 @@ export default function MembersTable() {
         return (
             <div className="flex flex-col gap-4">
                 <div className="flex justify-between gap-3 items-end">
-                    <Input
-                        isClearable
-                        classNames={{
-                            base: "w-full sm:max-w-[44%]",
-                            inputWrapper: "border-1",
-                        }}
-                        placeholder="Search by email or username..."
-                        size="sm"
-                        startContent={<Search className="text-default-300" size={18} />}
-                        value={filterValue}
-                        variant="bordered"
-                        onClear={() => handleSearch("")}
-                        onValueChange={handleSearch}
-                    />
+                    <div className="flex gap-3 flex-1">
+                        <Input
+                            isClearable
+                            classNames={{
+                                base: "w-full sm:max-w-[44%]",
+                                inputWrapper: "border-1",
+                            }}
+                            placeholder="Search by email or username..."
+                            size="sm"
+                            startContent={<Search className="text-default-300" size={18} />}
+                            value={filterValue}
+                            variant="bordered"
+                            onClear={() => handleSearch("")}
+                            onValueChange={handleSearch}
+                        />
+                        <Dropdown>
+                            <DropdownTrigger>
+                                <Button
+                                    endContent={<ChevronDown className="text-small" size={16} />}
+                                    size="sm"
+                                    variant="flat"
+                                >
+                                    Role
+                                </Button>
+                            </DropdownTrigger>
+                            <DropdownMenu
+                                disallowEmptySelection
+                                aria-label="Role Filter"
+                                closeOnSelect={true}
+                                selectedKeys={new Set([roleFilter])}
+                                selectionMode="single"
+                                onSelectionChange={(keys) => {
+                                    const selected = Array.from(keys)[0] as CompanyMemberRole | "all";
+                                    handleRoleFilter(selected);
+                                }}
+                            >
+                                {roleOptions.map((role) => (
+                                    <DropdownItem key={role.uid}>
+                                        {role.name}
+                                    </DropdownItem>
+                                ))}
+                            </DropdownMenu>
+                        </Dropdown>
+                    </div>
                 </div>
                 <div className="flex justify-between items-center">
                     <span className="text-default-400 text-small">Total {filteredMembers.length} members</span>
+                    <div className="flex items-center gap-2">
+                        <span className="text-default-400 text-small">Rows per page:</span>
+                        <Select
+                            size="sm"
+                            className="min-w-[70px] w-[70px]"
+                            classNames={{
+                                trigger: "h-8 min-h-[32px]",
+                                value: "text-small",
+                            }}
+                            selectedKeys={[rowsPerPage.toString()]}
+                            onChange={(e) => handleRowsPerPageChange(Number(e.target.value))}
+                            aria-label="Rows per page"
+                        >
+                            {rowsPerPageOptions.map((option) => (
+                                <SelectItem key={option.value.toString()}>
+                                    {option.label}
+                                </SelectItem>
+                            ))}
+                        </Select>
+                    </div>
                 </div>
             </div>
         );
     }, [
         filterValue,
+        roleFilter,
         handleSearch,
-        filteredMembers.length
+        handleRoleFilter,
+        filteredMembers.length,
+        rowsPerPage,
+        handleRowsPerPageChange,
     ]);
+
+    const bottomContent = React.useMemo(() => {
+        return (
+            <div className="flex flex-col items-center justify-between gap-2 px-2 py-2 sm:flex-row">
+                <Pagination
+                    isCompact
+                    showControls
+                    showShadow
+                    color="primary"
+                    isDisabled={isLoading}
+                    page={page}
+                    total={pages}
+                    onChange={handlePageChange}
+                />
+                <div className="flex items-center justify-end gap-6">
+                    <span className="text-small text-default-400">
+                        {selectedKeys === "all"
+                            ? "All items selected"
+                            : `${(selectedKeys as Set<string>).size} of ${filteredMembers.length} selected`}
+                    </span>
+                    <div className="flex items-center gap-3">
+                        <Button isDisabled={page === 1} size="sm" variant="flat" onPress={() => handlePageChange(page - 1)}>
+                            Previous
+                        </Button>
+                        <Button isDisabled={page === pages} size="sm" variant="flat" onPress={() => handlePageChange(page + 1)}>
+                            Next
+                        </Button>
+                    </div>
+                </div>
+            </div>
+        );
+    }, [selectedKeys, filteredMembers.length, page, pages, isLoading, handlePageChange]);
 
     const classNames = React.useMemo(
         () => ({
@@ -259,6 +396,7 @@ export default function MembersTable() {
                 isCompact
                 removeWrapper
                 aria-label="Members table with search and actions"
+                bottomContent={bottomContent}
                 bottomContentPlacement="outside"
                 checkboxesProps={{
                     classNames: {
@@ -290,7 +428,7 @@ export default function MembersTable() {
                 </TableHeader>
                 <TableBody
                     emptyContent={"No members found"}
-                    items={isLoading ? [] : filteredMembers as any}
+                    items={isLoading ? [] : items as any}
                     isLoading={isLoading}
                     loadingContent={<Spinner />}
                 >

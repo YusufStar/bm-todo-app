@@ -68,9 +68,9 @@ function capitalize(s: string) {
 const renderStatusDropdown = (status: ProjectStatus | undefined, handleStatusFilter: (status: ProjectStatus | undefined) => void) => {
     // Tüm dropdown öğelerini bir array olarak oluştur
     const dropdownItems = [
-        <DropdownItem 
-            key="all" 
-            className="capitalize" 
+        <DropdownItem
+            key="all"
+            className="capitalize"
             onPress={() => handleStatusFilter(undefined)}
         >
             All
@@ -276,31 +276,33 @@ export default function ProjectsTable() {
         return (
             <div className="flex flex-col gap-4">
                 <div className="flex justify-between gap-3 items-end">
-                    <Input
-                        isClearable
-                        classNames={{
-                            base: "w-full sm:max-w-[44%]",
-                            inputWrapper: "border-1",
-                        }}
-                        placeholder="Search projects..."
-                        size="sm"
-                        startContent={<Search className="text-default-300" size={18} />}
-                        value={search}
-                        variant="bordered"
-                        onClear={() => handleSearch("")}
-                        onValueChange={handleSearch}
-                    />
-                    <div className="flex gap-3">
-                        {renderStatusDropdown(status, handleStatusFilter)}
-                        <Button
-                            className="bg-foreground text-background"
-                            endContent={<Plus size={16} />}
+
+                    <div className="flex gap-3 flex-1">
+                        <Input
+                            isClearable
+                            classNames={{
+                                base: "w-full sm:max-w-[44%]",
+                                inputWrapper: "border-1",
+                            }}
+                            placeholder="Search projects..."
                             size="sm"
-                            onPress={() => setIsCreateModalOpen(true)}
-                        >
-                            New Project
-                        </Button>
+                            startContent={<Search className="text-default-300" size={18} />}
+                            value={search}
+                            variant="bordered"
+                            onClear={() => handleSearch("")}
+                            onValueChange={handleSearch}
+                        />
+                        {renderStatusDropdown(status, handleStatusFilter)}
                     </div>
+
+                    <Button
+                        className="bg-foreground text-background"
+                        endContent={<Plus size={16} />}
+                        size="sm"
+                        onPress={() => setIsCreateModalOpen(true)}
+                    >
+                        New Project
+                    </Button>
                 </div>
                 <div className="flex justify-between items-center">
                     <span className="text-default-400 text-small">Total {totalProjects} projects</span>
@@ -339,27 +341,38 @@ export default function ProjectsTable() {
 
     const bottomContent = React.useMemo(() => {
         return (
-            <div className="py-2 px-2 flex justify-between items-center">
+            <div className="flex flex-col items-center justify-between gap-2 px-2 py-2 sm:flex-row">
                 <Pagination
+                    isCompact
                     showControls
-                    classNames={{
-                        cursor: "bg-foreground text-background",
-                    }}
-                    color="default"
+                    showShadow
+                    color="primary"
                     isDisabled={isLoading}
                     page={page}
                     total={totalPages}
-                    variant="light"
                     onChange={handlePageChange}
                 />
-                <span className="text-small text-default-400">
-                    {selectedKeys === "all"
-                        ? "All items selected"
-                        : `${(selectedKeys as Set<string>).size} of ${projects.length} selected`}
-                </span>
+                <div className="flex items-center justify-end gap-6">
+                    <span className="text-small text-default-400">
+                        {selectedKeys === "all"
+                            ? "All items selected"
+                            : `${(selectedKeys as Set<string>).size} of ${projects.length} selected`}
+                    </span>
+
+                    <div className="flex items-center gap-3">
+                        <Button isDisabled={page === 1} size="sm" variant="flat" onPress={() => handlePageChange(page - 1)}>
+                            Previous
+                        </Button>
+                        <Button isDisabled={page === totalPages} size="sm" variant="flat" onPress={() => handlePageChange(page + 1)}>
+                            Next
+                        </Button>
+                    </div>
+                </div>
+
             </div>
         );
     }, [selectedKeys, projects.length, page, totalPages, isLoading, handlePageChange]);
+
 
     const classNames = React.useMemo(
         () => ({
@@ -442,21 +455,21 @@ export default function ProjectsTable() {
                 </TableBody>
             </Table>
 
-                <CreateProjectModal
-                    isOpen={isCreateModalOpen}
-                    onClose={() => setIsCreateModalOpen(false)}
-                    onSubmit={createProject}
-                />
+            <CreateProjectModal
+                isOpen={isCreateModalOpen}
+                onClose={() => setIsCreateModalOpen(false)}
+                onSubmit={createProject}
+            />
 
-                <EditProjectModal 
-                    projectId={selectedProjectId}
-                    isOpen={isEditModalOpen}
-                    onClose={() => {
-                        setIsEditModalOpen(false);
-                        setSelectedProjectId(null);
-                    }}
-                    onSubmit={(data) => updateProject(data)}
-                />
+            <EditProjectModal
+                projectId={selectedProjectId}
+                isOpen={isEditModalOpen}
+                onClose={() => {
+                    setIsEditModalOpen(false);
+                    setSelectedProjectId(null);
+                }}
+                onSubmit={(data) => updateProject(data)}
+            />
         </>
     );
 }
