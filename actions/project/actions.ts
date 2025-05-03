@@ -3,9 +3,9 @@
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/auth";
 import { revalidatePath } from "next/cache";
-import { 
-  CreateProjectSchema, 
-  UpdateProjectSchema, 
+import {
+  CreateProjectSchema,
+  UpdateProjectSchema,
   ProjectQuerySchema,
   createProjectSchema,
   updateProjectSchema,
@@ -23,9 +23,9 @@ export async function verifyCompanyAccess(companyId: string, userId: string): Pr
       ownerId: userId
     }
   });
-  
+
   if (company) return true;
-  
+
   // If user is company member
   const membership = await prisma.companyMember.findFirst({
     where: {
@@ -33,30 +33,30 @@ export async function verifyCompanyAccess(companyId: string, userId: string): Pr
       userId
     }
   });
-  
+
   return !!membership;
 }
 
 // Helper to verify user has access to a project
-export async function verifyProjectAccess(projectId: string, userId: string): Promise<boolean> { 
+export async function verifyProjectAccess(projectId: string, userId: string): Promise<boolean> {
   // Get the project
   const project = await prisma.project.findUnique({
     where: { id: projectId },
-    select: { 
+    select: {
       companyId: true,
       isPublic: true
     }
   });
-  
+
   if (!project) return false;
-  
+
   // Check company access first (if you have company access and project is public)
   const hasCompanyAccess = await verifyCompanyAccess(project.companyId, userId);
-  
+
   if (hasCompanyAccess && project.isPublic) {
     return true;
   }
-  
+
   // Check if user is a member of the project specifically
   const projectMembership = await prisma.projectMember.findFirst({
     where: {
@@ -64,7 +64,7 @@ export async function verifyProjectAccess(projectId: string, userId: string): Pr
       userId
     }
   });
-  
+
   return !!projectMembership;
 }
 
@@ -80,14 +80,14 @@ export async function getProjectsAction(query: ProjectQuerySchema, userId: strin
       return { success: false, error: "Invalid query parameters" };
     }
 
-    const { 
-      companyId, 
-      search, 
-      status, 
-      page, 
-      perPage, 
-      sortBy, 
-      sortDirection 
+    const {
+      companyId,
+      search,
+      status,
+      page,
+      perPage,
+      sortBy,
+      sortDirection
     } = validatedQuery.data;
 
     // Convert UI sort direction to Prisma sort direction
@@ -100,7 +100,7 @@ export async function getProjectsAction(query: ProjectQuerySchema, userId: strin
     }
 
     // Build where conditions
-    const where: any = { 
+    const where: any = {
       companyId,
       OR: [
         // Projects where user is a member
@@ -117,7 +117,7 @@ export async function getProjectsAction(query: ProjectQuerySchema, userId: strin
         }
       ]
     };
-    
+
     if (search) {
       where.AND = [
         {
@@ -174,7 +174,7 @@ export async function getProjectsAction(query: ProjectQuerySchema, userId: strin
       membersCount: project._count.members
     }));
 
-    return { 
+    return {
       success: true,
       projects: formattedProjects,
       totalProjects,
@@ -195,10 +195,10 @@ export async function createProjectAction(data: CreateProjectSchema, userId: str
     // Validate input
     const validatedData = createProjectSchema.safeParse(data);
     if (!validatedData.success) {
-      return { 
-        success: false, 
-        error: "Invalid project data", 
-        validationErrors: validatedData.error.flatten().fieldErrors 
+      return {
+        success: false,
+        error: "Invalid project data",
+        validationErrors: validatedData.error.flatten().fieldErrors
       };
     }
 
@@ -207,7 +207,7 @@ export async function createProjectAction(data: CreateProjectSchema, userId: str
     if (!hasAccess) {
       return { success: false, error: "You don't have access to this company" };
     }
-    
+
     // Create project
     const project = await prisma.project.create({
       data: {
@@ -223,9 +223,9 @@ export async function createProjectAction(data: CreateProjectSchema, userId: str
     });
 
     revalidatePath("/dashboard/projects");
-    return { 
-      success: true, 
-      project 
+    return {
+      success: true,
+      project
     } as ActionResult<{ project: any }>;
   } catch (error) {
     console.error("Failed to create project:", error);
@@ -238,8 +238,8 @@ export async function updateProjectAction(data: UpdateProjectSchema, userId: str
     // Validate input
     const validatedData = updateProjectSchema.safeParse(data);
     if (!validatedData.success) {
-      return { 
-        success: false, 
+      return {
+        success: false,
         error: "Invalid project data",
         validationErrors: validatedData.error.flatten().fieldErrors
       };
@@ -253,7 +253,7 @@ export async function updateProjectAction(data: UpdateProjectSchema, userId: str
 
     // Prepare data by excluding id and handling dates
     const { id, ...updateData } = validatedData.data;
-    
+
     // Update project
     const project = await prisma.project.update({
       where: { id },
@@ -264,9 +264,9 @@ export async function updateProjectAction(data: UpdateProjectSchema, userId: str
     });
 
     revalidatePath("/dashboard/projects");
-    return { 
-      success: true, 
-      project 
+    return {
+      success: true,
+      project
     } as ActionResult<{ project: any }>;
   } catch (error) {
     console.error("Failed to update project:", error);
@@ -346,12 +346,57 @@ export async function getProjectAction(id: string, userId: string): Promise<Acti
       membersCount: project._count.members
     };
 
-    return { 
-      success: true, 
-      project: formattedProject 
+    return {
+      success: true,
+      project: formattedProject
     } as ActionResult<{ project: any }>;
   } catch (error) {
     console.error("Failed to fetch project:", error);
     return { success: false, error: "Failed to fetch project" };
   }
-} 
+}
+
+export async function getProjectMembersAction(projectId: string, userId: string): Promise<ActionResult<{
+  members: {
+    projectId: string;
+    id: string;
+    createdAt: Date;
+    updatedAt: Date;
+    userId: string;
+    role: ProjectMemberRole;
+    user: {
+      id: string;
+      email: string;
+      avatar: string;
+      username: string;
+    }
+  }[]
+}>> {
+  try {
+    // Check project access
+    const hasAccess = await verifyProjectAccess(projectId, userId);
+    if (!hasAccess) {
+      return { success: false, error: "You don't have access to this project" };
+    }
+
+    // Get project members
+    const members = await prisma.projectMember.findMany({
+      where: { projectId },
+      include: {
+        user: {
+          select: {
+            id: true,
+            email: true,
+            avatar: true,
+            username: true,
+          }
+        }
+      }
+    });
+
+    return { success: true, members: members as any };
+  } catch (error) {
+    console.error("Failed to fetch project members:", error);
+    return { success: false, error: "Failed to fetch project members" };
+  }
+}

@@ -232,7 +232,9 @@ export function CreateProjectModal({ isOpen, onClose, onSubmit }: CreateProjectM
                                             field.value.getDate()
                                         ) : undefined}
                                         onChange={(e) => {
-                                            field.onChange(new Date(e ?? ""));
+                                            if (e) {
+                                                field.onChange(new Date(e as any));
+                                            }
                                         }}
                                     />
                                 )}

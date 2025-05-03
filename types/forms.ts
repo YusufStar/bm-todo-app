@@ -1,3 +1,4 @@
+import { TaskStatus } from "@prisma/client";
 import { z } from "zod";
 
 export const signInSchema = z.object({
@@ -99,3 +100,17 @@ export const projectQuerySchema = z.object({
 export type CreateProjectSchema = z.infer<typeof createProjectSchema>;
 export type UpdateProjectSchema = z.infer<typeof updateProjectSchema>;
 export type ProjectQuerySchema = z.infer<typeof projectQuerySchema>;
+
+export const createTaskSchema = z.object({
+  name: z.string().min(3, "Task name must be at least 3 characters"),
+  content: z.string().optional(),
+  estimatedTime: z.number().optional(),
+  spentTime: z.number().optional(),
+  status: z.nativeEnum(TaskStatus).default(TaskStatus.NOT_STARTED),
+  priority: z.nativeEnum(Priority).default(Priority.LOW),
+  dueDate: z.date().optional().nullable(),
+  projectId: z.string().uuid(),
+  assignee: z.string().uuid().optional(),
+});
+
+export type CreateTaskSchema = z.infer<typeof createTaskSchema>;

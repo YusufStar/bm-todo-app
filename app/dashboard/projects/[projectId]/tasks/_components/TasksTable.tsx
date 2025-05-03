@@ -19,7 +19,8 @@ import {
     Spinner,
     Select,
     SelectItem,
-    DateRangePicker
+    DateRangePicker,
+    useDisclosure
 } from "@heroui/react";
 import { RangeValue, SortDirection } from "@react-types/shared";
 import { MoreVertical, Search, ChevronDown, Clock, Calendar, PlusCircle } from "lucide-react";
@@ -29,6 +30,8 @@ import { Priority, Task, TaskStatus } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { DateValue } from "@internationalized/date";
+import { CreateTaskModal } from "@/components/projects/create-task-modal";
+import { CreateTaskSchema } from "@/types/forms";
 
 // Define color type to match HeroUI Chip component requirements
 type ChipColorType = "default" | "primary" | "secondary" | "success" | "warning" | "danger" | undefined;
@@ -69,11 +72,6 @@ const rowsPerPageOptions = [
     { label: "15", value: 15 },
     { label: "25", value: 25 },
 ];
-
-// Helper function to capitalize strings
-function capitalize(s: string) {
-    return s ? s.charAt(0).toUpperCase() + s.slice(1).toLowerCase() : "";
-}
 
 // Status color mapping
 const taskStatusColorMap: Record<TaskStatus, ChipColorType> = {
@@ -121,6 +119,7 @@ export default function TasksTable({
     totalPages: number;
 }) {
     const router = useRouter();
+    const { isOpen, onOpen, onClose } = useDisclosure();
     const [mounted, setMounted] = React.useState(false);
     const [filterValue, setFilterValue] = React.useState("");
     const [statusFilter, setStatusFilter] = React.useState<TaskStatus | "all">("all");
@@ -422,6 +421,7 @@ export default function TasksTable({
                             className="bg-foreground text-background"
                             endContent={<PlusCircle size={16} />}
                             size="sm"
+                            onPress={onOpen}
                         >
                             New Task
                         </Button>
@@ -568,6 +568,9 @@ export default function TasksTable({
                     )}
                 </TableBody>
             </Table>
+            <CreateTaskModal projectId={projectId} isOpen={isOpen} onClose={onClose} onSubmit={(data: CreateTaskSchema) => {
+                console.log("create task", data);
+            }} />
         </>
     );
 }
