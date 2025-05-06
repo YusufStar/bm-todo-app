@@ -17,10 +17,11 @@ export class AuthController {
                 ...req.body,
                 userAgent
             });
-            this.authService.register(body)
+            const { user } = await this.authService.register(body)
 
             return res.status(HTTPSTATUS.CREATED).json({
-                message: "User registered successfully"
+                message: "User registered successfully",
+                data: user
             })
         }   
     )
