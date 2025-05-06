@@ -1,0 +1,220 @@
+{"basePath":"/api/v1","environment":"development","level":"info","message":"Server is running on port 8000","port":"8000","timestamp":"2025-05-06 12:54:43"}
+{"basePath":"/api/v1","environment":"development","level":"info","message":"Server is running on port 8000","port":"8000","timestamp":"2025-05-06 12:54:49"}
+{"basePath":"/api/v1","environment":"development","level":"info","message":"Server is running on port 8000","port":"8000","timestamp":"2025-05-06 12:55:17"}
+{"level":"info","message":"Server is running on port 8000","timestamp":"2025-05-06 12:55:31"}
+{"level":"info","message":"Server is running on port 8000,","timestamp":"2025-05-06 12:55:37"}
+{"level":"info","message":"Server is running on port 8000, development mode, /api/v1 base path","timestamp":"2025-05-06 12:55:39"}
+{"level":"info","message":"Server is running on port 8000, development mode, /api/v1 base path","timestamp":"2025-05-06 12:55:48"}
+{"level":"info","message":"Server is running on port 8000 n development mode, /api/v1 base path","timestamp":"2025-05-06 12:55:57"}
+{"level":"info","message":"Server is running on port 8000  development mode, /api/v1 base path","timestamp":"2025-05-06 12:55:59"}
+{"level":"info","message":"Server is running on port 8000 \n development mode, /api/v1 base path","timestamp":"2025-05-06 12:56:28"}
+{"level":"info","message":"Server is running on port 8000\n development mode, /api/v1 base path","timestamp":"2025-05-06 12:56:30"}
+{"level":"info","message":"Server is running on port 8000\n development mode\n /api/v1 base path","timestamp":"2025-05-06 12:56:32"}
+{"level":"info","message":"\nServer is running on port 8000\n development mode\n /api/v1 base path","timestamp":"2025-05-06 12:56:36"}
+{"level":"info","message":"Server is running on port 8000\n development mode\n /api/v1 base path","timestamp":"2025-05-06 12:56:39"}
+{"level":"info","message":"Server is running on port 8000\n development mode","timestamp":"2025-05-06 12:56:49"}
+{"level":"info","message":"Server is running on port 8000 - development mode","timestamp":"2025-05-06 12:56:53"}
+{"level":"info","message":"Server is running on port 8000 - development mode","timestamp":"2025-05-06 12:57:02"}
+{"level":"info","message":"Server is running on port 8000 - development mode","timestamp":"2025-05-06 17:34:12"}
+{"level":"info","message":"Database connected successfully","timestamp":"2025-05-06 17:34:14"}
+{"level":"info","message":"Server is running on port 8000 - development mode","timestamp":"2025-05-06 17:34:36"}
+{"level":"info","message":"Database connected successfully","timestamp":"2025-05-06 17:34:37"}
+{"level":"info","message":"Server is running on port 8000 - development mode","timestamp":"2025-05-06 17:36:50"}
+{"level":"info","message":"Database connected successfully","timestamp":"2025-05-06 17:36:51"}
+{"level":"info","message":"Server is running on port 8000 - development mode","timestamp":"2025-05-06 17:36:52"}
+{"level":"info","message":"Database connected successfully","timestamp":"2025-05-06 17:36:53"}
+{"level":"info","message":"Server is running on port 8000 - development mode","timestamp":"2025-05-06 17:37:15"}
+{"level":"info","message":"Database connected successfully","timestamp":"2025-05-06 17:37:16"}
+{"level":"info","message":"Server is running on port 8000 - development mode","timestamp":"2025-05-06 17:37:25"}
+{"level":"info","message":"Database connected successfully","timestamp":"2025-05-06 17:37:26"}
+{"level":"info","message":"Server is running on port 8000 - development mode","timestamp":"2025-05-06 17:37:27"}
+{"level":"info","message":"Database connected successfully","timestamp":"2025-05-06 17:37:27"}
+{"level":"info","message":"Server is running on port 8000 - development mode","timestamp":"2025-05-06 17:37:31"}
+{"level":"info","message":"Database connected successfully","timestamp":"2025-05-06 17:37:33"}
+{"level":"info","message":"Server is running on port 8000 - development mode","timestamp":"2025-05-06 17:38:53"}
+{"level":"info","message":"Database connected successfully","timestamp":"2025-05-06 17:38:54"}
+{"level":"info","message":"Server is running on port 8000 - development mode","timestamp":"2025-05-06 17:38:54"}
+{"level":"info","message":"Database connected successfully","timestamp":"2025-05-06 17:38:55"}
+{"level":"info","message":"Server is running on port 8000 - development mode","timestamp":"2025-05-06 17:39:06"}
+{"level":"info","message":"Database connected successfully","timestamp":"2025-05-06 17:39:07"}
+{"level":"info","message":"Server is running on port 8000 - development mode","timestamp":"2025-05-06 17:39:24"}
+{"level":"info","message":"Database connected successfully","timestamp":"2025-05-06 17:39:25"}
+{"level":"info","message":"Server is running on port 8000 - development mode","timestamp":"2025-05-06 17:39:25"}
+{"level":"info","message":"Server is running on port 8000 - development mode","timestamp":"2025-05-06 17:39:27"}
+{"level":"info","message":"Database connected successfully","timestamp":"2025-05-06 17:39:28"}
+{"ip":"::ffff:127.0.0.1","level":"http","message":"GET /","timestamp":"2025-05-06 17:39:30","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:138.0) Gecko/20100101 Firefox/138.0"}
+{"duration":6,"ip":"::ffff:127.0.0.1","level":"http","message":"GET / 200 - 6ms","statusCode":200,"timestamp":"2025-05-06 17:39:30"}
+{"ip":"::ffff:127.0.0.1","level":"http","message":"GET /favicon.ico","timestamp":"2025-05-06 17:39:31","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:138.0) Gecko/20100101 Firefox/138.0"}
+{"duration":3,"ip":"::ffff:127.0.0.1","level":"warn","message":"GET /favicon.ico 404 - 3ms","statusCode":404,"timestamp":"2025-05-06 17:39:31"}
+{"level":"info","message":"Server is running on port 8000 - development mode","timestamp":"2025-05-06 17:41:52"}
+{"level":"info","message":"Database connected successfully","timestamp":"2025-05-06 17:41:53"}
+{"level":"info","message":"Server is running on port 8000 - development mode","timestamp":"2025-05-06 17:45:43"}
+{"level":"info","message":"Database connected successfully","timestamp":"2025-05-06 17:45:44"}
+{"ip":"::ffff:127.0.0.1","level":"http","message":"GET /","timestamp":"2025-05-06 17:47:39","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:138.0) Gecko/20100101 Firefox/138.0"}
+{"duration":4,"ip":"::ffff:127.0.0.1","level":"http","message":"GET / 304 - 4ms","statusCode":304,"timestamp":"2025-05-06 17:47:39"}
+{"ip":"::ffff:127.0.0.1","level":"http","message":"GET /favicon.ico","timestamp":"2025-05-06 17:47:39","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:138.0) Gecko/20100101 Firefox/138.0"}
+{"duration":2,"ip":"::ffff:127.0.0.1","level":"warn","message":"GET /favicon.ico 404 - 2ms","statusCode":404,"timestamp":"2025-05-06 17:47:39"}
+{"ip":"::ffff:127.0.0.1","level":"http","message":"GET /","timestamp":"2025-05-06 17:47:41","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:138.0) Gecko/20100101 Firefox/138.0"}
+{"duration":3,"ip":"::ffff:127.0.0.1","level":"http","message":"GET / 304 - 3ms","statusCode":304,"timestamp":"2025-05-06 17:47:41"}
+{"ip":"::ffff:127.0.0.1","level":"http","message":"GET /favicon.ico","timestamp":"2025-05-06 17:47:41","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:138.0) Gecko/20100101 Firefox/138.0"}
+{"duration":1,"ip":"::ffff:127.0.0.1","level":"warn","message":"GET /favicon.ico 404 - 1ms","statusCode":404,"timestamp":"2025-05-06 17:47:41"}
+{"ip":"::ffff:127.0.0.1","level":"http","message":"GET /","timestamp":"2025-05-06 17:47:41","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:138.0) Gecko/20100101 Firefox/138.0"}
+{"duration":1,"ip":"::ffff:127.0.0.1","level":"http","message":"GET / 304 - 1ms","statusCode":304,"timestamp":"2025-05-06 17:47:41"}
+{"ip":"::ffff:127.0.0.1","level":"http","message":"GET /favicon.ico","timestamp":"2025-05-06 17:47:41","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:138.0) Gecko/20100101 Firefox/138.0"}
+{"duration":1,"ip":"::ffff:127.0.0.1","level":"warn","message":"GET /favicon.ico 404 - 1ms","statusCode":404,"timestamp":"2025-05-06 17:47:42"}
+{"level":"info","message":"Server is running on port 8000 - development mode","timestamp":"2025-05-06 17:49:49"}
+{"level":"info","message":"Database connected successfully","timestamp":"2025-05-06 17:49:50"}
+{"ip":"::ffff:127.0.0.1","level":"http","message":"GET /","timestamp":"2025-05-06 18:14:28","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:138.0) Gecko/20100101 Firefox/138.0"}
+{"duration":5,"ip":"::ffff:127.0.0.1","level":"http","message":"GET / 304 - 5ms","statusCode":304,"timestamp":"2025-05-06 18:14:28"}
+{"level":"info","message":"Server is running on port 8000 - development mode","timestamp":"2025-05-06 18:16:24"}
+{"level":"info","message":"Database connected successfully","timestamp":"2025-05-06 18:16:26"}
+{"level":"info","message":"Server is running on port 8000 - development mode","timestamp":"2025-05-06 18:16:26"}
+{"level":"info","message":"Database connected successfully","timestamp":"2025-05-06 18:16:28"}
+{"level":"info","message":"Server is running on port 8000 - development mode","timestamp":"2025-05-06 18:18:06"}
+{"level":"info","message":"Database connected successfully","timestamp":"2025-05-06 18:18:07"}
+{"level":"info","message":"Server is running on port 8000 - development mode","timestamp":"2025-05-06 18:18:12"}
+{"level":"info","message":"Database connected successfully","timestamp":"2025-05-06 18:18:13"}
+{"level":"info","message":"Server is running on port 8000 - development mode","timestamp":"2025-05-06 18:18:18"}
+{"level":"info","message":"Database connected successfully","timestamp":"2025-05-06 18:18:19"}
+{"ip":"::ffff:127.0.0.1","level":"http","message":"GET /","timestamp":"2025-05-06 18:19:12","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:138.0) Gecko/20100101 Firefox/138.0"}
+{"duration":4,"ip":"::ffff:127.0.0.1","level":"http","message":"GET / 304 - 4ms","statusCode":304,"timestamp":"2025-05-06 18:19:12"}
+{"ip":"::ffff:127.0.0.1","level":"http","message":"GET /","timestamp":"2025-05-06 18:19:12","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:138.0) Gecko/20100101 Firefox/138.0"}
+{"duration":2,"ip":"::ffff:127.0.0.1","level":"http","message":"GET / 304 - 2ms","statusCode":304,"timestamp":"2025-05-06 18:19:12"}
+{"ip":"::ffff:127.0.0.1","level":"http","message":"GET /","timestamp":"2025-05-06 18:19:13","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:138.0) Gecko/20100101 Firefox/138.0"}
+{"duration":2,"ip":"::ffff:127.0.0.1","level":"http","message":"GET / 304 - 2ms","statusCode":304,"timestamp":"2025-05-06 18:19:13"}
+{"ip":"::ffff:127.0.0.1","level":"http","message":"GET /","timestamp":"2025-05-06 18:19:14","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:138.0) Gecko/20100101 Firefox/138.0"}
+{"duration":2,"ip":"::ffff:127.0.0.1","level":"http","message":"GET / 304 - 2ms","statusCode":304,"timestamp":"2025-05-06 18:19:14"}
+{"ip":"::ffff:127.0.0.1","level":"http","message":"GET /","timestamp":"2025-05-06 18:19:14","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:138.0) Gecko/20100101 Firefox/138.0"}
+{"duration":2,"ip":"::ffff:127.0.0.1","level":"http","message":"GET / 304 - 2ms","statusCode":304,"timestamp":"2025-05-06 18:19:14"}
+{"ip":"::ffff:127.0.0.1","level":"http","message":"GET /","timestamp":"2025-05-06 18:19:14","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:138.0) Gecko/20100101 Firefox/138.0"}
+{"duration":1,"ip":"::ffff:127.0.0.1","level":"http","message":"GET / 304 - 1ms","statusCode":304,"timestamp":"2025-05-06 18:19:14"}
+{"ip":"::ffff:127.0.0.1","level":"http","message":"GET /","timestamp":"2025-05-06 18:19:14","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:138.0) Gecko/20100101 Firefox/138.0"}
+{"duration":1,"ip":"::ffff:127.0.0.1","level":"http","message":"GET / 304 - 1ms","statusCode":304,"timestamp":"2025-05-06 18:19:14"}
+{"ip":"::ffff:127.0.0.1","level":"http","message":"GET /","timestamp":"2025-05-06 18:19:14","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:138.0) Gecko/20100101 Firefox/138.0"}
+{"duration":0,"ip":"::ffff:127.0.0.1","level":"http","message":"GET / 304 - 0ms","statusCode":304,"timestamp":"2025-05-06 18:19:14"}
+{"ip":"::ffff:127.0.0.1","level":"http","message":"GET /","timestamp":"2025-05-06 18:19:15","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:138.0) Gecko/20100101 Firefox/138.0"}
+{"duration":1,"ip":"::ffff:127.0.0.1","level":"http","message":"GET / 304 - 1ms","statusCode":304,"timestamp":"2025-05-06 18:19:15"}
+{"ip":"::ffff:127.0.0.1","level":"http","message":"GET /","timestamp":"2025-05-06 18:19:15","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:138.0) Gecko/20100101 Firefox/138.0"}
+{"duration":0,"ip":"::ffff:127.0.0.1","level":"http","message":"GET / 304 - 0ms","statusCode":304,"timestamp":"2025-05-06 18:19:15"}
+{"ip":"::ffff:127.0.0.1","level":"http","message":"GET /","timestamp":"2025-05-06 18:19:15","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:138.0) Gecko/20100101 Firefox/138.0"}
+{"duration":1,"ip":"::ffff:127.0.0.1","level":"http","message":"GET / 304 - 1ms","statusCode":304,"timestamp":"2025-05-06 18:19:15"}
+{"level":"info","message":"Server is running on port 8000 - development mode","timestamp":"2025-05-06 18:19:31"}
+{"level":"info","message":"Database connected successfully","timestamp":"2025-05-06 18:19:32"}
+{"level":"http","message":"GET /","timestamp":"2025-05-06 18:19:33"}
+{"duration":5,"ip":"::ffff:127.0.0.1","level":"http","message":"GET / 304 - 5ms","statusCode":304,"timestamp":"2025-05-06 18:19:33"}
+{"level":"info","message":"Server is running on port 8000 - development mode","timestamp":"2025-05-06 18:19:43"}
+{"level":"info","message":"Database connected successfully","timestamp":"2025-05-06 18:19:44"}
+{"duration":3,"ip":"::ffff:127.0.0.1","level":"http","message":"GET / 304 - 3ms","statusCode":304,"timestamp":"2025-05-06 18:19:45"}
+{"level":"info","message":"Server is running on port 8000 - development mode","timestamp":"2025-05-06 18:20:02"}
+{"level":"info","message":"Database connected successfully","timestamp":"2025-05-06 18:20:03"}
+{"level":"info","message":"Server is running on port 8000 - development mode","timestamp":"2025-05-06 18:20:03"}
+{"level":"info","message":"Database connected successfully","timestamp":"2025-05-06 18:20:04"}
+{"level":"info","message":"Server is running on port 8000 - development mode","timestamp":"2025-05-06 18:20:05"}
+{"level":"info","message":"Database connected successfully","timestamp":"2025-05-06 18:20:06"}
+{"level":"info","message":"Server is running on port 8000 - development mode","timestamp":"2025-05-06 18:20:09"}
+{"level":"http","message":"GET / 304 - 2ms ::ffff:127.0.0.1 Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:138.0) Gecko/20100101 Firefox/138.0 {} {} {}","timestamp":"2025-05-06 18:20:09"}
+{"level":"info","message":"Database connected successfully","timestamp":"2025-05-06 18:20:10"}
+{"level":"info","message":"Server is running on port 8000 - development mode","timestamp":"2025-05-06 18:20:41"}
+{"level":"info","message":"Server is running on port 8000 - development mode","timestamp":"2025-05-06 18:20:42"}
+{"level":"info","message":"Database connected successfully","timestamp":"2025-05-06 18:20:43"}
+{"ip":"::ffff:127.0.0.1","level":"http","message":"↪️ GET / [304] 3ms","timestamp":"2025-05-06 18:20:47","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:138.0) Gecko/20100101 Firefox/138.0"}
+{"level":"info","message":"Server is running on port 8000 - development mode","timestamp":"2025-05-06 18:21:14"}
+{"level":"info","message":"Database connected successfully","timestamp":"2025-05-06 18:21:14"}
+{"level":"info","message":"Server is running on port 8000 - development mode","timestamp":"2025-05-06 18:23:20"}
+{"level":"info","message":"Database connected successfully","timestamp":"2025-05-06 18:23:20"}
+{"level":"info","message":"Server is running on port 8000 - development mode","timestamp":"2025-05-06 18:23:21"}
+{"level":"info","message":"Database connected successfully","timestamp":"2025-05-06 18:23:22"}
+{"level":"info","message":"Server is running on port 8000 - development mode","timestamp":"2025-05-06 18:23:22"}
+{"level":"info","message":"Database connected successfully","timestamp":"2025-05-06 18:23:23"}
+{"level":"info","message":"Server is running on port 8000 - development mode","timestamp":"2025-05-06 18:23:25"}
+{"level":"info","message":"Database connected successfully","timestamp":"2025-05-06 18:23:26"}
+{"level":"info","message":"Server is running on port 8000 - development mode","timestamp":"2025-05-06 18:23:32"}
+{"level":"info","message":"Database connected successfully","timestamp":"2025-05-06 18:23:33"}
+{"duration":4,"ip":"::ffff:127.0.0.1","level":"http","message":"GET / 304 - 4ms","statusCode":304,"timestamp":"2025-05-06 18:23:35"}
+{"level":"info","message":"Server is running on port 8000 - development mode","timestamp":"2025-05-06 18:23:43"}
+{"level":"info","message":"Database connected successfully","timestamp":"2025-05-06 18:23:44"}
+{"level":"info","message":"Server is running on port 8000 - development mode","timestamp":"2025-05-06 18:23:46"}
+{"level":"info","message":"Database connected successfully","timestamp":"2025-05-06 18:23:47"}
+{"level":"info","message":"Server is running on port 8000 - development mode","timestamp":"2025-05-06 18:24:07"}
+{"level":"info","message":"Server is running on port 8000 - development mode","timestamp":"2025-05-06 18:24:08"}
+{"level":"info","message":"Database connected successfully","timestamp":"2025-05-06 18:24:08"}
+{"ip":"::ffff:127.0.0.1","level":"http","message":"↪️ GET / [304] 3ms","timestamp":"2025-05-06 18:24:13","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:138.0) Gecko/20100101 Firefox/138.0"}
+{"ip":"::ffff:127.0.0.1","level":"http","message":"↪️ GET / [304] 1ms","timestamp":"2025-05-06 18:24:17","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:138.0) Gecko/20100101 Firefox/138.0"}
+{"level":"info","message":"Server is running on port 8000 - development mode","timestamp":"2025-05-06 18:26:01"}
+{"level":"info","message":"Database connected successfully","timestamp":"2025-05-06 18:26:02"}
+{"Client IP":"::ffff:127.0.0.1","User Agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:138.0) Gecko/20100101 Firefox/138.0","level":"http","message":"↪️  GET    / [304] 3ms","timestamp":"2025-05-06 18:26:05"}
+{"level":"info","message":"Server is running on port 8000 - development mode","timestamp":"2025-05-06 18:26:44"}
+{"level":"info","message":"Database connected successfully","timestamp":"2025-05-06 18:26:45"}
+{"level":"info","message":"Server is running on port 8000 - development mode","timestamp":"2025-05-06 18:26:50"}
+{"level":"info","message":"Server is running on port 8000 - development mode","timestamp":"2025-05-06 18:26:50"}
+{"level":"info","message":"Database connected successfully","timestamp":"2025-05-06 18:26:51"}
+{"Client IP":"::ffff:127.0.0.1","User Agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:138.0) Gecko/20100101 Firefox/138.0","level":"http","message":"↪️  GET    / [304] 3ms","timestamp":"2025-05-06 18:26:55"}
+{"level":"info","message":"Server is running on port 8000 - development mode","timestamp":"2025-05-06 18:27:03"}
+{"level":"info","message":"Database connected successfully","timestamp":"2025-05-06 18:27:04"}
+{"ip":"::ffff:127.0.0.1","level":"http","message":"↪️ GET / [304] 2ms","timestamp":"2025-05-06 18:27:05","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:138.0) Gecko/20100101 Firefox/138.0"}
+{"level":"info","message":"Server is running on port 8000 - development mode","timestamp":"2025-05-06 18:27:15"}
+{"ip":"::ffff:127.0.0.1","level":"http","message":"GET / [304] 3ms","timestamp":"2025-05-06 18:27:16","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:138.0) Gecko/20100101 Firefox/138.0"}
+{"level":"info","message":"Database connected successfully","timestamp":"2025-05-06 18:27:16"}
+{"ip":"::ffff:127.0.0.1","level":"http","message":"GET / [304] 1ms","timestamp":"2025-05-06 18:27:17","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:138.0) Gecko/20100101 Firefox/138.0"}
+{"ip":"::ffff:127.0.0.1","level":"http","message":"GET / [304] 1ms","timestamp":"2025-05-06 18:27:18","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:138.0) Gecko/20100101 Firefox/138.0"}
+{"ip":"::ffff:127.0.0.1","level":"http","message":"GET / [304] 1ms","timestamp":"2025-05-06 18:27:19","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:138.0) Gecko/20100101 Firefox/138.0"}
+{"ip":"::ffff:127.0.0.1","level":"http","message":"GET / [304] 1ms","timestamp":"2025-05-06 18:27:20","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:138.0) Gecko/20100101 Firefox/138.0"}
+{"ip":"::ffff:127.0.0.1","level":"http","message":"GET / [304] 1ms","timestamp":"2025-05-06 18:27:20","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:138.0) Gecko/20100101 Firefox/138.0"}
+{"ip":"::ffff:127.0.0.1","level":"http","message":"GET / [304] 1ms","timestamp":"2025-05-06 18:27:21","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:138.0) Gecko/20100101 Firefox/138.0"}
+{"ip":"::ffff:127.0.0.1","level":"http","message":"GET / [304] 0ms","timestamp":"2025-05-06 18:27:21","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:138.0) Gecko/20100101 Firefox/138.0"}
+{"ip":"::ffff:127.0.0.1","level":"http","message":"GET / [304] 1ms","timestamp":"2025-05-06 18:27:24","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:138.0) Gecko/20100101 Firefox/138.0"}
+{"level":"info","message":"Server is running on port 8000 - development mode","timestamp":"2025-05-06 18:27:46"}
+{"ip":"::ffff:127.0.0.1","level":"http","message":"GET / [304] 2ms","timestamp":"2025-05-06 18:27:46","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:138.0) Gecko/20100101 Firefox/138.0"}
+{"level":"info","message":"Database connected successfully","timestamp":"2025-05-06 18:27:47"}
+{"ip":"::ffff:127.0.0.1","level":"http","message":"GET / [304] 1ms","timestamp":"2025-05-06 18:27:49","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:138.0) Gecko/20100101 Firefox/138.0"}
+{"level":"info","message":"Server is running on port 8000 - development mode","timestamp":"2025-05-06 18:28:19"}
+{"ip":"::ffff:127.0.0.1","level":"http","message":"GET / [304] 2ms","timestamp":"2025-05-06 18:28:19","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:138.0) Gecko/20100101 Firefox/138.0"}
+{"level":"info","message":"Database connected successfully","timestamp":"2025-05-06 18:28:20"}
+{"level":"info","message":"Server is running on port 8000 - development mode","timestamp":"2025-05-06 18:28:25"}
+{"ip":"::ffff:127.0.0.1","level":"http","message":"GET / [304] 1ms","timestamp":"2025-05-06 18:28:25","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:138.0) Gecko/20100101 Firefox/138.0"}
+{"level":"info","message":"Database connected successfully","timestamp":"2025-05-06 18:28:26"}
+{"ip":"::ffff:127.0.0.1","level":"http","message":"GET / [304] 1ms","timestamp":"2025-05-06 18:28:27","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:138.0) Gecko/20100101 Firefox/138.0"}
+{"level":"info","message":"Server is running on port 8000 - development mode","timestamp":"2025-05-06 18:28:40"}
+{"level":"info","message":"Database connected successfully","timestamp":"2025-05-06 18:28:41"}
+{"level":"info","message":"Server is running on port 8000 - development mode","timestamp":"2025-05-06 18:28:47"}
+{"level":"info","message":"Database connected successfully","timestamp":"2025-05-06 18:28:48"}
+{"ip":"::ffff:127.0.0.1","level":"http","message":"GET / [304] 3ms","timestamp":"2025-05-06 18:28:49","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:138.0) Gecko/20100101 Firefox/138.0"}
+{"ip":"::ffff:127.0.0.1","level":"http","message":"GET / [304] 1ms","timestamp":"2025-05-06 18:28:52","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:138.0) Gecko/20100101 Firefox/138.0"}
+{"level":"info","message":"Server is running on port 8000 - development mode","timestamp":"2025-05-06 18:29:00"}
+{"level":"info","message":"Database connected successfully","timestamp":"2025-05-06 18:29:01"}
+{"ip":"::ffff:127.0.0.1","level":"http","message":"GET / [304] 4ms","timestamp":"2025-05-06 18:29:02","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:138.0) Gecko/20100101 Firefox/138.0"}
+{"ip":"::ffff:127.0.0.1","level":"http","message":"GET / [304] 1ms","timestamp":"2025-05-06 18:29:04","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:138.0) Gecko/20100101 Firefox/138.0"}
+{"ip":"::ffff:127.0.0.1","level":"http","message":"GET / [304] 1ms","timestamp":"2025-05-06 18:29:08","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:138.0) Gecko/20100101 Firefox/138.0"}
+{"ip":"::ffff:127.0.0.1","level":"http","message":"GET / [304] 0ms","timestamp":"2025-05-06 18:29:17","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:138.0) Gecko/20100101 Firefox/138.0"}
+{"level":"info","message":"Server is running on port 8000 - development mode","timestamp":"2025-05-06 18:29:18"}
+{"ip":"::ffff:127.0.0.1","level":"http","message":"GET / [304] 1ms","timestamp":"2025-05-06 18:29:18","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:138.0) Gecko/20100101 Firefox/138.0"}
+{"level":"info","message":"Database connected successfully","timestamp":"2025-05-06 18:29:19"}
+{"ip":"::ffff:127.0.0.1","level":"http","message":"GET / [304] 0ms","timestamp":"2025-05-06 18:29:24","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:138.0) Gecko/20100101 Firefox/138.0"}
+{"level":"info","message":"Server is running on port 8000 - development mode","timestamp":"2025-05-06 18:29:26"}
+{"ip":"::ffff:127.0.0.1","level":"http","message":"GET / [304] 4ms","timestamp":"2025-05-06 18:29:27","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:138.0) Gecko/20100101 Firefox/138.0"}
+{"level":"info","message":"Database connected successfully","timestamp":"2025-05-06 18:29:27"}
+{"ip":"::ffff:127.0.0.1","level":"http","message":"GET / [304] 0ms","timestamp":"2025-05-06 18:29:29","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:138.0) Gecko/20100101 Firefox/138.0"}
+{"level":"info","message":"Server is running on port 8000 - development mode","timestamp":"2025-05-06 18:29:34"}
+{"ip":"::ffff:127.0.0.1","level":"http","message":"GET / [304] 4ms","timestamp":"2025-05-06 18:29:34","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:138.0) Gecko/20100101 Firefox/138.0"}
+{"ip":"::ffff:127.0.0.1","level":"http","message":"GET / [304] 0ms","timestamp":"2025-05-06 18:29:34","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:138.0) Gecko/20100101 Firefox/138.0"}
+{"ip":"::ffff:127.0.0.1","level":"http","message":"GET / [304] 1ms","timestamp":"2025-05-06 18:29:34","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:138.0) Gecko/20100101 Firefox/138.0"}
+{"ip":"::ffff:127.0.0.1","level":"http","message":"GET / [304] 0ms","timestamp":"2025-05-06 18:29:34","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:138.0) Gecko/20100101 Firefox/138.0"}
+{"level":"info","message":"Database connected successfully","timestamp":"2025-05-06 18:29:35"}
+{"ip":"::ffff:127.0.0.1","level":"http","message":"GET / [304] 1ms","timestamp":"2025-05-06 18:29:35","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:138.0) Gecko/20100101 Firefox/138.0"}
+{"ip":"::ffff:127.0.0.1","level":"http","message":"GET / [304] 1ms","timestamp":"2025-05-06 18:29:35","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:138.0) Gecko/20100101 Firefox/138.0"}
+{"ip":"::ffff:127.0.0.1","level":"http","message":"GET / [304] 0ms","timestamp":"2025-05-06 18:29:35","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:138.0) Gecko/20100101 Firefox/138.0"}
+{"ip":"::ffff:127.0.0.1","level":"http","message":"GET / [304] 1ms","timestamp":"2025-05-06 18:29:35","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:138.0) Gecko/20100101 Firefox/138.0"}
+{"ip":"::ffff:127.0.0.1","level":"http","message":"GET / [304] 2ms","timestamp":"2025-05-06 18:29:35","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:138.0) Gecko/20100101 Firefox/138.0"}
+{"ip":"::ffff:127.0.0.1","level":"http","message":"GET / [304] 0ms","timestamp":"2025-05-06 18:29:35","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:138.0) Gecko/20100101 Firefox/138.0"}
+{"ip":"::ffff:127.0.0.1","level":"http","message":"GET / [304] 1ms","timestamp":"2025-05-06 18:29:36","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:138.0) Gecko/20100101 Firefox/138.0"}
+{"ip":"::ffff:127.0.0.1","level":"http","message":"GET / [304] 1ms","timestamp":"2025-05-06 18:29:36","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:138.0) Gecko/20100101 Firefox/138.0"}
+{"ip":"::ffff:127.0.0.1","level":"http","message":"GET / [304] 1ms","timestamp":"2025-05-06 18:29:36","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:138.0) Gecko/20100101 Firefox/138.0"}
+{"ip":"::ffff:127.0.0.1","level":"http","message":"GET / [304] 0ms","timestamp":"2025-05-06 18:29:36","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:138.0) Gecko/20100101 Firefox/138.0"}
+{"level":"info","message":"Server is running on port 8000 - development mode","timestamp":"2025-05-06 18:29:48"}
+{"ip":"::ffff:127.0.0.1","level":"http","message":"GET / [304] 1ms","timestamp":"2025-05-06 18:29:48","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:138.0) Gecko/20100101 Firefox/138.0"}
+{"ip":"::ffff:127.0.0.1","level":"http","message":"GET / [304] 1ms","timestamp":"2025-05-06 18:29:49","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:138.0) Gecko/20100101 Firefox/138.0"}
+{"level":"info","message":"Database connected successfully","timestamp":"2025-05-06 18:29:50"}
+{"ip":"::ffff:127.0.0.1","level":"http","message":"GET / [304] 1ms","timestamp":"2025-05-06 18:29:51","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:138.0) Gecko/20100101 Firefox/138.0"}
+{"ip":"::ffff:127.0.0.1","level":"http","message":"GET / [304] 2ms","timestamp":"2025-05-06 18:29:53","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:138.0) Gecko/20100101 Firefox/138.0"}
+{"level":"info","message":"Server is running on port 8000 - development mode","timestamp":"2025-05-06 18:29:56"}
+{"level":"info","message":"Database connected successfully","timestamp":"2025-05-06 18:29:57"}
