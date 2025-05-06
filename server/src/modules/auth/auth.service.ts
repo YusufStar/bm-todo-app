@@ -1,12 +1,13 @@
 import { ErrorCode } from "../../common/enums/error-code.enum";
 import { VerificationEnum } from "../../common/enums/verification-code.enum";
 import { LoginDto, RegisterDto } from "../../common/interface/auth.interface";
-import { fortyFiveMinutesFromNow } from "../../common/utils/date-time";
-import { BadRequestException } from "../../common/utils/catch-errors";
+import { calculateExpirationDate, fortyFiveMinutesFromNow, ONE_DAY_IN_MS } from "../../common/utils/date-time";
+import { BadRequestException, UnauthorizedException } from "../../common/utils/catch-errors";
 import UserModel from "../../database/models/user.model";
 import VerificationCodeModel from "../../database/models/verification.model";
 import SessionModel from "../../database/models/session.model";
-import { refreshTokenSignOptions, signJwtToken } from "../../common/utils/jwt";
+import { refreshTokenSignOptions, RefreshTPayload, signJwtToken, verifyJwtToken } from "../../common/utils/jwt";
+import { config } from "../../config/app.config";
 
 export class AuthService {
     public async register(registerData: RegisterDto) {
@@ -85,6 +86,50 @@ export class AuthService {
             accessToken,
             refreshToken,
             mfaRequired: false,
+        }
+    }
+
+    public async refreshToken(refreshToken: string) {
+        const { payload } = verifyJwtToken<RefreshTPayload>(refreshToken, {
+            secret: refreshTokenSignOptions.secret,
+        })
+
+        if (!payload) {
+            throw new UnauthorizedException("Invalid refresh token")
+        }
+
+        const session = await SessionModel.findById(payload.sessionId)
+        const now = Date.now()
+
+        if (!session) {
+            throw new UnauthorizedException("Session does not exist")
+        }
+
+        if (session.expiredAt.getTime() <= now) {
+            throw new UnauthorizedException("Session expired")
+        }
+        
+        const sessionRequiredRefresh = session.expiredAt.getTime() - now <= ONE_DAY_IN_MS
+
+        if (sessionRequiredRefresh) {
+            session.expiredAt = calculateExpirationDate(
+                config.JWT.REFRESH_EXPIRES_IN
+            )
+            await session.save()
+        }
+
+        const newRefreshToken = sessionRequiredRefresh ? signJwtToken({
+            sessionId: session._id,
+        }, refreshTokenSignOptions) : undefined
+
+        const accessToken = signJwtToken({
+            userId: session.userId,
+            sessionId: session._id,
+        })
+
+        return {
+            accessToken,
+            newRefreshToken,
         }
     }
 }
