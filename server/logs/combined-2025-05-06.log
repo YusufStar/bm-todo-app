@@ -279,3 +279,32 @@
 {"level":"info","message":"Database connected successfully","timestamp":"2025-05-06 22:02:26"}
 {"level":"info","message":"Server is running on port 8000 - development mode","timestamp":"2025-05-06 22:02:37"}
 {"level":"info","message":"Database connected successfully","timestamp":"2025-05-06 22:02:37"}
+{"level":"info","message":"Server is running on port 8000 - development mode","timestamp":"2025-05-06 23:23:16"}
+{"level":"info","message":"Database connected successfully","timestamp":"2025-05-06 23:23:17"}
+{"body":{"confirmPassword":"$Password123","email":"test@gmail.com","name":"testme","password":"$Password123"},"ip":"::1","level":"http","message":"POST /api/v1/auth/register [201] 269ms","timestamp":"2025-05-06 23:23:19","userAgent":"curl/8.7.1"}
+{"level":"info","message":"Server is running on port 8000 - development mode","timestamp":"2025-05-06 23:24:01"}
+{"level":"info","message":"Database connected successfully","timestamp":"2025-05-06 23:24:02"}
+{"ip":"::1","level":"warn","message":"POST /api/v1/auth/register [400] 71ms","timestamp":"2025-05-06 23:24:04","userAgent":"curl/8.7.1"}
+{"level":"info","message":"Server is running on port 8000 - development mode","timestamp":"2025-05-06 23:24:30"}
+{"level":"info","message":"Database connected successfully","timestamp":"2025-05-06 23:24:31"}
+{"level":"info","message":"Server is running on port 8000 - development mode","timestamp":"2025-05-06 23:24:33"}
+{"level":"info","message":"Database connected successfully","timestamp":"2025-05-06 23:24:33"}
+{"ip":"::1","level":"warn","message":"POST /api/v1/auth/register [400] 69ms","timestamp":"2025-05-06 23:25:07","userAgent":"curl/8.7.1"}
+{"level":"info","message":"Server is running on port 8000 - development mode","timestamp":"2025-05-06 23:26:12"}
+{"level":"info","message":"Database connected successfully","timestamp":"2025-05-06 23:26:13"}
+{"level":"info","message":"Server is running on port 8000 - development mode","timestamp":"2025-05-06 23:26:15"}
+{"level":"info","message":"Database connected successfully","timestamp":"2025-05-06 23:26:16"}
+{"ip":"::1","level":"error","message":"POST /api/v1/auth/register [500] 5ms","timestamp":"2025-05-06 23:26:19","userAgent":"curl/8.7.1"}
+{"level":"info","message":"Server is running on port 8000 - development mode","timestamp":"2025-05-06 23:26:31"}
+{"level":"info","message":"Database connected successfully","timestamp":"2025-05-06 23:26:33"}
+{"ip":"::1","level":"warn","message":"POST /api/v1/auth/register [400] 67ms","timestamp":"2025-05-06 23:27:26","userAgent":"curl/8.7.1"}
+{"level":"info","message":"Server is running on port 8000 - development mode","timestamp":"2025-05-06 23:28:25"}
+{"level":"info","message":"Database connected successfully","timestamp":"2025-05-06 23:28:28"}
+{"level":"info","message":"Server is running on port 8000 - development mode","timestamp":"2025-05-06 23:28:38"}
+{"level":"info","message":"Database connected successfully","timestamp":"2025-05-06 23:28:39"}
+{"level":"info","message":"Server is running on port 8000 - development mode","timestamp":"2025-05-06 23:28:43"}
+{"level":"info","message":"Database connected successfully","timestamp":"2025-05-06 23:28:44"}
+{"level":"info","message":"Server is running on port 8000 - development mode","timestamp":"2025-05-06 23:29:08"}
+{"level":"info","message":"Database connected successfully","timestamp":"2025-05-06 23:29:08"}
+{"level":"info","message":"Server is running on port 8000 - development mode","timestamp":"2025-05-06 23:34:56"}
+{"level":"info","message":"Database connected successfully","timestamp":"2025-05-06 23:34:57"}

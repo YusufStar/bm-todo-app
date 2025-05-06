@@ -1,37 +1,90 @@
 import { ErrorCode } from "../../common/enums/error-code.enum";
 import { VerificationEnum } from "../../common/enums/verification-code.enum";
-import { RegisterDto } from "../../common/interface/auth.interface";
+import { LoginDto, RegisterDto } from "../../common/interface/auth.interface";
 import { fortyFiveMinutesFromNow } from "../../common/utils/date-time";
 import { BadRequestException } from "../../common/utils/catch-errors";
 import UserModel from "../../database/models/user.model";
 import VerificationCodeModel from "../../database/models/verification.model";
+import SessionModel from "../../database/models/session.model";
+import { refreshTokenSignOptions, signJwtToken } from "../../common/utils/jwt";
 
 export class AuthService {
-    public register = async (registerData: RegisterDto) => {
-        const { name, email, password, confirmPassword, userAgent } = registerData
+    public async register(registerData: RegisterDto) {
+        const { name, email, password } = registerData;
 
-        const existingUser = await UserModel.exists({ email });
+        const existingUser = await UserModel.exists({
+            email,
+        });
 
         if (existingUser) {
-            throw new BadRequestException("User already exists with this email", ErrorCode.AUTH_EMAIL_ALREADY_EXISTS)
+            throw new BadRequestException(
+                "User already exists with this email",
+                ErrorCode.AUTH_EMAIL_ALREADY_EXISTS
+            );
         }
-
         const newUser = await UserModel.create({
             name,
             email,
-            password
+            password,
         });
 
         const userId = newUser._id;
 
-        const verificationCode = await VerificationCodeModel.create({
+        const verification = await VerificationCodeModel.create({
             userId,
             type: VerificationEnum.EMAIL_VERIFICATION,
-            expiresAt: fortyFiveMinutesFromNow()
-        })
+            expiresAt: fortyFiveMinutesFromNow(),
+        });
+
+        // TODO: Send verification email link
 
         return {
-            user: newUser
+            user: newUser,
+        };
+    }
+    
+    public async login(loginData: LoginDto) {
+        const { email, password, userAgent } = loginData;
+
+        const user = await UserModel.findOne({ email });
+
+        if (!user) {
+            throw new BadRequestException(
+                "Invalid email or password provided",
+                ErrorCode.AUTH_USER_NOT_FOUND
+            );
+        }
+        
+        const isPasswordValid = await user.comparePassword(password);
+        if (!isPasswordValid) {
+            throw new BadRequestException(
+                "Invalid email or password provided",
+                ErrorCode.AUTH_USER_NOT_FOUND
+            );
+        }
+        
+        const session = await SessionModel.create({
+            userId: user._id,
+            agent: userAgent,
+        });
+
+        const accessToken = signJwtToken({
+            userId: user._id,
+            sessionId: session._id,
+        })
+
+        const refreshToken = signJwtToken(
+            {
+                sessionId: session._id,
+            },
+            refreshTokenSignOptions
+        );
+
+        return {
+            user,
+            accessToken,
+            refreshToken,
+            mfaRequired: false,
         }
     }
 }

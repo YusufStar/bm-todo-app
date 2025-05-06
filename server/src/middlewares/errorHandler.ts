@@ -2,8 +2,10 @@ import { z } from "zod";
 import { ErrorRequestHandler, Response } from "express";
 import { HTTPSTATUS } from "../config/http.config";
 import { AppError } from "../common/utils/AppError";
-import { REFRESH_PATH, clearAuthenticationCookies } from "../common/utils/cookie";
-
+import {
+    clearAuthenticationCookies,
+    REFRESH_PATH,
+} from "../common/utils/cookie";
 
 const formatZodError = (res: Response, error: z.ZodError) => {
     const errors = error?.issues?.map((err) => ({

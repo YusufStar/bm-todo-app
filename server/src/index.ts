@@ -5,7 +5,6 @@ import cookieParser from "cookie-parser";
 import path from "path";
 import { config } from "./config/app.config";
 import { logger } from "./common/utils/logger";
-import { requestLogger } from "./middlewares/logger.middleware";
 import connectDatabase from "./database/database";
 import { errorHandler } from "./middlewares/errorHandler";
 import { HTTPSTATUS } from "./config/http.config";
@@ -26,10 +25,9 @@ app.use(
 
 app.use(cookieParser());
 
-// Serve static files from the 'public' directory
 app.use(express.static(path.join(__dirname, '../public')));
 
-app.use(requestLogger);
+app.use(`${BASE_PATH}/auth`, authRouter);
 
 app.get(`/`, asyncHandler(async (req: Request, res: Response) => {
     res.status(HTTPSTATUS.OK).json({
@@ -38,8 +36,6 @@ app.get(`/`, asyncHandler(async (req: Request, res: Response) => {
 }));
 
 app.use(errorHandler);
-
-app.use(`${BASE_PATH}/auth`, authRouter)
 
 app.listen(config.PORT, async () => {
     logger.info(
