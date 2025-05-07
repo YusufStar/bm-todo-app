@@ -1,4 +1,4 @@
-import { UnauthorizedException } from "../../common/utils/catch-errors";
+import { NotFoundException, UnauthorizedException } from "../../common/utils/catch-errors";
 import { clearAuthenticationCookies, getAccessTokenCookieOptions, getRefreshTokenCookieOptions, setAuthenticationCookies } from "../../common/utils/cookie";
 import { logger } from "../../common/utils/logger";
 import { emailSchema, loginSchema, registerSchema, resetPasswordSchema, verificationEmailSchema } from "../../common/validators/auth.validator";
@@ -109,6 +109,22 @@ export class AuthController {
 
             return clearAuthenticationCookies(res).status(HTTPSTATUS.OK).json({
                 message: "Reset password successfully",
+            })
+        }
+    )
+
+    public logout = asyncHandler(
+        async (req, res): Promise<any> => {
+            const sessionId = req.sessionId
+
+            if (!sessionId) {
+                throw new NotFoundException("Session is invalid")
+            }
+
+            await this.authService.logout(sessionId)
+
+            return clearAuthenticationCookies(res).status(HTTPSTATUS.OK).json({
+                message: "Logout successfully",
             })
         }
     )
