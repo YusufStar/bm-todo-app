@@ -1,3 +1,4 @@
+import { logger } from "../../common/utils/logger";
 import { HTTPSTATUS } from "../../config/http.config";
 import { asyncHandler } from "../../middlewares/asyncHandler";
 import { SessionService } from "./session.service";

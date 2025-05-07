@@ -78,7 +78,7 @@ export class AuthService {
         
         const session = await SessionModel.create({
             userId: user._id,
-            agent: userAgent,
+            userAgent: userAgent,
         });
 
         const accessToken = signJwtToken({
