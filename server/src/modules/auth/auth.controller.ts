@@ -1,5 +1,5 @@
 import { UnauthorizedException } from "../../common/utils/catch-errors";
-import { getAccessTokenCookieOptions, getRefreshTokenCookieOptions, setAuthenticationCookies } from "../../common/utils/cookie";
+import { clearAuthenticationCookies, getAccessTokenCookieOptions, getRefreshTokenCookieOptions, setAuthenticationCookies } from "../../common/utils/cookie";
 import { logger } from "../../common/utils/logger";
 import { emailSchema, loginSchema, registerSchema, resetPasswordSchema, verificationEmailSchema } from "../../common/validators/auth.validator";
 import { HTTPSTATUS } from "../../config/http.config";
@@ -97,6 +97,18 @@ export class AuthController {
 
             return res.status(HTTPSTATUS.OK).json({
                 message: "Forgot password successfully",
+            })
+        }
+    )
+
+    public resetPassword = asyncHandler(
+        async (req, res): Promise<any> => {
+            const body = resetPasswordSchema.parse(req.body)
+
+            await this.authService.resetPassword(body)
+
+            return clearAuthenticationCookies(res).status(HTTPSTATUS.OK).json({
+                message: "Reset password successfully",
             })
         }
     )

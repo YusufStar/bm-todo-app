@@ -1,6 +1,6 @@
 import { ErrorCode } from "../../common/enums/error-code.enum";
 import { VerificationEnum } from "../../common/enums/verification-code.enum";
-import { LoginDto, RegisterDto } from "../../common/interface/auth.interface";
+import { LoginDto, RegisterDto, ResetPasswordDto } from "../../common/interface/auth.interface";
 import { calculateExpirationDate, fortyFiveMinutesFromNow, ONE_DAY_IN_MS, tenMinutesAgo } from "../../common/utils/date-time";
 import { BadRequestException, HttpException, InternalServerException, NotFoundException, UnauthorizedException } from "../../common/utils/catch-errors";
 import UserModel from "../../database/models/user.model";
@@ -12,6 +12,8 @@ import { sendEmail } from "../../mailers/mailer";
 import { passwordResetTemplate, verifyEmailTemplate } from "../../mailers/templates/template";
 import { HTTPSTATUS } from "../../config/http.config";
 import { logger } from "../../common/utils/logger";
+import { resetPasswordSchema } from "../../common/validators/auth.validator";
+import { hashValue } from "../../common/utils/bcrypt";
 
 export class AuthService {
     public async register(registerData: RegisterDto) {
@@ -228,6 +230,46 @@ export class AuthService {
         return {
             url: resetLink,
             emailId: data.id,
+        }
+    }
+
+    public async resetPassword({
+        verificationCode,
+        password,
+    }: ResetPasswordDto) {
+        const validCode = await VerificationCodeModel.findOne({
+            code: verificationCode,
+            type: VerificationEnum.PASSWORD_RESET,
+            expiresAt: { $gt: new Date() },
+        })
+
+        if (!validCode) {
+            throw new NotFoundException("Invalid or expired verification code")
+        }
+
+        const hashedPassword = await hashValue(password)
+
+        const updateUser = await UserModel.findByIdAndUpdate(
+            validCode.userId,
+            {
+                password: hashedPassword,
+            }
+        )
+
+        if (!updateUser) {
+            throw new BadRequestException("Failed to reset password")     
+        }
+
+        await validCode.deleteOne()
+
+        await SessionModel.deleteMany({
+            userId: updateUser._id,
+        })
+
+        logger.info(`User reset password successfully - ${updateUser.email}`)
+
+        return {
+            user: updateUser
         }
     }
 }
