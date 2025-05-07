@@ -1,18 +1,5 @@
-# Node.js dependencies
-node_modules/
-
-# Environment files
-.env
-
 # macOS
 .DS_Store
-
-# Logs
-server/logs/
-*.log
-
-# Build artifacts
-dist/
 
 # Documentation
 server-requests.md

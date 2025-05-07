@@ -1,1 +1,0 @@
-{"ip":"::1","level":"error","message":"POST /api/v1/auth/register [500] 5ms","timestamp":"2025-05-06 23:26:19","userAgent":"curl/8.7.1"}
