@@ -2,7 +2,7 @@ import { ErrorCode } from "../../common/enums/error-code.enum";
 import { VerificationEnum } from "../../common/enums/verification-code.enum";
 import { LoginDto, RegisterDto } from "../../common/interface/auth.interface";
 import { calculateExpirationDate, fortyFiveMinutesFromNow, ONE_DAY_IN_MS } from "../../common/utils/date-time";
-import { BadRequestException, UnauthorizedException } from "../../common/utils/catch-errors";
+import { BadRequestException, NotFoundException, UnauthorizedException } from "../../common/utils/catch-errors";
 import UserModel from "../../database/models/user.model";
 import VerificationCodeModel from "../../database/models/verification.model";
 import SessionModel from "../../database/models/session.model";
@@ -130,6 +130,41 @@ export class AuthService {
         return {
             accessToken,
             newRefreshToken,
+        }
+    }
+
+    public async verifyEmail(code: string) {
+        const validCode = await VerificationCodeModel.findOne({
+            code,
+            type: VerificationEnum.EMAIL_VERIFICATION,
+            expiresAt: { $gt: new Date() },
+        })
+        
+        if (!validCode) {
+            throw new NotFoundException("Invalid or expired verification code")
+        }
+        
+        const updateUser = await UserModel.findByIdAndUpdate(
+            validCode.userId,
+            {
+                isEmailVerified: true
+            },
+            {
+                new: true
+            }
+        )
+
+        if (!updateUser) {
+            throw new BadRequestException(
+                "Unable to verify email adress",
+                ErrorCode.VALIDATION_ERROR
+            )
+        }
+
+        await validCode.deleteOne()
+
+        return {
+            user: updateUser,
         }
     }
 }

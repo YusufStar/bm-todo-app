@@ -1,6 +1,6 @@
 import { UnauthorizedException } from "../../common/utils/catch-errors";
 import { getAccessTokenCookieOptions, getRefreshTokenCookieOptions, setAuthenticationCookies } from "../../common/utils/cookie";
-import { loginSchema, registerSchema } from "../../common/validators/auth.validator";
+import { loginSchema, registerSchema, verificationEmailSchema } from "../../common/validators/auth.validator";
 import { HTTPSTATUS } from "../../config/http.config";
 import { asyncHandler } from "../../middlewares/asyncHandler";
 import { AuthService } from "./auth.service";
@@ -50,7 +50,7 @@ export class AuthController {
             if (!refreshToken) {
                 throw new UnauthorizedException("Missing refresh token")
             }
-            
+
             const { accessToken, newRefreshToken } = await this.authService.refreshToken(refreshToken)
 
             if (newRefreshToken) {
@@ -62,14 +62,26 @@ export class AuthController {
             }
 
             return res
-            .status(HTTPSTATUS.OK)
-            .cookie(
-                "accessToken",
-                accessToken,
-                getAccessTokenCookieOptions()
-            )
-            .json({
-                message: "Refresh access token successfully"
+                .status(HTTPSTATUS.OK)
+                .cookie(
+                    "accessToken",
+                    accessToken,
+                    getAccessTokenCookieOptions()
+                )
+                .json({
+                    message: "Refresh access token successfully"
+                })
+        }
+    )
+
+    public verifyEmail = asyncHandler(
+        async (req, res): Promise<any> => {
+            const { code } = verificationEmailSchema.parse(req.body)
+
+            const { user } = await this.authService.verifyEmail(code)
+
+            return res.status(HTTPSTATUS.OK).json({
+                message: "Email verified successfully",
             })
         }
     )
