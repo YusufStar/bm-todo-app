@@ -1,6 +1,7 @@
 import { UnauthorizedException } from "../../common/utils/catch-errors";
 import { getAccessTokenCookieOptions, getRefreshTokenCookieOptions, setAuthenticationCookies } from "../../common/utils/cookie";
-import { loginSchema, registerSchema, verificationEmailSchema } from "../../common/validators/auth.validator";
+import { logger } from "../../common/utils/logger";
+import { emailSchema, loginSchema, registerSchema, resetPasswordSchema, verificationEmailSchema } from "../../common/validators/auth.validator";
 import { HTTPSTATUS } from "../../config/http.config";
 import { asyncHandler } from "../../middlewares/asyncHandler";
 import { AuthService } from "./auth.service";
@@ -80,8 +81,22 @@ export class AuthController {
 
             const { user } = await this.authService.verifyEmail(code)
 
+            logger.info(`User verified email successfully - ${user.email}`)
+
             return res.status(HTTPSTATUS.OK).json({
                 message: "Email verified successfully",
+            })
+        }
+    )
+
+    public forgotPassword = asyncHandler(
+        async (req, res): Promise<any> => {
+            const email = emailSchema.parse(req.body.email)
+
+            await this.authService.forgotPassword(email)
+
+            return res.status(HTTPSTATUS.OK).json({
+                message: "Forgot password successfully",
             })
         }
     )
