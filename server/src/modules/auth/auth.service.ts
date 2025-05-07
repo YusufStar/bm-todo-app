@@ -11,6 +11,7 @@ import { config } from "../../config/app.config";
 import { sendEmail } from "../../mailers/mailer";
 import { passwordResetTemplate, verifyEmailTemplate } from "../../mailers/templates/template";
 import { HTTPSTATUS } from "../../config/http.config";
+import { logger } from "../../common/utils/logger";
 
 export class AuthService {
     public async register(registerData: RegisterDto) {
@@ -45,6 +46,8 @@ export class AuthService {
             to: newUser.email,
             ...verifyEmailTemplate(verificationUrl),
         })
+
+        logger.info(`Verification email sent to ${newUser.email}`)
 
         return {
             user: newUser,
@@ -170,6 +173,8 @@ export class AuthService {
 
         await validCode.deleteOne()
 
+        logger.info(`User verified email successfully - ${updateUser.email}`)
+
         return {
             user: updateUser,
         }
@@ -214,6 +219,8 @@ export class AuthService {
             to: user.email,
             ...passwordResetTemplate(resetLink),
         })
+
+        logger.info(`Password reset email sent to ${user.email} - ${data?.id}`)
 
         if (!data?.id) {
             throw new InternalServerException(`${error?.name} ${error?.message}`)
