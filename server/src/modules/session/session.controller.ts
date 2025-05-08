@@ -1,3 +1,4 @@
+import { NotFoundException } from "../../common/utils/catch-errors";
 import { logger } from "../../common/utils/logger";
 import { HTTPSTATUS } from "../../config/http.config";
 import { asyncHandler } from "../../middlewares/asyncHandler";
@@ -20,12 +21,27 @@ export class SessionController {
             ...session.toObject(),
             ...(session.id === sessionId && {
                 isCurrent: true,
-            })
-        }))
+            }),
+        }));
 
         return res.status(HTTPSTATUS.OK).json({
             sessions: modifySessions,
             message: "Retrieved all sessions successfully",
+        });
+    });
+
+    public getSession = asyncHandler(async (req, res) => {
+        const sessionId = req.sessionId;
+
+        if (!sessionId) {
+            throw new NotFoundException("Session ID not found. Please log in again.");
+        }
+
+        const { user } = await this.sessionService.getSessionById(sessionId);
+
+        return res.status(HTTPSTATUS.OK).json({
+            user,
+            message: "Retrieved session successfully",
         });
     });
 }
