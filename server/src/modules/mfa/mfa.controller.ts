@@ -1,4 +1,5 @@
-import { verifyMfaSchema } from "../../common/validators/mfa.validator";
+import { setAuthenticationCookies } from "../../common/utils/cookie";
+import { verifyMfaForLoginSchema, verifyMfaSchema } from "../../common/validators/mfa.validator";
 import { HTTPSTATUS } from "../../config/http.config";
 import { asyncHandler } from "../../middlewares/asyncHandler";
 import { MfaService } from "./mfa.service";
@@ -33,6 +34,37 @@ export class MfaController {
             return res.status(HTTPSTATUS.OK).json({
                 message,
                 userPreferences
+            })
+        }
+    )
+
+    public revokeMfa = asyncHandler(
+        async (req, res) => {
+            const { message, userPreferences } = await this.mfaService.revokeMfa(req);
+
+            return res.status(HTTPSTATUS.OK).json({
+                message,
+                userPreferences
+            })
+        }
+    )
+
+    public verifyMfaForLogin = asyncHandler(
+        async (req, res) => {
+            const { code, email, userAgent } = verifyMfaForLoginSchema.parse({
+                ...req.body,
+                userAgent: req.headers["user-agent"]
+            })
+
+            const { accessToken, refreshToken, user } = await this.mfaService.verifyMfaForLogin(code, email, userAgent);
+
+            await setAuthenticationCookies({
+                res,
+                accessToken,
+                refreshToken
+            }).status(HTTPSTATUS.OK).json({
+                message: "Verified & logged in successfully",
+                user,
             })
         }
     )

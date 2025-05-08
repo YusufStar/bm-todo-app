@@ -75,6 +75,15 @@ export class AuthService {
                 ErrorCode.AUTH_USER_NOT_FOUND
             );
         }
+
+        if (user.userPreferences.enable2FA) {
+            return {
+                user: null,
+                mfaRequired: true,
+                refreshToken: "",
+                accessToken: ""
+            }
+        }
         
         const session = await SessionModel.create({
             userId: user._id,

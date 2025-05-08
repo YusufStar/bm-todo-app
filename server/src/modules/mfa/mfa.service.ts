@@ -1,7 +1,10 @@
 import { Request } from "express";
 import speakeasy from "speakeasy";
 import qrcode from "qrcode";
-import { BadRequestException, UnauthorizedException } from "../../common/utils/catch-errors";
+import { BadRequestException, NotFoundException, UnauthorizedException } from "../../common/utils/catch-errors";
+import UserModel from "../../database/models/user.model";
+import SessionModel from "../../database/models/session.model";
+import { refreshTokenSignOptions, signJwtToken } from "../../common/utils/jwt";
 
 export class MfaService {
     public async generateMfaSetup(req: Request): Promise<{
@@ -77,7 +80,7 @@ export class MfaService {
         if (!isValid) {
             throw new BadRequestException("Invalid MFA code. Pleae try again.");
         }
-        
+
         user.userPreferences.enable2FA = true;
         await user.save();
 
@@ -86,6 +89,82 @@ export class MfaService {
             userPreferences: {
                 enable2FA: user.userPreferences.enable2FA,
             }
+        }
+    }
+
+    public async revokeMfa(req: Request) {
+        const user = req.user;
+
+        if (!user) {
+            throw new UnauthorizedException("User not authorized");
+        }
+
+        if (!user.userPreferences.enable2FA) {
+            return {
+                message: "MFA is not enabled",
+                userPreferences: {
+                    enable2FA: user.userPreferences.enable2FA,
+                }
+            }
+        }
+
+        user.userPreferences.twoFactorSecret = undefined;
+        user.userPreferences.enable2FA = false;
+        await user.save();
+
+        return {
+            message: "MFA revoked successfully",
+            userPreferences: {
+                enable2FA: user.userPreferences.enable2FA,
+            }
+        }
+    }
+
+    public async verifyMfaForLogin(code: string, email: string, userAgent?: string) {
+        const user = await UserModel.findOne({ email });
+
+        if (!user) {
+            throw new NotFoundException("User not found");
+        }
+
+        if (
+            !user.userPreferences.enable2FA &&
+            !user.userPreferences.twoFactorSecret
+        ) {
+            throw new UnauthorizedException("MFA not enable for this user");
+        }
+
+        const isValid = speakeasy.totp.verify({
+            secret: user.userPreferences.twoFactorSecret!,
+            encoding: "base32",
+            token: code,
+        });
+
+        if (!isValid) {
+            throw new BadRequestException("Invalid MFA code. Please try again.");
+        }
+
+        const session = await SessionModel.create({
+            userId: user._id,
+            userAgent: userAgent,
+        });
+
+        const accessToken = signJwtToken({
+            userId: user._id,
+            sessionId: session._id,
+        })
+
+        const refreshToken = signJwtToken(
+            {
+                sessionId: session._id,
+            },
+            refreshTokenSignOptions
+        );
+
+        return {
+            user,
+            accessToken,
+            refreshToken
         }
     }
 }
