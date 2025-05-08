@@ -1,3 +1,4 @@
+import { z } from "zod";
 import { NotFoundException } from "../../common/utils/catch-errors";
 import { logger } from "../../common/utils/logger";
 import { HTTPSTATUS } from "../../config/http.config";
@@ -44,4 +45,17 @@ export class SessionController {
             message: "Retrieved session successfully",
         });
     });
+
+    public deleteSession = asyncHandler(
+        async (req, res) => {
+            const sessionId = z.string().parse(req.params.id);
+            const userId = req.user?.id;
+
+            await this.sessionService.deleteSession(sessionId, userId);
+
+            return res.status(HTTPSTATUS.OK).json({
+                message: "Session deleted successfully",
+            });
+        }
+    )
 }

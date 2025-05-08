@@ -42,4 +42,17 @@ export class SessionService {
             user
         }
     }
+
+    public async deleteSession(sessionId: string, userId: string) {
+        const session = await SessionModel.findByIdAndDelete({
+            _id: sessionId,
+            userId,
+        });
+
+        if (!session) {
+            throw new NotFoundException("Session not found");
+        }
+
+        return
+    }
 }
