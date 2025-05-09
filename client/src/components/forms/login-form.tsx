@@ -24,7 +24,7 @@ export function LoginForm({
 }: React.ComponentProps<"div">) {
   // TODO: change original value
   const isPending = true;
-  const [isSubmitted, setIsSubmitted] = useState()
+  const [isSubmitted, setIsSubmitted] = useState(false)
 
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),

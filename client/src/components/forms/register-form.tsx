@@ -16,7 +16,7 @@ import { registerSchema } from "@/validate"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useState } from "react"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form"
-import { Loader } from "lucide-react"
+import { ArrowRight, Loader, MailCheckIcon } from "lucide-react"
 
 export function RegisterForm({
   className,
@@ -24,7 +24,7 @@ export function RegisterForm({
 }: React.ComponentProps<"div">) {
   // TODO: change original value
   const isPending = true;
-  const [isSubmitted, setIsSubmitted] = useState()
+  const [isSubmitted, setIsSubmitted] = useState(false)
 
   const form = useForm<z.infer<typeof registerSchema>>({
     resolver: zodResolver(registerSchema),
@@ -45,10 +45,17 @@ export function RegisterForm({
       <Card>
         <CardHeader className="text-center">
           <CardTitle className="text-xl">
-            Create an account
+            {
+              isSubmitted && <MailCheckIcon className="inline-block mr-2" />
+            }
+            {
+              isSubmitted ? "Check your email" : "Create an account"
+            }
           </CardTitle>
           <CardDescription>
-            Sign up your account
+            {
+              isSubmitted ? `We just sent a verification link to ${form.getValues().email}.` : "Sign up to get started"
+            }
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -148,7 +155,12 @@ export function RegisterForm({
               </form>
             </Form>
           ) : (
-            <></>
+            <Link href="/signin">
+              <Button className="w-full">
+                Go to login
+                <ArrowRight />
+              </Button>
+            </Link>
           )}
         </CardContent>
       </Card>
