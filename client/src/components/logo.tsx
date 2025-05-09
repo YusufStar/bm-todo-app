@@ -7,6 +7,7 @@ export default function Logo({
   noIcon = false,
   noText = false,
   svgclassname = "",
+  href = "/",
 }: {
   size?: number;
   width?: number;
@@ -14,9 +15,10 @@ export default function Logo({
   noText?: boolean;
   noIcon?: boolean;
   svgclassname?: string;
+  href?: string;
 }) {
   return (
-    <Link href="/" className="flex items-center gap-2 self-center font-medium">
+    <Link href={href} className="flex items-center gap-2 self-center font-medium">
       <div className="flex items-center gap-2">
         {!noIcon && (
           <svg
