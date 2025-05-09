@@ -34,9 +34,9 @@ export class AuthController {
             const { user, accessToken, refreshToken, mfaRequired } = await this.authService.login(body)
 
             if (mfaRequired) {
-                return res.status(HTTPSTATUS.UNAUTHORIZED).json({
+                return res.status(HTTPSTATUS.OK).json({
                     message: "Verify MFA authentication",
-                    mfaRequired: true,
+                    mfaRequired,
                     user
                 })
             }
@@ -47,6 +47,7 @@ export class AuthController {
                 refreshToken
             }).status(HTTPSTATUS.OK).json({
                 message: "User logged in successfully",
+                mfaRequired,
                 user
             })
         }

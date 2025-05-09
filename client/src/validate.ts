@@ -18,22 +18,3 @@ export const loginSchema = z.object({
     email: emailSchema,
     password: passwordSchema
 })
-
-export const verificationEmailSchema = z.object({
-    code: verificationCodeSchema
-})
-
-export const resetPasswordSchema = z.object({
-    password: passwordSchema,
-    verificationCode: verificationCodeSchema,
-})
-
-export const verifyMfaSchema = z.object({
-    code: z.string().trim().min(1).max(6),
-    secretKey: z.string().trim().min(1),
-})
-
-export const verifyMfaForLoginSchema = z.object({
-    code: z.string().trim().min(1).max(6),
-    email: z.string().trim().email().min(1)
-})
