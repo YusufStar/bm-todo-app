@@ -14,17 +14,21 @@ import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { loginSchema } from "@/validate"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useState } from "react"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form"
 import { Loader } from "lucide-react"
+import { useMutation } from "@tanstack/react-query"
+import { loginMutationFn } from "@/lib/api"
+import { useRouter } from "next/navigation"
+import { toast } from "sonner"
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
-  // TODO: change original value
-  const isPending = true;
-  const [isSubmitted, setIsSubmitted] = useState(false)
+  const router = useRouter()
+  const { mutate, isPending } = useMutation({
+    mutationFn: loginMutationFn,
+  })
 
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
@@ -35,7 +39,19 @@ export function LoginForm({
   })
 
   const onSubmit = (values: z.infer<typeof loginSchema>) => {
-    console.log(values)
+    mutate(values, {
+      onSuccess: (response) => {
+        if (response.data.mfaRequired) {
+          router.replace(`/verify-mfa?email=${values.email}`)
+          return
+        }
+
+        router.replace("/dashboard")
+      },
+      onError: (error) => {
+        toast.error(error.message)
+      },
+    })
   }
 
   return (
@@ -48,68 +64,64 @@ export function LoginForm({
           </CardDescription>
         </CardHeader>
         <CardContent>
-          {!isSubmitted ? (
-            <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)}>
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)}>
+              <div className="grid gap-6">
                 <div className="grid gap-6">
-                  <div className="grid gap-6">
-                    <div className="grid gap-3">
-                      <FormField
-                        control={form.control}
-                        name="email"
-                        disabled={isPending}
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>
-                              Email
-                            </FormLabel>
-                            <FormControl>
-                              <Input placeholder="example@gmail.com" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
-                    <div className="grid gap-3">
-                      <FormField
-                        control={form.control}
-                        name="password"
-                        disabled={isPending}
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>
-                              Password
-                            </FormLabel>
-                            <FormControl>
-                              <Input placeholder="********" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
-                    <Button
-                      type="submit"
+                  <div className="grid gap-3">
+                    <FormField
+                      control={form.control}
+                      name="email"
                       disabled={isPending}
-                      className="w-full"
-                    >
-                      {isPending && <Loader className="animate-spin" />}
-                      Sign In
-                    </Button>
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>
+                            Email
+                          </FormLabel>
+                          <FormControl>
+                            <Input placeholder="example@gmail.com" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
                   </div>
-                  <div className="text-center text-sm">
-                    Don&apos;t have an account?{" "}
-                    <Link href="/signup" className="underline underline-offset-4">
-                      Sign up
-                    </Link>
+                  <div className="grid gap-3">
+                    <FormField
+                      control={form.control}
+                      name="password"
+                      disabled={isPending}
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>
+                            Password
+                          </FormLabel>
+                          <FormControl>
+                            <Input placeholder="********" type="password" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
                   </div>
+                  <Button
+                    type="submit"
+                    disabled={isPending}
+                    className="w-full"
+                  >
+                    {isPending && <Loader className="animate-spin" />}
+                    Sign In
+                  </Button>
                 </div>
-              </form>
-            </Form>
-          ) : (
-            <></>
-          )}
+                <div className="text-center text-sm">
+                  Don&apos;t have an account?{" "}
+                  <Link href="/signup" className="underline underline-offset-4">
+                    Sign up
+                  </Link>
+                </div>
+              </div>
+            </form>
+          </Form>
         </CardContent>
       </Card>
       <div className="text-muted-foreground *:[a]:hover:text-primary text-center text-xs text-balance *:[a]:underline *:[a]:underline-offset-4">

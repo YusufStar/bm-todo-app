@@ -1,4 +1,5 @@
 import { setAuthenticationCookies } from "../../common/utils/cookie";
+import { emailSchema } from "../../common/validators/auth.validator";
 import { verifyMfaForLoginSchema, verifyMfaSchema } from "../../common/validators/mfa.validator";
 import { HTTPSTATUS } from "../../config/http.config";
 import { asyncHandler } from "../../middlewares/asyncHandler";

@@ -17,14 +17,19 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useState } from "react"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form"
 import { ArrowRight, Loader, MailCheckIcon } from "lucide-react"
+import { useMutation } from "@tanstack/react-query"
+import { registerMutationFn } from "@/lib/api"
+import { toast } from "sonner"
 
 export function RegisterForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
-  // TODO: change original value
-  const isPending = true;
   const [isSubmitted, setIsSubmitted] = useState(false)
+
+  const {mutate, isPending} = useMutation({
+    mutationFn: registerMutationFn,
+  })
 
   const form = useForm<z.infer<typeof registerSchema>>({
     resolver: zodResolver(registerSchema),
@@ -37,7 +42,14 @@ export function RegisterForm({
   })
 
   const onSubmit = (values: z.infer<typeof registerSchema>) => {
-    console.log(values)
+    mutate(values, {
+      onSuccess() {
+        setIsSubmitted(true)
+      },
+      onError(error) {
+        toast.error(error.message)
+      }
+    })
   }
 
   return (
@@ -111,7 +123,7 @@ export function RegisterForm({
                               Password
                             </FormLabel>
                             <FormControl>
-                              <Input placeholder="********" {...field} />
+                              <Input placeholder="********" type="password" {...field} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -129,7 +141,7 @@ export function RegisterForm({
                               Confirm Password
                             </FormLabel>
                             <FormControl>
-                              <Input placeholder="********" {...field} />
+                              <Input placeholder="********" type="password" {...field} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -165,9 +177,9 @@ export function RegisterForm({
         </CardContent>
       </Card>
       <div className="text-muted-foreground *:[a]:hover:text-primary text-center text-xs text-balance *:[a]:underline *:[a]:underline-offset-4">
-        By clicking continue, you agree to our <a href="#">Terms of Service</a>{" "}
-        and <a href="#">Privacy Policy</a>.
-      </div>
+          By clicking continue, you agree to our <a href="#">Terms of Service</a>{" "}
+          and <a href="#">Privacy Policy</a>.
+        </div>
     </div>
   )
 }
