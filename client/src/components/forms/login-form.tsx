@@ -55,7 +55,7 @@ export function LoginForm({
   }
 
   return (
-    <div className={cn("flex flex-col gap-6", className)} {...props}>
+    <div className={cn("flex flex-col gap-6 w-full max-w-md", className)} {...props}>
       <Card>
         <CardHeader className="text-center">
           <CardTitle className="text-xl">Welcome back</CardTitle>
@@ -104,6 +104,17 @@ export function LoginForm({
                       )}
                     />
                   </div>
+                  <span className="w-full text-center gap-2 flex justify-between">
+                    <span className="text-sm text-muted-foreground">
+                    Forgot your password?{" "}
+                    </span>
+                    <Link
+                      href={`/forgot-password?email=${form.getValues().email}`}
+                      className="text-sm text-muted-foreground hover:text-primary underline underline-offset-4"
+                    >
+                      Forgot password?
+                    </Link>
+                  </span>
                   <Button
                     type="submit"
                     disabled={isPending}
