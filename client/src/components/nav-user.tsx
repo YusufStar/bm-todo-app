@@ -5,8 +5,10 @@ import {
   Bell,
   ChevronsUpDown,
   CreditCard,
+  Loader,
   LogOut,
   Sparkles,
+  XIcon,
 } from "lucide-react"
 
 import {
@@ -29,17 +31,24 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar"
+import { useAuthContext } from "@/context/auth-provider"
+import { getInitials } from "@/lib/utils"
+import { Skeleton } from "./ui/skeleton"
 
-export function NavUser({
-  user,
-}: {
-  user: {
-    name: string
-    email: string
-    avatar: string
-  }
-}) {
+export function NavUser() {
+  const { user, isFetching } = useAuthContext()
   const { isMobile } = useSidebar()
+
+  if (isFetching) {
+    return <Skeleton className="h-10 w-full rounded-lg" />
+  }
+  
+  if (!user) {
+    return <div className="flex h-10 w-full items-center justify-center rounded-lg bg-muted gap-2 text-sm text-destructive">
+      <XIcon className="h-4 w-4 text-destructive" />
+      Error loading user
+    </div>
+  }
 
   return (
     <SidebarMenu>
@@ -51,8 +60,10 @@ export function NavUser({
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
               <Avatar className="h-8 w-8 rounded-lg">
-                <AvatarImage src={user.avatar} alt={user.name} />
-                <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                <AvatarImage src={""} alt={user.name} />
+                <AvatarFallback className="rounded-lg">
+                  {getInitials(user.name)}
+                </AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-medium">{user.name}</span>
@@ -70,8 +81,10 @@ export function NavUser({
             <DropdownMenuLabel className="p-0 font-normal">
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="h-8 w-8 rounded-lg">
-                  <AvatarImage src={user.avatar} alt={user.name} />
-                  <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                  <AvatarImage src={""} alt={user.name} />
+                  <AvatarFallback className="rounded-lg">
+                    {getInitials(user.name)}
+                  </AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-medium">{user.name}</span>
