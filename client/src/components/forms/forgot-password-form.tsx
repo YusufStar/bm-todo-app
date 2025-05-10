@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input"
 import Link from "next/link"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
-import { resetPasswordSchema } from "@/validate"
+import { forgotPasswordSchema } from "@/validate"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form"
 import { ArrowRight, Loader, MailCheckIcon } from "lucide-react"
@@ -36,14 +36,14 @@ export function ForgotPasswordForm({
     mutationFn: forgotPasswordMutationFn,
   });
 
-  const form = useForm<z.infer<typeof resetPasswordSchema>>({
-    resolver: zodResolver(resetPasswordSchema),
+  const form = useForm<z.infer<typeof forgotPasswordSchema>>({
+    resolver: zodResolver(forgotPasswordSchema),
     defaultValues: {
       email: email || "",
     },
   })
 
-  const onSubmit = (values: z.infer<typeof resetPasswordSchema>) => {
+  const onSubmit = (values: z.infer<typeof forgotPasswordSchema>) => {
     mutate(values, {
       onSuccess: () => {
         setIsSubmitted(true);
