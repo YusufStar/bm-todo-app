@@ -106,7 +106,7 @@ export function LoginForm({
                   </div>
                   <span className="w-full text-center gap-2 flex justify-between">
                     <span className="text-sm text-muted-foreground">
-                    Forgot your password?{" "}
+                      Forgot your password?{" "}
                     </span>
                     <Link
                       href={`/forgot-password?email=${form.getValues().email}`}
