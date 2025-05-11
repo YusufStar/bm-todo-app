@@ -263,7 +263,7 @@ function MfaSetup() {
                       </FormItem>
                     )}
                   />
-                  <Button disabled={isPending} className="w-full h-[40px]">
+                  <Button disabled={isPending} className="w-full">
                     {isPending && <Loader className="animate-spin" />}
                     Verify
                   </Button>
