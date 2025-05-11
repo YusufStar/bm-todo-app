@@ -118,6 +118,10 @@ const data = {
           url: "#",
         },
         {
+          title: "Account",
+          url: "/dashboard/settings/account",
+        },
+        {
           title: "Team",
           url: "#",
         },

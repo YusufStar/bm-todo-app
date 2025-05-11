@@ -37,11 +37,11 @@ const SessionSettings = () => {
   }, []);
 
   return (
-    <div>
+    <div className="w-full">
       <h3 className="text-xl tracking-[-0.16px] text-slate-12 font-bold mb-1">
         Sessions
       </h3>
-      <p className="mb-6 max-w-xl text-sm font-normal">
+      <p className="mb-6 text-sm font-normal">
         Sessions are the devices you are using or that have used your B&M
         These are the sessions where your account is currently logged in. You
         can log out of each session.
@@ -49,7 +49,7 @@ const SessionSettings = () => {
       {isLoading ? (
         <Loader size="35px" className="animate-spin" />
       ) : (
-        <div className="rounded-t-xl max-w-xl">
+        <div className="rounded-t-xl">
           <div>
             <h5 className="text-base font-semibold">
               Current active session
@@ -77,7 +77,7 @@ const SessionSettings = () => {
                 overflow-y-auto
                 "
               >
-                {otherSessions?.map((session) => (
+                {otherSessions.length > 0 ? otherSessions?.map((session) => (
                   <li>
                     <SessionItem
                       loading={isPending}
@@ -87,7 +87,13 @@ const SessionSettings = () => {
                       onRemove={() => handleDelete(session._id)}
                     />
                   </li>
-                ))}
+                )) : (
+                  <div className="w-full flex items-center justify-center py-12 border-border rounded-lg border bg-card">
+                    <p className="text-sm">
+                      No other sessions found
+                    </p>
+                  </div>
+                )}
               </ul>
             </div>
           </div>

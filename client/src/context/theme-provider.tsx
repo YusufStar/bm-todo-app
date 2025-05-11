@@ -3,6 +3,7 @@
 import * as React from "react";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { Toaster } from "@/components/ui/sonner";
+import { AuthProvider } from "./auth-provider";
 
 export function ThemeProvider({
     children,
@@ -11,7 +12,9 @@ export function ThemeProvider({
     return (
         <NextThemesProvider {...props}>
             <Toaster richColors />
-            {children}
+            <AuthProvider>
+                {children}
+            </AuthProvider>
         </NextThemesProvider>
     );
 }
