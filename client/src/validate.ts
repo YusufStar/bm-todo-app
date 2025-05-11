@@ -30,3 +30,9 @@ export const resetPasswordSchema = z.object({
     path: ["confirmPassword"],
     message: "Passwords do not match"
 })
+
+export const verifyMFASchema = z.object({
+    pin: z.string().min(6, {
+        message: "Your one-time password must be 6 characters.",
+    }),
+})

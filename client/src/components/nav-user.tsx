@@ -34,6 +34,7 @@ import {
 import { useAuthContext } from "@/context/auth-provider"
 import { getInitials } from "@/lib/utils"
 import { Skeleton } from "./ui/skeleton"
+import Link from "next/link"
 
 export function NavUser() {
   const { user, isFetching } = useAuthContext()
@@ -42,7 +43,7 @@ export function NavUser() {
   if (isFetching) {
     return <Skeleton className="h-10 w-full rounded-lg" />
   }
-  
+
   if (!user) {
     return <div className="flex h-10 w-full items-center justify-center rounded-lg bg-muted gap-2 text-sm text-destructive">
       <XIcon className="h-4 w-4 text-destructive" />
@@ -101,10 +102,12 @@ export function NavUser() {
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <BadgeCheck />
-                Account
-              </DropdownMenuItem>
+              <Link href="/account">
+                <DropdownMenuItem>
+                  <BadgeCheck />
+                  Account
+                </DropdownMenuItem>
+              </Link>
               <DropdownMenuItem>
                 <CreditCard />
                 Billing

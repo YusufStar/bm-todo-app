@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const protectedRoutes = ["/profile"];
+const protectedRoutes = ["/account"];
 const publicRoutes = [
   "/",
   "/signup",
@@ -23,7 +23,7 @@ export default async function middleware(req: NextRequest) {
   }
 
   if (isPublicRoute && accessToken) {
-    return NextResponse.redirect(new URL("/home", req.nextUrl));
+    return NextResponse.redirect(new URL("/dashboard", req.nextUrl));
   }
 
   return NextResponse.next();
