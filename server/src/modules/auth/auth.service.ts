@@ -1,6 +1,6 @@
 import { ErrorCode } from "../../common/enums/error-code.enum";
 import { VerificationEnum } from "../../common/enums/verification-code.enum";
-import { LoginDto, RegisterDto, ResetPasswordDto } from "../../common/interface/auth.interface";
+import { ChangePasswordDto, LoginDto, RegisterDto, ResetPasswordDto } from "../../common/interface/auth.interface";
 import { calculateExpirationDate, fortyFiveMinutesFromNow, ONE_DAY_IN_MS, tenMinutesAgo } from "../../common/utils/date-time";
 import { BadRequestException, HttpException, InternalServerException, NotFoundException, UnauthorizedException } from "../../common/utils/catch-errors";
 import UserModel from "../../database/models/user.model";
@@ -42,7 +42,7 @@ export class AuthService {
             type: VerificationEnum.EMAIL_VERIFICATION,
             expiresAt: fortyFiveMinutesFromNow(),
         });
-        
+
         const verificationUrl = `${config.APP_ORIGIN}/confirm-account?code=${verification.code}`;
         await sendEmail({
             to: newUser.email,
@@ -55,7 +55,7 @@ export class AuthService {
             user: newUser,
         };
     }
-    
+
     public async login(loginData: LoginDto) {
         const { email, password, userAgent } = loginData;
 
@@ -67,7 +67,7 @@ export class AuthService {
                 ErrorCode.AUTH_USER_NOT_FOUND
             );
         }
-        
+
         const isPasswordValid = await user.comparePassword(password);
         if (!isPasswordValid) {
             throw new BadRequestException(
@@ -84,7 +84,7 @@ export class AuthService {
                 accessToken: ""
             }
         }
-        
+
         const session = await SessionModel.create({
             userId: user._id,
             userAgent: userAgent,
@@ -129,7 +129,7 @@ export class AuthService {
         if (session.expiredAt.getTime() <= now) {
             throw new UnauthorizedException("Session expired")
         }
-        
+
         const sessionRequiredRefresh = session.expiredAt.getTime() - now <= ONE_DAY_IN_MS
 
         if (sessionRequiredRefresh) {
@@ -160,11 +160,11 @@ export class AuthService {
             type: VerificationEnum.EMAIL_VERIFICATION,
             expiresAt: { $gt: new Date() },
         })
-        
+
         if (!validCode) {
             throw new NotFoundException("Invalid or expired verification code")
         }
-        
+
         const updateUser = await UserModel.findByIdAndUpdate(
             validCode.userId,
             {
@@ -226,7 +226,7 @@ export class AuthService {
         })
 
         const resetLink = `${config.APP_ORIGIN}/reset-password?code=${validCode.code}&exp=${expiresAt.getTime()}`
-        const {data, error} = await sendEmail({
+        const { data, error } = await sendEmail({
             to: user.email,
             ...passwordResetTemplate(resetLink),
         })
@@ -266,7 +266,7 @@ export class AuthService {
         )
 
         if (!updateUser) {
-            throw new BadRequestException("Failed to reset password")     
+            throw new BadRequestException("Failed to reset password")
         }
 
         await validCode.deleteOne()
@@ -284,5 +284,44 @@ export class AuthService {
 
     public async logout(sessionId: string) {
         return await SessionModel.findByIdAndDelete(sessionId)
+    }
+
+    public async changePassword({ currentPassword, newPassword, confirmPassword }: ChangePasswordDto, userId: string) {
+        const user = await UserModel.findById(userId)
+
+        if (!user) {
+            throw new NotFoundException("User not found")
+        }
+
+        const isPasswordValid = await user.comparePassword(currentPassword)
+        if (!isPasswordValid) {
+            throw new BadRequestException(
+                "Current password is incorrect",
+                ErrorCode.AUTH_USER_NOT_FOUND
+            );
+        }
+
+        const hashedPassword = await hashValue(newPassword)
+
+        const updateUser = await UserModel.findByIdAndUpdate(
+            user._id,
+            {
+                password: hashedPassword,
+            }
+        )
+
+        if (!updateUser) {
+            throw new BadRequestException("Failed to reset password")
+        }
+
+        await SessionModel.deleteMany({
+            userId: updateUser._id,
+        })
+
+        logger.info(`User changed password successfully - ${updateUser.email}`)
+
+        return {
+            user: updateUser
+        }
     }
 }

@@ -116,7 +116,7 @@ function MfaSetup() {
       ) : (
         <Dialog modal open={isOpen} onOpenChange={setIsOpen}>
           <DialogTrigger asChild>
-            <Button disabled={isLoading}>
+            <Button className="w-full" disabled={isLoading}>
               Enable MFA
             </Button>
           </DialogTrigger>

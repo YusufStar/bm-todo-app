@@ -1,13 +1,12 @@
 "use client"
 
 import {
-  BadgeCheck,
   Bell,
   ChevronsUpDown,
   CreditCard,
-  Loader,
   LogOut,
   Sparkles,
+  Terminal,
   XIcon,
 } from "lucide-react"
 
@@ -102,10 +101,10 @@ export function NavUser() {
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <Link href="/account">
+              <Link href="/dashboard/settings/security">
                 <DropdownMenuItem>
-                  <BadgeCheck />
-                  Account
+                  <Terminal />
+                  Settings
                 </DropdownMenuItem>
               </Link>
               <DropdownMenuItem>

@@ -17,12 +17,18 @@ API.interceptors.response.use(
     },
     async (error) => {
         const { data, status } = error.response;
+        
+        // Eğer token bulunamadı ve 401 hatası varsa
         if (data.errorCode === "AUTH_TOKEN_NOT_FOUND" && status === 401) {
             try {
                 await APIRefresh.get("/auth/refresh");
                 return APIRefresh(error.config);
-            } catch (error) {
-                window.location.href = "/";
+            } catch (refreshError) {
+                return Promise.reject({
+                    message: "Your session has expired. Please login again.",
+                    errorCode: "SESSION_EXPIRED",
+                    ...data
+                });
             }
         }
         return Promise.reject({

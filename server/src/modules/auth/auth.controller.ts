@@ -1,7 +1,7 @@
 import { NotFoundException, UnauthorizedException } from "../../common/utils/catch-errors";
 import { clearAuthenticationCookies, getAccessTokenCookieOptions, getRefreshTokenCookieOptions, setAuthenticationCookies } from "../../common/utils/cookie";
 import { logger } from "../../common/utils/logger";
-import { emailSchema, loginSchema, registerSchema, resetPasswordSchema, verificationEmailSchema } from "../../common/validators/auth.validator";
+import { changePasswordSchema, emailSchema, loginSchema, registerSchema, resetPasswordSchema, verificationEmailSchema } from "../../common/validators/auth.validator";
 import { HTTPSTATUS } from "../../config/http.config";
 import { asyncHandler } from "../../middlewares/asyncHandler";
 import { AuthService } from "./auth.service";
@@ -134,6 +134,18 @@ export class AuthController {
 
             return clearAuthenticationCookies(res).status(HTTPSTATUS.OK).json({
                 message: "Logout successfully",
+            })
+        }
+    )
+
+    public changePassword = asyncHandler(
+        async (req, res): Promise<any> => {
+            const body = changePasswordSchema.parse(req.body)
+
+            await this.authService.changePassword(body, req.user?.id)
+
+            return clearAuthenticationCookies(res).status(HTTPSTATUS.OK).json({
+                message: "Change password successfully",
             })
         }
     )

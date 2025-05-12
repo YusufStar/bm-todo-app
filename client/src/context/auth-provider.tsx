@@ -1,7 +1,8 @@
 "use client";
 
 import useAuth from "@/hooks/use-auth";
-import React, { createContext, useContext } from "react";
+import { usePathname } from "next/navigation";
+import React, { createContext, useContext, useEffect } from "react";
 
 type UserType = {
     name: string;
@@ -15,7 +16,7 @@ type UserType = {
 };
 
 type AuthContextType = {
-    user?: UserType; 
+    user?: UserType;
     error: any;
     isLoading: boolean;
     isFetching: boolean;
@@ -27,8 +28,15 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     children,
 }) => {
+    const pathname = usePathname()
     const { data, error, isLoading, isFetching, refetch } = useAuth();
     const user = data?.data?.user;
+
+    useEffect(() => {
+        if (pathname.includes("/dashboard")) {
+            refetch();
+        }
+    }, [pathname]);
 
     return (
         <AuthContext.Provider

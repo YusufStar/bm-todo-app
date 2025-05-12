@@ -1,6 +1,7 @@
 import { Separator } from "@/components/ui/separator"
 import MfaSetup from "./_MfaSetup"
 import SessionSettings from "./_SessionSettings"
+import PasswordChange from "./_PasswordChange"
 
 function SecurityPage() {
   return <div className="flex flex-col gap-4 flex-1">
@@ -11,6 +12,8 @@ function SecurityPage() {
 
     <Separator />
     
+    <PasswordChange />
+    <Separator className="my-4" />
     <MfaSetup />
     <Separator className="my-4" />
     <SessionSettings />

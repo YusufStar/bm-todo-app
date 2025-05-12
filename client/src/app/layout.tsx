@@ -1,9 +1,9 @@
 import type { Metadata } from 'next'
 import { Poppins } from 'next/font/google'
-import './globals.css'
 import QueryProvider from '@/context/query-provider'
 import { ThemeProvider } from '@/context/theme-provider'
 import NextTopLoader from 'nextjs-toploader';
+import './globals.css'
 
 const geistSans = Poppins({
   variable: '--font-sans',
@@ -31,7 +31,7 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <NextTopLoader showSpinner={false}/>
+            <NextTopLoader showSpinner={false} />
             {children}
           </ThemeProvider>
         </QueryProvider>

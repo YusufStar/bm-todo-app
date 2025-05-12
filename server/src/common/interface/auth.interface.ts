@@ -16,3 +16,9 @@ export interface ResetPasswordDto {
     password: string
     verificationCode: string
 }
+
+export interface ChangePasswordDto {
+    currentPassword: string
+    newPassword: string
+    confirmPassword: string
+}

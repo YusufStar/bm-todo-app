@@ -29,3 +29,12 @@ export const resetPasswordSchema = z.object({
     password: passwordSchema,
     verificationCode: verificationCodeSchema,
 })
+
+export const changePasswordSchema = z.object({
+    currentPassword: passwordSchema,
+    newPassword: passwordSchema,
+    confirmPassword: passwordSchema
+}).refine((data) => data.newPassword === data.confirmPassword, {
+    path: ["confirmPassword"],
+    message: "Passwords do not match"
+})

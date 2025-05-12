@@ -39,6 +39,12 @@ export type mfaType = {
     qrImageUrl: string;
 };
 
+export type changePasswordType = {
+    currentPassword: string;
+    newPassword: string;
+    confirmPassword: string;
+};
+
 export const loginMutationFn = async (data: LoginType) =>
     await API.post("/auth/login", data);
 
@@ -53,6 +59,10 @@ export const forgotPasswordMutationFn = async (data: forgotPasswordType) =>
 
 export const resetPasswordMutationFn = async (data: resetPasswordType) =>
     await API.post(`/auth/password/reset`, data);
+
+export const changePasswordMutationFn = async (data: changePasswordType) => {
+    await API.post(`/auth/password/change`, data);
+};
 
 export const verifyMFALoginMutationFn = async (data: mfaLoginType) =>
     await API.post(`/mfa/verify-login`, data);

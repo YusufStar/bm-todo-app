@@ -27,7 +27,7 @@ export function RegisterForm({
 }: React.ComponentProps<"div">) {
   const [isSubmitted, setIsSubmitted] = useState(false)
 
-  const {mutate, isPending} = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: registerMutationFn,
   })
 
@@ -123,7 +123,10 @@ export function RegisterForm({
                               Password
                             </FormLabel>
                             <FormControl>
-                              <Input placeholder="********" type="password" {...field} />
+                              <Input autoComplete="off" readOnly onFocus={(e) => {
+                                e.currentTarget.removeAttribute("readonly")
+                                e.currentTarget.focus()
+                              }} placeholder="********" type="password" {...field} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -141,7 +144,10 @@ export function RegisterForm({
                               Confirm Password
                             </FormLabel>
                             <FormControl>
-                              <Input placeholder="********" type="password" {...field} />
+                              <Input autoComplete="off" readOnly onFocus={(e) => {
+                                e.currentTarget.removeAttribute("readonly")
+                                e.currentTarget.focus()
+                              }} placeholder="********" type="password" {...field} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -177,9 +183,9 @@ export function RegisterForm({
         </CardContent>
       </Card>
       <div className="text-muted-foreground *:[a]:hover:text-primary text-center text-xs text-balance *:[a]:underline *:[a]:underline-offset-4">
-          By clicking continue, you agree to our <a href="#">Terms of Service</a>{" "}
-          and <a href="#">Privacy Policy</a>.
-        </div>
+        By clicking continue, you agree to our <a href="#">Terms of Service</a>{" "}
+        and <a href="#">Privacy Policy</a>.
+      </div>
     </div>
   )
 }

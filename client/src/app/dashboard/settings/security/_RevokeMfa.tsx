@@ -30,7 +30,7 @@ const RevokeMfa = () => {
     <Button
       disabled={isPending}
       variant="destructive"
-      className=" mr-1"
+      className="w-full"
       onClick={handleClick}
     >
       {isPending && <Loader className="animate-spin" />}

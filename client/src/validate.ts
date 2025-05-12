@@ -36,3 +36,12 @@ export const verifyMFASchema = z.object({
         message: "Your one-time password must be 6 characters.",
     }),
 })
+
+export const changePasswordSchema = z.object({
+    currentPassword: passwordSchema,
+    newPassword: passwordSchema,
+    confirmPassword: passwordSchema
+}).refine((data) => data.newPassword === data.confirmPassword, {
+    path: ["confirmPassword"],
+    message: "Passwords do not match"
+})
