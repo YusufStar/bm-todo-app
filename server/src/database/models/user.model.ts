@@ -12,6 +12,7 @@ export interface UserDocument extends Document {
     name: string;
     email: string;
     password: string;
+    department?: string;
     isEmailVerified: boolean;
     createdAt: Date;
     updatedAt: Date;
@@ -47,6 +48,11 @@ const userSchema = new Schema<UserDocument>(
             type: Boolean,
             default: false,
         },
+        department: {
+            type: Schema.Types.ObjectId,
+            ref: "Department",
+            required: false,
+        },
         userPreferences: {
             type: userPreferencesSchema,
             default: {},
@@ -57,6 +63,19 @@ const userSchema = new Schema<UserDocument>(
         toJSON: {},
     }
 );
+
+function autoPopulate(this: mongoose.Query<any, UserDocument>, next: mongoose.CallbackWithoutResultAndOptionalError) {
+    this.populate("department");
+    next();
+}
+
+userSchema
+    .pre("findOne", autoPopulate)
+    .pre("find", autoPopulate)
+    .pre("findOneAndDelete", autoPopulate)
+    .pre("findOneAndReplace", autoPopulate)
+    .pre("findOneAndUpdate", autoPopulate)
+
 userSchema.pre("save", async function (next) {
     if (this.isModified("password")) {
         this.password = await hashValue(this.password);

@@ -20,6 +20,7 @@ import SessionModel from "./database/models/session.model";
 import DepartmentModel from "./database/models/department.model";
 import VerificationCodeModel from "./database/models/verification.model";
 import data from "../public/data.json";
+import emailVerify from "./middlewares/emailVerify";
 
 const app = express();
 const BASE_PATH = config.BASE_PATH;
@@ -42,7 +43,7 @@ app.use(`${BASE_PATH}/auth`, authRoutes);
 app.use(`${BASE_PATH}/mfa`, mfaRoutes);
 
 app.use(`${BASE_PATH}/session`, authenticateJWT, sessionRoutes);
-app.use(`${BASE_PATH}/user`, authenticateJWT, userRoutes);
+app.use(`${BASE_PATH}/user`, authenticateJWT, emailVerify, userRoutes);
 
 app.get(`/`, asyncHandler(async (req: Request, res: Response) => {
     res.status(HTTPSTATUS.OK).json({
@@ -78,6 +79,11 @@ app.get(`/reset`, asyncHandler(async (req: Request, res: Response) => {
     });
 }
 ))
+
+app.get(`/all-departments`, asyncHandler(async (req: Request, res: Response) => {
+    const departments = await DepartmentModel.find({}).exec();
+    return res.status(200).json(departments || []);
+}));
 
 app.use(errorHandler);
 
