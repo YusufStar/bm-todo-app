@@ -15,6 +15,11 @@ import { authenticateJWT } from "./common/strategies/jwt.strategy";
 import sessionRoutes from "./modules/session/session.routes";
 import mfaRoutes from "./modules/mfa/mfa.routes";
 import userRoutes from "./modules/user/user.routes";
+import UserModel from "./database/models/user.model";
+import SessionModel from "./database/models/session.model";
+import DepartmentModel from "./database/models/department.model";
+import VerificationCodeModel from "./database/models/verification.model";
+import data from "../public/data.json";
 
 const app = express();
 const BASE_PATH = config.BASE_PATH;
@@ -34,8 +39,9 @@ app.use(passport.initialize());
 app.use(express.static(path.join(__dirname, '../public')));
 
 app.use(`${BASE_PATH}/auth`, authRoutes);
-app.use(`${BASE_PATH}/session`, authenticateJWT, sessionRoutes);
 app.use(`${BASE_PATH}/mfa`, mfaRoutes);
+
+app.use(`${BASE_PATH}/session`, authenticateJWT, sessionRoutes);
 app.use(`${BASE_PATH}/user`, authenticateJWT, userRoutes);
 
 app.get(`/`, asyncHandler(async (req: Request, res: Response) => {
@@ -43,6 +49,35 @@ app.get(`/`, asyncHandler(async (req: Request, res: Response) => {
         message: "Hello World!",
     });
 }));
+
+app.get(`/reset`, asyncHandler(async (req: Request, res: Response) => {
+    logger.info("Resetting database...");
+
+    UserModel.deleteMany({}).exec();
+
+    SessionModel.deleteMany({}).exec();
+    DepartmentModel.deleteMany({}).exec();
+    VerificationCodeModel.deleteMany({}).exec();
+    logger.info("Database reset complete.");
+
+    // create default departments
+    const departments = data;
+
+    DepartmentModel.insertMany(departments)
+        .then(() => {
+            logger.info("Default departments created successfully.");
+        })
+        .catch((error) => {
+            logger.error("Error creating default departments:", error);
+        });
+
+    logger.info("Default departments created successfully.");
+
+    return res.status(200).json({
+        message: "Database reset complete.",
+    });
+}
+))
 
 app.use(errorHandler);
 
