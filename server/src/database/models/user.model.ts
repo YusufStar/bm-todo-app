@@ -8,6 +8,7 @@ interface UserPreferences {
 }
 
 export interface UserDocument extends Document {
+    avatar?: string;
     name: string;
     email: string;
     password: string;
@@ -25,6 +26,10 @@ const userPreferencesSchema = new Schema<UserPreferences>({
 
 const userSchema = new Schema<UserDocument>(
     {
+        avatar: {
+            type: String,
+            default: "",
+        },
         name: {
             type: String,
             required: true,

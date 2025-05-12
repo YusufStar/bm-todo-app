@@ -2,17 +2,17 @@ import { Router } from "express";
 import { authController } from "./auth.module";
 import { authenticateJWT } from "../../common/strategies/jwt.strategy";
 
-const authRouter = Router()
+const authRoutes = Router()
 
-authRouter.post("/register", authController.register)
-authRouter.post("/login", authController.login)
-authRouter.post("/verify/email", authController.verifyEmail)
+authRoutes.post("/register", authController.register)
+authRoutes.post("/login", authController.login)
+authRoutes.post("/verify/email", authController.verifyEmail)
 
-authRouter.post("/password/change", authenticateJWT, authController.changePassword)
-authRouter.post("/password/forgot", authController.forgotPassword)
-authRouter.post("/password/reset", authController.resetPassword)
+authRoutes.post("/password/change", authenticateJWT, authController.changePassword)
+authRoutes.post("/password/forgot", authController.forgotPassword)
+authRoutes.post("/password/reset", authController.resetPassword)
 
-authRouter.get("/refresh", authController.refreshToken)
-authRouter.post("/logout", authenticateJWT, authController.logout)
+authRoutes.get("/refresh", authController.refreshToken)
+authRoutes.post("/logout", authenticateJWT, authController.logout)
 
-export default authRouter
+export default authRoutes

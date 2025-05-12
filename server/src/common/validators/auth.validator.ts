@@ -5,7 +5,7 @@ export const passwordSchema = z.string().trim().min(6).max(255)
 export const verificationCodeSchema = z.string().trim().min(1).max(255)
 
 export const registerSchema = z.object({
-    name: z.string().trim().min(1).max(255),
+    name: z.string().trim().min(1).max(255).regex(/^[a-zA-Z0-9 ]*$/, "Name can only contain letters, numbers, and spaces"),
     email: emailSchema,
     password: passwordSchema,
     confirmPassword: passwordSchema,
