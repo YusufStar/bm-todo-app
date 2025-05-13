@@ -101,7 +101,7 @@ export function NavUser() {
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <Link href="/dashboard/settings/security">
+              <Link href="/dashboard/settings">
                 <DropdownMenuItem>
                   <Terminal />
                   Settings

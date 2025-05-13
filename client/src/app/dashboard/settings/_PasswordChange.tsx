@@ -113,7 +113,7 @@ export default function PasswordChange() {
                         <Button
                             type="submit"
                             disabled={isPending}
-                            className="w-full"
+                            className="w-fit"
                         >
                             {isPending && <Loader className="animate-spin" />}
                             Change Password

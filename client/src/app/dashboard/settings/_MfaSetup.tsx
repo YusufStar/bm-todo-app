@@ -116,7 +116,7 @@ function MfaSetup() {
       ) : (
         <Dialog modal open={isOpen} onOpenChange={setIsOpen}>
           <DialogTrigger asChild>
-            <Button className="w-full" disabled={isLoading}>
+            <Button disabled={isLoading}>
               Enable MFA
             </Button>
           </DialogTrigger>
@@ -186,7 +186,7 @@ function MfaSetup() {
                       )}
                     </button>
                   </div>
-                  <p className="text-sm block truncate w-[200px] text-black">
+                  <p className="text-sm block truncate w-[200px]">
                     {mfaData?.secret}
                   </p>
                 </div>
@@ -194,8 +194,7 @@ function MfaSetup() {
                 <span className="text-sm font-normal">
                   Can't scan the code?
                   <button
-                    className="block text-primary transition duration-200 ease-in-out hover:underline
-                   dark:text-white"
+                    className="block transition duration-200 ease-in-out hover:underline"
                     type="button"
                     onClick={() => setShowKey(true)}
                   >
