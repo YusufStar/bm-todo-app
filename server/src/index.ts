@@ -80,7 +80,7 @@ app.get(`/reset`, asyncHandler(async (req: Request, res: Response) => {
 }
 ))
 
-app.get(`/all-departments`, asyncHandler(async (req: Request, res: Response) => {
+app.get(`${BASE_PATH}/all-departments`, asyncHandler(async (req: Request, res: Response) => {
     const departments = await DepartmentModel.find({}).exec();
     return res.status(200).json(departments || []);
 }));

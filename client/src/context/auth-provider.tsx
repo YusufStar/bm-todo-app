@@ -4,7 +4,17 @@ import useAuth from "@/hooks/use-auth";
 import { usePathname } from "next/navigation";
 import React, { createContext, useContext, useEffect } from "react";
 
+type DepartmentType = {
+    _id: string;
+    name: string;
+    description: string;
+    createdAt: Date;
+    updatedAt: Date;
+};
+
 type UserType = {
+    avatar: string | undefined;
+    department: DepartmentType;
     name: string;
     email: string;
     isEmailVerified: boolean;

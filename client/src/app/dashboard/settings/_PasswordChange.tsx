@@ -64,7 +64,7 @@ export default function PasswordChange() {
                                             Current Password
                                         </FormLabel>
                                         <FormControl>
-                                            <Input autoComplete="off" readOnly onFocus={(e) => {
+                                            <Input className="w-full max-w-sm" autoComplete="off" readOnly onFocus={(e) => {
                                                 e.currentTarget.removeAttribute("readonly")
                                                 e.currentTarget.focus()
                                             }} placeholder="********" type="password" {...field} />
@@ -85,7 +85,7 @@ export default function PasswordChange() {
                                             New Password
                                         </FormLabel>
                                         <FormControl>
-                                            <Input autoComplete="new-password" placeholder="********" type="password" {...field} />
+                                            <Input className="w-full max-w-sm" autoComplete="new-password" placeholder="********" type="password" {...field} />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
@@ -103,7 +103,7 @@ export default function PasswordChange() {
                                             Confirm Password
                                         </FormLabel>
                                         <FormControl>
-                                            <Input autoComplete="new-password" placeholder="********" type="password" {...field} />
+                                            <Input className="w-full max-w-sm" autoComplete="new-password" placeholder="********" type="password" {...field} />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>

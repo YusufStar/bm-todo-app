@@ -47,7 +47,7 @@ const SessionSettings = () => {
         can log out of each session.
       </p>
       {isLoading ? (
-        <Loader size="35px" className="animate-spin" />
+        <Loader className="animate-spin" />
       ) : (
         <div className="rounded-t-xl">
           <div>

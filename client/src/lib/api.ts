@@ -1,4 +1,6 @@
+import { z } from "zod";
 import API from "./axios-client";
+import { userUpdateSchema } from "@/validate";
 
 type forgotPasswordType = { email: string };
 type resetPasswordType = { password: string; verificationCode: string };
@@ -45,6 +47,8 @@ export type changePasswordType = {
     confirmPassword: string;
 };
 
+export type userUpdateType = z.infer<typeof userUpdateSchema>;
+
 export const loginMutationFn = async (data: LoginType) =>
     await API.post("/auth/login", data);
 
@@ -88,3 +92,15 @@ export const sessionsQueryFn = async () => {
 
 export const sessionDelMutationFn = async (id: string) =>
     await API.delete(`/session/${id}`);
+
+export const getAllDepartmentsQueryFn = async (): Promise<{
+    _id: string;
+    name: string;
+    description: string;
+    updatedAt: string;
+}[]> => {
+    const response = await API.get(`/all-departments`);
+    return response.data;
+}
+
+export const updateUserMutationFn = async (data: userUpdateType) => await API.put(`/user/update`, data)
