@@ -7,7 +7,7 @@ import { TeamDocument } from "./team.model";
 export interface TeamInviteDocument extends Document {
     invitedBy: UserDocument;
     invitedTo: UserDocument;
-    invitedToRole: TeamMemberRole;
+    role: TeamMemberRole;
     team: TeamDocument
     status: TeamInviteStatus;
 
@@ -39,16 +39,16 @@ const teamSchema = new Schema<TeamInviteDocument>({
         type: Date,
         required: true,
     },
-    invitedToRole: {
+    role: {
         type: String,
         enum: Object.values(TeamMemberRole),
         default: TeamMemberRole.MEMBER,
     },
 }, { timestamps: true });
 
-const VerificationCodeModel = mongoose.model<TeamInviteDocument>(
+const TeamInviteModel = mongoose.model<TeamInviteDocument>(
     "TeamInvite",
     teamSchema,
 );
 
-export default VerificationCodeModel;
+export default TeamInviteModel;

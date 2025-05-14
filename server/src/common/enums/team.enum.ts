@@ -21,7 +21,7 @@ enum TeamMemberRole {
 }
 
 enum TeamPlans {
-    FREE = 'free',
+    FREE = 'free', // max 5 members, max 1 project
     PRO = 'pro',
     ENTERPRISE = 'enterprise',
 }
