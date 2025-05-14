@@ -1,11 +1,8 @@
 "use client"
 
-import * as React from "react"
 import {
-  AudioWaveform,
-  Command,
   Frame,
-  GalleryVerticalEnd,
+  LucideIcon,
   Map,
   PieChart,
 } from "lucide-react"
@@ -21,23 +18,44 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar"
+import { LucideIcons } from "@/lib/icon-lib"
 
-// This is sample data.
-const data = {
+const data: {
+  teams: {
+    name: string
+    logo: keyof typeof LucideIcons
+    plan: string
+  }[]
+  navMain: {
+    title: string
+    url: string
+    icon?: LucideIcon
+    isActive?: boolean
+    items?: {
+      title: string
+      url: string
+    }[]
+  }[]
+  projects: {
+    name: string
+    url: string
+    icon: LucideIcon
+  }[]
+} = {
   teams: [
     {
       name: "Acme Inc",
-      logo: GalleryVerticalEnd,
+      logo: "GalleryVerticalEnd",
       plan: "Enterprise",
     },
     {
       name: "Acme Corp.",
-      logo: AudioWaveform,
+      logo: "AudioWaveform",
       plan: "Startup",
     },
     {
       name: "Evil Corp.",
-      logo: Command,
+      logo: "Command",
       plan: "Free",
     },
   ],

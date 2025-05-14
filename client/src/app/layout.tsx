@@ -3,6 +3,7 @@ import { Poppins } from 'next/font/google'
 import QueryProvider from '@/context/query-provider'
 import { ThemeProvider } from '@/context/theme-provider'
 import NextTopLoader from 'nextjs-toploader';
+
 import './globals.css'
 
 const geistSans = Poppins({
