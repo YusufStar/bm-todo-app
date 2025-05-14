@@ -44,6 +44,7 @@ app.use(`${BASE_PATH}/mfa`, mfaRoutes);
 
 app.use(`${BASE_PATH}/session`, authenticateJWT, sessionRoutes);
 app.use(`${BASE_PATH}/user`, authenticateJWT, emailVerify, userRoutes);
+app.use(`${BASE_PATH}/team`, authenticateJWT, emailVerify, sessionRoutes);
 
 app.get(`/`, asyncHandler(async (req: Request, res: Response) => {
     res.status(HTTPSTATUS.OK).json({

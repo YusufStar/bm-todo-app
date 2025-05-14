@@ -1,7 +1,12 @@
 import mongoose from "mongoose";
 import { Schema } from "mongoose";
-import { TeamStatus } from "../../common/enums/team-status.enum";
+import { TeamMemberRole, TeamStatus, TeamPlans } from "../../common/enums/team.enum";
 import { UserDocument } from "./user.model";
+
+interface TeamMember {
+    role: TeamMemberRole;
+    user: UserDocument;
+}
 
 export interface TeamDocument extends Document {
     name: string
@@ -9,10 +14,9 @@ export interface TeamDocument extends Document {
     plan: TeamPlans
     status: TeamStatus;
 
-    members: UserDocument[];
-    owner: UserDocument;
+    members: TeamMember[];
+    createdBy: UserDocument;
 
-    expiresAt: Date;
     createdAt: Date;
 }
 
@@ -27,33 +31,38 @@ const teamSchema = new Schema<TeamDocument>({
     },
     plan: {
         type: String,
+        enum: Object.values(TeamPlans),
         default: TeamPlans.FREE,
     },
     status: {
         type: String,
+        enum: Object.values(TeamStatus),
         default: TeamStatus.ACTIVE,
     },
-    members: {
-        type: [Schema.Types.ObjectId],
-        ref: "User",
-        index: true,
-        required: true,
-    },
-    owner: {
+    createdBy: {
         type: Schema.Types.ObjectId,
         ref: "User",
-        index: true,
         required: true,
     },
-    expiresAt: {
-        type: Date,
-        default: null,
-    },
+    members: [
+        {
+            role: {
+                type: String,
+                enum: Object.values(TeamMemberRole),
+                default: TeamMemberRole.MEMBER,
+            },
+            user: {
+                type: Schema.Types.ObjectId,
+                ref: "User",
+                required: true,
+            },
+        },
+    ],
 }, { timestamps: true });
 
-const VerificationCodeModel = mongoose.model<TeamDocument>(
+const TeamModel = mongoose.model<TeamDocument>(
     "Team",
     teamSchema,
 );
 
-export default VerificationCodeModel;
+export default TeamModel;

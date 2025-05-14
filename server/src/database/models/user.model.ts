@@ -19,6 +19,7 @@ export interface UserDocument extends Document {
     userPreferences: UserPreferences;
     comparePassword(value: string): Promise<boolean>;
 }
+
 const userPreferencesSchema = new Schema<UserPreferences>({
     enable2FA: { type: Boolean, default: false },
     emailNotification: { type: Boolean, default: true },
