@@ -62,6 +62,9 @@ export const iconOptions = [
   "Wifi",
   "X",
   "Zap",
+  "GalleryVerticalEnd",
+  "AudioWaveform",
+  "Command",
 ] as const
 
 
