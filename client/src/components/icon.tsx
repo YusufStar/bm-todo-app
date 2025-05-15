@@ -1,22 +1,15 @@
-"use client";
+"use client"
 
-import { LucideIcons } from "@/lib/icon-lib";
-import { LucideProps } from "lucide-react";
-import React from "react";
+import { LucideIcons } from "@/lib/icon-lib"
 
-type Props = {
-    iconName: keyof typeof LucideIcons;
-    size?: number;
-    color?: string;
-} & LucideProps;
-
-export const DynamicLucideIcon: React.FC<Props> = ({
-    iconName,
+export function DynamicLucideIcon({
+    name,
     ...props
-}) => {
-    const IconComponent = LucideIcons[iconName] as React.FC<LucideProps>;
-
-    if (!IconComponent) return null;
-
-    return <IconComponent {...props} />;
-};
+}: {
+    name: keyof typeof LucideIcons
+    className?: string
+}) {
+    const Icon = LucideIcons[name]
+    if (!Icon) return null
+    return <Icon {...props} />
+}

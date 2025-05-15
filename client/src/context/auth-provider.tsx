@@ -12,7 +12,7 @@ type DepartmentType = {
     updatedAt: Date;
 };
 
-type UserType = {
+export type UserType = {
     avatar: string | undefined;
     department: DepartmentType;
     name: string;

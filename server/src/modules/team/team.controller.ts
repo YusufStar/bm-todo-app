@@ -44,7 +44,7 @@ export class TeamController {
 
             res.status(HTTPSTATUS.OK).json({
                 message: "Teams fetched successfully",
-                data: teams,
+                teams: teams,
             });
         }
     )

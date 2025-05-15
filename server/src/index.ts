@@ -21,6 +21,7 @@ import DepartmentModel from "./database/models/department.model";
 import VerificationCodeModel from "./database/models/verification.model";
 import data from "../public/data.json";
 import emailVerify from "./middlewares/emailVerify";
+import teamRoutes from "./modules/team/team.routes";
 
 const app = express();
 const BASE_PATH = config.BASE_PATH;
@@ -44,7 +45,7 @@ app.use(`${BASE_PATH}/mfa`, mfaRoutes);
 
 app.use(`${BASE_PATH}/session`, authenticateJWT, sessionRoutes);
 app.use(`${BASE_PATH}/user`, authenticateJWT, emailVerify, userRoutes);
-app.use(`${BASE_PATH}/team`, authenticateJWT, emailVerify, sessionRoutes);
+app.use(`${BASE_PATH}/team`, authenticateJWT, emailVerify, teamRoutes);
 
 app.get(`/`, asyncHandler(async (req: Request, res: Response) => {
     res.status(HTTPSTATUS.OK).json({

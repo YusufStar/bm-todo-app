@@ -1,6 +1,6 @@
 import { z } from "zod";
 import API from "./axios-client";
-import { userUpdateSchema } from "@/validate";
+import { userUpdateSchema, CreateTeamSchema } from "@/validate";
 
 type forgotPasswordType = { email: string };
 type resetPasswordType = { password: string; verificationCode: string };
@@ -46,6 +46,8 @@ export type changePasswordType = {
     newPassword: string;
     confirmPassword: string;
 };
+
+export type CreateTeamType = z.infer<typeof CreateTeamSchema>;
 
 export type userUpdateType = z.infer<typeof userUpdateSchema>;
 
@@ -102,5 +104,9 @@ export const getAllDepartmentsQueryFn = async (): Promise<{
     const response = await API.get(`/all-departments`);
     return response.data;
 }
+
+export const getTeamsQueryFn = async () => await API.get(`/team/`);
+export const createTeamMutationFn = async (data: CreateTeamType) =>
+    await API.post(`/team/create`, data);
 
 export const updateUserMutationFn = async (data: userUpdateType) => await API.put(`/user/update`, data)
