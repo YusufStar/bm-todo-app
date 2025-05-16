@@ -1,0 +1,1 @@
+team selector ü tam profesyonel ve kusursuz hale getir. localstorage ile current team in id sini tutacağım.

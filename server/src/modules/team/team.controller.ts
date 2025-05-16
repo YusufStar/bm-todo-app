@@ -1,4 +1,4 @@
-import { TeamInviteSchema, TeamSchema } from "../../common/validators/team.validator";
+import { TeamInviteActionSchema, TeamInviteSchema, TeamSchema, TeamUpdateSchema } from "../../common/validators/team.validator";
 import { HTTPSTATUS } from "../../config/http.config";
 import { asyncHandler } from "../../middlewares/asyncHandler";
 import { TeamService } from "./team.service";
@@ -45,6 +45,60 @@ export class TeamController {
             res.status(HTTPSTATUS.OK).json({
                 message: "Teams fetched successfully",
                 teams: teams,
+            });
+        }
+    )
+
+    public updateTeam = asyncHandler(
+        async (req, res) => {
+            const userId = req.user?.id;
+            const teamId = req.params.teamId;
+
+            const body = TeamUpdateSchema.parse(req.body);
+
+            await this.teamService.updateTeam(body, teamId, userId);
+
+            res.status(HTTPSTATUS.OK).json({
+                message: "Team updated successfully",
+            });
+        }
+    )
+
+    public deleteTeam = asyncHandler(
+        async (req, res) => {
+            const userId = req.user?.id;
+            const teamId = req.params.teamId;
+
+            await this.teamService.deleteTeam(teamId, userId);
+
+            res.status(HTTPSTATUS.OK).json({
+                message: "Team deleted successfully",
+            });
+        }
+    )
+
+    public acceptInvite = asyncHandler(
+        async (req, res) => {
+            const userId = req.user?.id;
+            const { inviteId } = TeamInviteActionSchema.parse(req.body);
+
+            await this.teamService.acceptInvite(inviteId, userId);
+
+            res.status(HTTPSTATUS.OK).json({
+                message: "Invite accepted successfully",
+            });
+        }
+    )
+
+    public rejectInvite = asyncHandler(
+        async (req, res) => {
+            const userId = req.user?.id;
+            const { inviteId } = TeamInviteActionSchema.parse(req.body);
+
+            await this.teamService.rejectInvite(inviteId, userId);
+
+            res.status(HTTPSTATUS.OK).json({
+                message: "Invite rejected successfully",
             });
         }
     )

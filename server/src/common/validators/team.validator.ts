@@ -11,6 +11,8 @@ export const TeamSchema = z.object({
     })),
 });
 
+export const TeamUpdateSchema = TeamSchema.partial()
+
 export const TeamInviteSchema = z.object({
     email: z.string().email(),
     role: z.nativeEnum(TeamMemberRole),
@@ -18,3 +20,7 @@ export const TeamInviteSchema = z.object({
     status: z.nativeEnum(TeamInviteStatus),
     expiresAt: z.date(),
 });
+
+export const TeamInviteActionSchema = z.object({
+    inviteId: z.string(),
+})
