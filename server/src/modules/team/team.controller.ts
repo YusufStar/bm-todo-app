@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { setTeamCookie } from "../../common/utils/cookie";
+import { clearTeamCookie, getTeamIdFromCookie, setTeamCookie } from "../../common/utils/cookie";
 import { TeamInviteActionSchema, TeamInviteSchema, TeamSchema, TeamUpdateSchema } from "../../common/validators/team.validator";
 import { HTTPSTATUS } from "../../config/http.config";
 import { asyncHandler } from "../../middlewares/asyncHandler";
@@ -18,12 +18,6 @@ export class TeamController {
             const body = TeamSchema.parse(req.body);
 
             const teamData = await this.teamService.createTeam(body, userId);
-
-            if (!teamData) {
-                return res.status(HTTPSTATUS.BAD_REQUEST).json({
-                    message: "Failed to create team",
-                });
-            }
 
             return setTeamCookie({
                 res,
@@ -123,6 +117,7 @@ export class TeamController {
             const { teamId } = z.object({
                 teamId: z.string(),
             }).parse(req.body);
+            
             if (!teamId) {
                 return res.status(HTTPSTATUS.BAD_REQUEST).json({
                     message: "Team ID is required",
@@ -136,6 +131,43 @@ export class TeamController {
                 currentTeamId: team._id,
             }).status(HTTPSTATUS.OK).json({
                 message: "Team selected successfully",
+            });
+        }
+    )
+
+    public getCurrentTeam = asyncHandler(
+        async (req, res) => {
+            const userId = req.user?.id;
+            const teamId = getTeamIdFromCookie(req);
+
+            if (!teamId) {
+                const teams = await this.teamService.getAllTeams(userId);
+                if (teams.length === 0) {
+                    return clearTeamCookie(res).status(HTTPSTATUS.BAD_REQUEST).json({
+                        message: "No teams found",
+                    });
+                }
+
+                return setTeamCookie({
+                    res,
+                    currentTeamId: teams[0]._id,
+                }).status(HTTPSTATUS.OK).json({
+                    message: "No team selected, defaulting to first team",
+                    team: teams[0],
+                });
+            }
+
+            const team = await this.teamService.getCurrentTeam(userId, teamId);
+
+            if (!team) {
+                return clearTeamCookie(res).status(HTTPSTATUS.BAD_REQUEST).json({
+                    message: "No team found",
+                });
+            }
+
+            res.status(HTTPSTATUS.OK).json({
+                message: "Current team fetched successfully",
+                team: team,
             });
         }
     )

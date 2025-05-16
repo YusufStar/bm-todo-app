@@ -19,7 +19,7 @@ kill_process_on_port 8000
 
 # Navigate to the server directory and start the development server
 cd server || { echo "Server directory not found"; exit 1; }
-npm run build && npm run start &
+npm run dev &
 
 # Navigate to the client directory and start the development server
 cd ../client || { echo "Client directory not found"; exit 1; }

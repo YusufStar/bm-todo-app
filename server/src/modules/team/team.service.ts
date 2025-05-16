@@ -145,7 +145,7 @@ export class TeamService {
         });
     }
 
-    public async getAllTeams(userId: string): Promise<any[]> {
+    public async getAllTeams(userId: string): Promise<TeamDocument[]> {
         if (!userId) {
             throw new UnauthorizedException("Authentication required");
         }
@@ -266,10 +266,33 @@ export class TeamService {
             throw new NotFoundException("Team not found");
         }
 
-        const isMyMember = team.members.some(member => member.user._id === userId);
+        const isMyMember = team.members.some(member => {
+            return member.user._id?.toString() === userId;
+        });
 
         if (!isMyMember) {
             throw new BadRequestException("You are not a member of this team");
+        }
+
+        return team;
+    }
+
+    public async getCurrentTeam(userId: string, teamId: string): Promise<TeamDocument | null> {
+        if (!userId) {
+            throw new UnauthorizedException("Authentication required");
+        }
+
+        const user = await UserModel.findById(userId);
+        if (!user) {
+            throw new NotFoundException("User not found");
+        }
+
+        const team = await TeamModel.findOne({ members: { $elemMatch: { user: user._id } }, _id: teamId })
+            .populate("members.user")
+            .populate("createdBy");
+
+        if (!team) {
+            return null
         }
 
         return team;

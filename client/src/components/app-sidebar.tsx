@@ -18,7 +18,6 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar"
-import { LucideIcons } from "@/lib/icon-lib"
 
 const data: {
   navMain: {

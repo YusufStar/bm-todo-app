@@ -1,4 +1,5 @@
 import { AppSidebar } from "@/components/app-sidebar"
+import { TeamSwitcher } from "@/components/team-switcher"
 import {
     Breadcrumb,
     BreadcrumbItem,
@@ -14,12 +15,17 @@ import {
     SidebarTrigger,
 } from "@/components/ui/sidebar"
 import { TeamProvider } from "@/context/team-provider"
+import { cookies } from "next/headers"
+import CustomLayout from "./custom_layout"
 
-export default function DashboardLayout({
+export default async function DashboardLayout({
     children,
 }: {
     children: React.ReactNode
 }) {
+    const cookie = await cookies()
+    const teamId = cookie.get("currentTeamId")?.value
+
     return (
         <TeamProvider>
             <SidebarProvider>
@@ -48,12 +54,12 @@ export default function DashboardLayout({
                         </div>
                     </header>
                     <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-                        {
-                            children
-                        }
+                        <CustomLayout teamId={teamId}>
+                            {children}
+                        </CustomLayout>
                     </div>
                 </SidebarInset>
             </SidebarProvider>
-        </TeamProvider>
+        </TeamProvider >
     )
 }

@@ -1,6 +1,6 @@
 import { z } from "zod";
 import API from "./axios-client";
-import { userUpdateSchema, CreateTeamSchema } from "@/validate";
+import { userUpdateSchema, CreateTeamSchema, TeamUpdateSchema, TeamInviteSchema } from "@/validate";
 
 type forgotPasswordType = { email: string };
 type resetPasswordType = { password: string; verificationCode: string };
@@ -108,5 +108,18 @@ export const getAllDepartmentsQueryFn = async (): Promise<{
 export const getTeamsQueryFn = async () => await API.get(`/team/`);
 export const createTeamMutationFn = async (data: CreateTeamType) =>
     await API.post(`/team/create`, data);
+export const selectTeamMutationFn = async (teamId: string) =>
+    await API.post(`/team/select`, { teamId });
+export const updateTeamMutationFn = async (teamId: string, data: z.infer<typeof TeamUpdateSchema>) =>
+    await API.put(`/team/${teamId}`, data);
+export const deleteTeamMutationFn = async (teamId: string) =>
+    await API.delete(`/team/${teamId}`);
+export const inviteMemberMutationFn = async (data: z.infer<typeof TeamInviteSchema>) =>
+    await API.post(`/team/invite`, data);
+export const acceptInviteMutationFn = async (inviteId: string) =>
+    await API.post(`/team/invite/accept`, { inviteId });
+export const rejectInviteMutationFn = async (inviteId: string) =>
+    await API.post(`/team/invite/reject`, { inviteId });
+export const getCurrentTeamQueryFn = async () => await API.get(`/team/current`)
 
 export const updateUserMutationFn = async (data: userUpdateType) => await API.put(`/user/update`, data)

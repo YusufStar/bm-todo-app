@@ -4,6 +4,8 @@ import { teamController } from "./team.module";
 const teamRoutes = Router()
 
 teamRoutes.get("/", teamController.getAllTeams)
+teamRoutes.get("/current", teamController.getCurrentTeam)
+
 teamRoutes.post("/create", teamController.createTeam)
 teamRoutes.post("/select", teamController.selectTeam)
 teamRoutes.put("/:teamId", teamController.updateTeam)

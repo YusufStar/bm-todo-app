@@ -1,34 +1,39 @@
 "use client";
 
-import useTeams from "@/hooks/use-teams";
-import { usePathname } from "next/navigation";
-import React, { createContext, useContext, useEffect } from "react";
+import { useTeams, useCurrentTeam } from "@/hooks/use-teams";
+import { createContext, useContext } from "react";
 import { LucideIcons } from "@/lib/icon-lib"
 import { UserType } from "@/context/auth-provider"
 import { TeamMemberRole, TeamPlans, TeamStatus } from "@/validate"
 
 interface TeamMember {
-  role: TeamMemberRole;
-  user: UserType;
+    role: TeamMemberRole;
+    user: UserType;
 }
 
 export interface TeamType {
-  name: string
-  logo: keyof typeof LucideIcons
-  plan: TeamPlans;
-  status: TeamStatus;
+    _id: string;
+    name: string
+    logo: keyof typeof LucideIcons
+    plan: TeamPlans;
+    status: TeamStatus;
 
-  members: TeamMember[];
-  createdBy: UserType;
+    members: TeamMember[];
+    createdBy: UserType;
 
-  createdAt: Date;
+    createdAt: Date;
 }
 
 type TeamContextType = {
     teams?: TeamType[];
+    currentTeam: TeamType;
     error: any;
     isLoading: boolean;
     isFetching: boolean;
+    currentTeamError: any;
+    currentTeamIsLoading: boolean;
+
+    currentTeamRefetch: () => void;
     refetch: () => void;
 };
 
@@ -37,21 +42,14 @@ const TeamContext = createContext<TeamContextType | undefined>(undefined);
 export const TeamProvider: React.FC<{ children: React.ReactNode }> = ({
     children,
 }) => {
-    const pathname = usePathname()
     const { data, error, isLoading, isFetching, refetch } = useTeams();
+    const { data: currentTeamData, refetch: currentTeamRefetch, isLoading: currentTeamIsLoading, error: currentTeamError } = useCurrentTeam();
     const teams = data?.data?.teams;
-
-    useEffect(() => {
-        if (pathname.includes("/dashboard")) {
-            refetch();
-        }
-    }, [pathname]);
-
-    console.log("TeamProvider", { teams, error, isLoading, isFetching });
+    const currentTeam = currentTeamData?.data?.team;
 
     return (
         <TeamContext.Provider
-            value={{ teams, error, isLoading, isFetching, refetch }}
+            value={{ teams, error, isLoading, isFetching, refetch, currentTeam, currentTeamError, currentTeamIsLoading, currentTeamRefetch }}
         >
             {children}
         </TeamContext.Provider>
@@ -59,9 +57,9 @@ export const TeamProvider: React.FC<{ children: React.ReactNode }> = ({
 };
 
 export const useTeamContext = () => {
-    const conext = useContext(TeamContext);
-    if (!conext) {
+    const context = useContext(TeamContext);
+    if (!context) {
         throw new Error("useTeamContext must be used within a TeamProvider");
     }
-    return conext;
+    return context;
 };
