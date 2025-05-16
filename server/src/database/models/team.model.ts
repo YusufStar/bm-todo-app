@@ -9,6 +9,7 @@ interface TeamMember {
 }
 
 export interface TeamDocument extends Document {
+    _id: string;
     name: string
     logo: string
     plan: TeamPlans

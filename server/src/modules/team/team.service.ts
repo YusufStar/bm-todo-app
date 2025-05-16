@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { TeamInviteSchema, TeamSchema, TeamUpdateSchema } from "../../common/validators/team.validator";
-import TeamModel from "../../database/models/team.model";
+import TeamModel, { TeamDocument } from "../../database/models/team.model";
 import { BadRequestException, NotFoundException, UnauthorizedException } from "../../common/utils/catch-errors";
 import { TeamInviteStatus, TeamMemberRole, TeamPlans } from "../../common/enums/team.enum";
 import UserModel from "../../database/models/user.model";
@@ -8,7 +8,7 @@ import { sendEmail } from "../../mailers/mailer";
 import TeamInviteModel from "../../database/models/team-invite.model";
 
 export class TeamService {
-    public async createTeam(teamData: z.infer<typeof TeamSchema>, userId: string): Promise<void> {
+    public async createTeam(teamData: z.infer<typeof TeamSchema>, userId: string): Promise<TeamDocument> {
         if (!userId) {
             throw new UnauthorizedException("Authentication required");
         }
@@ -23,7 +23,7 @@ export class TeamService {
             throw new BadRequestException("Team with this name already exists");
         }
 
-        const newTeam = new TeamModel({
+        const newTeam = await TeamModel.create({
             ...teamData,
             members: [
                 {
@@ -35,7 +35,7 @@ export class TeamService {
             plan: TeamPlans.FREE,
         });
 
-        await newTeam.save();
+        return newTeam;
     }
 
     public async updateTeam(teamData: z.infer<typeof TeamUpdateSchema>, teamId: string, userId: string): Promise<void> {
@@ -162,7 +162,7 @@ export class TeamService {
         return teams;
     }
 
-    public async acceptInvite(inviteId: string, userId: string): Promise<void> {
+    public async acceptInvite(inviteId: string, userId: string): Promise<string> {
         if (!userId) {
             throw new UnauthorizedException("Authentication required");
         }
@@ -208,7 +208,7 @@ export class TeamService {
                     role: invite.role,
                 },
             },
-        });
+        },);
         await TeamInviteModel.findByIdAndDelete(inviteId);
 
         await sendEmail({
@@ -217,6 +217,8 @@ export class TeamService {
             text: `You have accepted the invitation to join the team ${team.name} as a ${invite.role}.`,
             html: `<p>You have accepted the invitation to join the team <strong>${team.name}</strong> as a <strong>${invite.role}</strong>.</p>`,
         });
+
+        return team._id;
     }
 
     public async rejectInvite(inviteId: string, userId: string): Promise<void> {
@@ -247,5 +249,29 @@ export class TeamService {
             text: `You have rejected the invitation to join the team ${invite.team.name} as a ${invite.role}.`,
             html: `<p>You have rejected the invitation to join the team <strong>${invite.team.name}</strong> as a <strong>${invite.role}</strong>.</p>`,
         });
+    }
+
+    public async selectTeam(teamId: string, userId: string): Promise<TeamDocument> {
+        if (!userId) {
+            throw new UnauthorizedException("Authentication required");
+        }
+
+        const user = await UserModel.findById(userId);
+        if (!user) {
+            throw new NotFoundException("User not found");
+        }
+
+        const team = await TeamModel.findById(teamId);
+        if (!team) {
+            throw new NotFoundException("Team not found");
+        }
+
+        const isMyMember = team.members.some(member => member.user._id === userId);
+
+        if (!isMyMember) {
+            throw new BadRequestException("You are not a member of this team");
+        }
+
+        return team;
     }
 }

@@ -12,8 +12,8 @@ export const REFRESH_PATH = `${config.BASE_PATH}/auth/refresh`;
 
 const defaults: CookieOptions = {
     httpOnly: true,
-    //secure: config.NODE_ENV === "production" ? true : false,
-    //sameSite: config.NODE_ENV === "production" ? "strict" : "lax",
+    secure: config.NODE_ENV === "production" ? true : false,
+    sameSite: config.NODE_ENV === "production" ? "strict" : "lax",
 };
 
 export const getRefreshTokenCookieOptions = (): CookieOptions => {
@@ -49,3 +49,29 @@ export const clearAuthenticationCookies = (res: Response): Response =>
     res.clearCookie("accessToken").clearCookie("refreshToken", {
         path: REFRESH_PATH,
     });
+
+type TeamCookiePayloadType = {
+    res: Response;
+    currentTeamId: string;
+}
+
+export const setTeamCookie = ({
+    res,
+    currentTeamId,
+}: TeamCookiePayloadType): Response =>
+    res.cookie("currentTeamId", currentTeamId, {
+        ...defaults,
+    });
+
+export const clearTeamCookie = (res: Response): Response =>
+    res.clearCookie("currentTeamId", {
+        ...defaults,
+    });
+
+export const getTeamIdFromCookie = (req: any): string | null => {
+    const teamId = req.cookies.currentTeamId;
+    if (!teamId) {
+        return null;
+    }
+    return teamId;
+}

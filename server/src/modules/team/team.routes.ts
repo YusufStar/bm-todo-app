@@ -5,6 +5,7 @@ const teamRoutes = Router()
 
 teamRoutes.get("/", teamController.getAllTeams)
 teamRoutes.post("/create", teamController.createTeam)
+teamRoutes.post("/select", teamController.selectTeam)
 teamRoutes.put("/:teamId", teamController.updateTeam)
 teamRoutes.delete("/:teamId", teamController.deleteTeam)
 
