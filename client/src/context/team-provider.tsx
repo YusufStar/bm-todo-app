@@ -32,6 +32,8 @@ type TeamContextType = {
     isFetching: boolean;
     currentTeamError: any;
     currentTeamIsLoading: boolean;
+    currentTeamIsRefetching: boolean;
+    isRefetching: boolean;
 
     currentTeamRefetch: () => void;
     refetch: () => void;
@@ -42,14 +44,14 @@ const TeamContext = createContext<TeamContextType | undefined>(undefined);
 export const TeamProvider: React.FC<{ children: React.ReactNode }> = ({
     children,
 }) => {
-    const { data, error, isLoading, isFetching, refetch } = useTeams();
-    const { data: currentTeamData, refetch: currentTeamRefetch, isLoading: currentTeamIsLoading, error: currentTeamError } = useCurrentTeam();
+    const { data, error, isLoading, isFetching, refetch, isRefetching } = useTeams();
+    const { data: currentTeamData, refetch: currentTeamRefetch, isLoading: currentTeamIsLoading, error: currentTeamError, isRefetching: currentTeamIsRefetching } = useCurrentTeam();
     const teams = data?.data?.teams;
     const currentTeam = currentTeamData?.data?.team;
 
     return (
         <TeamContext.Provider
-            value={{ teams, error, isLoading, isFetching, refetch, currentTeam, currentTeamError, currentTeamIsLoading, currentTeamRefetch }}
+            value={{ teams, error, isLoading, isFetching, refetch, currentTeam, currentTeamError, currentTeamIsLoading, currentTeamRefetch, currentTeamIsRefetching, isRefetching }}
         >
             {children}
         </TeamContext.Provider>

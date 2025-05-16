@@ -8,7 +8,6 @@ import {
     DialogFooter,
     DialogHeader,
     DialogTitle,
-    DialogTrigger,
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { LucideIconNames, LucideIcons } from "@/lib/icon-lib"
@@ -45,7 +44,7 @@ interface CreateTeamModalProps {
 }
 
 export function CreateTeamModal({ open: externalOpen, onOpenChange, onSuccess }: CreateTeamModalProps = {}) {
-    const { refetch } = useTeamContext()
+    const { refetch, currentTeamRefetch } = useTeamContext()
     const [internalOpen, setInternalOpen] = useState(false)
     
     const open = externalOpen !== undefined ? externalOpen : internalOpen;
@@ -70,6 +69,7 @@ export function CreateTeamModal({ open: externalOpen, onOpenChange, onSuccess }:
             onSuccess: () => {
                 toast.success("Team created successfully")
                 refetch()
+                currentTeamRefetch()
                 setOpen(false)
                 form.reset()
                 if (onSuccess) onSuccess()

@@ -15,7 +15,6 @@ import {
     SidebarTrigger,
 } from "@/components/ui/sidebar"
 import { TeamProvider } from "@/context/team-provider"
-import { cookies } from "next/headers"
 import CustomLayout from "./custom_layout"
 
 export default async function DashboardLayout({
@@ -23,9 +22,6 @@ export default async function DashboardLayout({
 }: {
     children: React.ReactNode
 }) {
-    const cookie = await cookies()
-    const teamId = cookie.get("currentTeamId")?.value
-
     return (
         <TeamProvider>
             <SidebarProvider>
@@ -54,7 +50,7 @@ export default async function DashboardLayout({
                         </div>
                     </header>
                     <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-                        <CustomLayout teamId={teamId}>
+                        <CustomLayout>
                             {children}
                         </CustomLayout>
                     </div>

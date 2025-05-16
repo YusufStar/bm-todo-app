@@ -6,14 +6,12 @@ import { Loader } from "lucide-react"
 
 export default function CustomLayout({
     children,
-    teamId
 }: {
     children: React.ReactNode
-    teamId: string | undefined
 }) {
-    const { isLoading } = useTeamContext()
+    const { currentTeamIsLoading, currentTeam } = useTeamContext()
 
-    if (isLoading) {
+    if (currentTeamIsLoading) {
         return (
             <div className="flex flex-1 items-center justify-center">
                 <div className="flex items-center gap-2">
@@ -27,7 +25,7 @@ export default function CustomLayout({
     return (
         <>
             {
-                teamId ? children : <div className="flex flex-1 items-center justify-center">
+                currentTeam ? children : <div className="flex flex-1 items-center justify-center">
                     <div className="text-center">
                         <h2 className="text-2xl font-bold">No Team Selected</h2>
                         <p className="mt-2 text-gray-500">Please select a team to view the dashboard.</p>
